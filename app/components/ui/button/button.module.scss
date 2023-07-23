@@ -1,0 +1,15 @@
+.button {
+  width: 280px;
+  height: 40px;
+  padding: 13px;
+  border: 1px solid $lightAccent;
+  color: $darkAccent;
+  border-radius: 8px;
+  font-size: 12px;
+
+  &:disabled {
+    background-color: $lightAccent;
+    color: $darkAccent;
+    border: 1px solid $lightAccent;
+  }
+}
