@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 4px;
+  width: auto;
+  position: relative;
+
+  .input {
+    padding: 14px 32px 14px 14px;
+    border-radius: 8px;
+    border: 1px solid $lightAccent;
+    font-size: 12px;
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $darkAccent;
+    }
+
+    &:hover {
+      border: 1px solid $darkAccent;
+    }
+  }
+
+  .inputError {
+    border: 1px solid $baseRed;
+  }
+
+  .error {
+    color: $baseRed;
+    font-size: 10px;
+  }
+
+  .iconContainer {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+  }
+}
