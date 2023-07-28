@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { MongoClient } from "mongodb";
 
 export class Instance{
