@@ -4,8 +4,8 @@ import { Instance } from "../Classes/Instance";
 
 export class InstanceController{
     
-    public async connection(response: NextApiResponse){
-        const instance = await new Instance().connection();
+    public connection(response: NextApiResponse){
+        const instance = new Instance().connection();
         if(!instance)
             response.status(404).json('error');
         else
