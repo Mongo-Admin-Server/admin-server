@@ -18,7 +18,7 @@ export class InstanceController{
             response.status(404).json('error');
         } else {
             try {
-                const collections = await instance.db().listCollections().toArray();
+                const collections = await instance.db('marketplace').listCollections().toArray();
                 console.log(collections);
                 const collectionNames = collections.map(collection => collection.name);
                 response.status(200).json(collectionNames);
