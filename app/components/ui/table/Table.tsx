@@ -5,7 +5,7 @@ import SvgIcon from '@components/ui/icon/SvgIcon';
 interface TableProps {
   data_header: string[];
   data_body: any[];
-  actions?: string[];
+  actions?: string[]; // trash, edit 
   // eslint-disable-next-line no-unused-vars
   onClick?: (action: string, index: number) => void;
 }
@@ -18,9 +18,9 @@ const Table = ({ data_header, data_body, actions, onClick }: TableProps) => {
           {data_header.map((title, index) => (
             <th key={index} className={styles.title}>{title}</th>
           ))}
-          {actions && (
-            <th className={styles.title}></th>
-          )}
+          {actions && actions.map((_, index) => (
+            <th key={index} className={styles.title}></th>
+          ))}
         </tr>
       </thead>
       <tbody className={styles.body}>
