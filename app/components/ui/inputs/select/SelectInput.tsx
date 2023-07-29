@@ -1,6 +1,6 @@
 import styles from './select.module.scss';
 
-import CaretUpDown from '@shared/icons/caretUpDown.svg';
+import SvgIcon from '@components/ui/icon/SvgIcon';
 
 interface SelectInputProps {
   label: string;
@@ -25,7 +25,7 @@ const SelectInput = ({ label, value, onChange, options, error }: SelectInputProp
         ))}
       </select>
       <div className={styles.iconContainer}>
-        <CaretUpDown />
+        <SvgIcon icon_name='caretUpDown' />
       </div>
 
       {error && <p className={styles.error}>{error}</p>}
