@@ -1,5 +1,7 @@
 import styles from './button.module.scss';
 
+import SvgIcon from '@components/ui/icon/SvgIcon';
+
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
@@ -7,10 +9,11 @@ interface ButtonProps {
   disabled?: boolean;
   width?: string;
   height?: string;
+  padding?: string;
+  icon_name?: string
 }
 
-const GenericButton = ({ children, onClick, type = 'button', disabled = false, width, height,
-}: ButtonProps) => {
+const GenericButton = ({ children, onClick, type = 'button', disabled = false, width, height, padding, icon_name }: ButtonProps) => {
   return (
     <button 
       className={styles.button}
@@ -20,8 +23,10 @@ const GenericButton = ({ children, onClick, type = 'button', disabled = false, w
       style={{ 
         width, 
         height,
+        padding,
       }}
     >
+      {icon_name && <SvgIcon icon_name={icon_name} />}
       {children}
     </button>
   );
