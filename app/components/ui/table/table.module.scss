@@ -3,8 +3,7 @@
   min-width: 100%;
   border-collapse: collapse;
   overflow: scroll;
-  max-height: 500px;
-  display: block;
+  max-height: 700px;
 
   .header {
     height: 50px;
@@ -14,6 +13,7 @@
 
     th {
       border-bottom: 1px solid $lightContrast;
+      background-color: $lightBase;
       vertical-align: middle;
       font-weight: bold;
       min-width: 150px;

@@ -6,13 +6,14 @@ interface TableProps {
   data_header: string[];
   data_body: any[];
   actions?: string[]; // trash, edit 
+  display?: string; // initial, block
   // eslint-disable-next-line no-unused-vars
   onClick?: (action: string, index: number) => void;
 }
 
-const Table = ({ data_header, data_body, actions, onClick }: TableProps) => {
+const Table = ({ data_header, data_body, actions, display = "initial", onClick }: TableProps) => {
   return (
-    <table className={styles.table}>
+    <table className={styles.table} style={{ display }}>
       <thead className={styles.header}>
         <tr>
           {data_header.map((title, index) => (
