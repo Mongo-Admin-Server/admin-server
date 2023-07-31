@@ -1,15 +1,13 @@
 import { NextApiResponse } from "next";
-import { Instance } from "../Classes/Instance";
+import { Collection } from "../Classes/Collection";
 
 export class CollectionController {
-    public async getCollection(response: NextApiResponse) {
-        const instance = await new Instance().connection();
-        if (!instance) {
+    public async getCollection(response: NextApiResponse): Promise<any>{
+        const collectionNames = await new Collection().getAllCollection();
+        if (!collectionNames) {
             response.status(404).json('error');
         } else {
             try {
-                const collections = await instance.db('marketplace').listCollections().toArray();
-                const collectionNames = collections.map(collection => collection.name);
                 response.status(200).json(collectionNames);
             } catch (error) {
                 response.status(500).json('error');
