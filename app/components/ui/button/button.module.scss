@@ -9,8 +9,11 @@
 
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
+
+  &.center {
+    justify-content: center;
+  }
 
   &:disabled {
     background-color: $lightAccent;

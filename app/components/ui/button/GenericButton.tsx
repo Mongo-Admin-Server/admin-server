@@ -10,13 +10,17 @@ interface ButtonProps {
   width?: string;
   height?: string;
   padding?: string;
+  border?: string;
+  color?: string;
+  background?: string;
+  center?: boolean;
   icon_name?: string
 }
 
-const GenericButton = ({ children, onClick, type = 'button', disabled = false, width, height, padding, icon_name }: ButtonProps) => {
+const GenericButton = ({ children, onClick, type = 'button', disabled = false, width, height, padding, border, background, color, center, icon_name }: ButtonProps) => {
   return (
     <button 
-      className={styles.button}
+      className={`${styles.button} ${center ? styles.center : ''}`}
       onClick={onClick} 
       type={type}
       disabled={disabled}
@@ -24,6 +28,9 @@ const GenericButton = ({ children, onClick, type = 'button', disabled = false, w
         width, 
         height,
         padding,
+        border,
+        color,
+        background
       }}
     >
       {icon_name && <SvgIcon icon_name={icon_name} />}

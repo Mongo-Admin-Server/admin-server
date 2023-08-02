@@ -14,7 +14,7 @@ interface SelectInputProps {
 const SelectInput = ({ label, value, onChange, options, error }: SelectInputProps) => {
   return (
     <div className={styles.container}>
-      <label className={styles.label}>{label}</label>
+      <label>{label}</label>
       <select
         className={`${styles.select} ${error ? styles.selectError : ''}`}
         value={value}
