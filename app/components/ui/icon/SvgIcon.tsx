@@ -3,6 +3,9 @@ import Eye from '@shared/icons/eye.svg';
 import EyeSlash from '@shared/icons/eyeSlash.svg';
 import Trash from '@shared/icons/trash.svg';
 import Edit from '@shared/icons/edit.svg';
+import Sun from '@shared/icons/sun.svg';
+import Gear from '@shared/icons/gear.svg';
+import Logout from '@shared/icons/logout.svg';
 
 interface IconTypes {
   [key: string]: React.ComponentType<{ fill?: string, className: string, onClick?: () => void }>;
@@ -20,6 +23,9 @@ const iconTypes: IconTypes = {
   eyeSlash: EyeSlash,
   trash: Trash,
   edit: Edit,
+  sun: Sun,
+  gear: Gear,
+  logout: Logout,
 };
 
 const SvgIcon = ({ icon_name, fill, onClick }: SvgIconProps) => {
