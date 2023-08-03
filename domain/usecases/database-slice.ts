@@ -7,7 +7,7 @@ import {
 
 import { DatabaseState } from "../entities/database-types";
 
-import { api as databaseApi } from "@/infrastructure";
+import * as Api from "@/infrastructure";
 
 const initialState: DatabaseState = {
   databases: [],
@@ -46,7 +46,7 @@ export const fetchAllDatabase = createAsyncThunk(
   "todos/myTodos",
   async (_, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
-      const response = await databaseApi.getAllDatabase();
+      const response = await Api.database.getAllDatabase();
       return response;
     } catch (error) {
       console.error("Erreur lors du fetch database : ", error);

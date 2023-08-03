@@ -1,1 +1,1 @@
-export * from './api/databaseGateway';
+export * from './api';
