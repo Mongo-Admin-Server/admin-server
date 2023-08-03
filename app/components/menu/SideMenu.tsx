@@ -1,26 +1,20 @@
 'use client';
-import { useEffect, useState } from "react";
 
 import styles from './menu.module.scss';
 
 import GenericButton from "@components/ui/button/GenericButton";
 import SelectInput from "@components/ui/inputs/select/SelectInput";
 
-import getDatabase from "@/infrastructure/databaseGateway";
 import { DatabaseType } from "@/domain/entities/database-types";
 
+import { useSelector, useDispatch } from "@/store/store";
+import { selectDatabaseSelected, selectDatabases, setDatabaseSelected } from "@/domain/usecases/database-slice";
+
 const SideMenu = () => {
-  const [databaseSelected, setDatabaseSelected] = useState('');
-  const [listDatabase, setListDatabase] = useState<string[]>([]);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    fetchAllDatabase();
-  }, []);
-
-  const fetchAllDatabase = async () => {
-    const database = await getDatabase();
-    setListDatabase(database.map((db: DatabaseType) => db.name));
-  }
+  const databaseSelected = useSelector(selectDatabaseSelected);
+  const databases = useSelector(selectDatabases).map((database: DatabaseType) => database.name);
 
   return (
     <aside className={styles.aside}>
@@ -30,8 +24,8 @@ const SideMenu = () => {
         <SelectInput
           label="Base de données"
           value={databaseSelected}
-          options={listDatabase}
-          onChange={(e) => setDatabaseSelected(e.target.value)}
+          options={databases}
+          onChange={(e) => dispatch(setDatabaseSelected(e.target.value))}
         />
 
         {databaseSelected && (
