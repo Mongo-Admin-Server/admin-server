@@ -8,10 +8,12 @@ import {
   useSelector as useSelectorBase,
 } from 'react-redux';
 
-import databaseSlice from "../domain/usecases/database-slice";
+import databaseSlice from "@/domain/usecases/database-slice";
+import collectionSlice from "@/domain/usecases/collection-slice";
 
 export const reducer = combineReducers({
   database: databaseSlice,
+  collection: collectionSlice,
 });
 
 export const persistConfig = {

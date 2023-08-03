@@ -9,6 +9,8 @@ import { DatabaseState } from "../entities/database-types";
 
 import * as Api from "@/infrastructure";
 
+import { fetchCollectionByDatabase } from "./collection-slice";
+
 const initialState: DatabaseState = {
   databases: [],
   databaseSelected: "",
@@ -22,6 +24,7 @@ export const databaseSlice = createSlice({
   reducers: {
     setDatabaseSelected: (state, action: PayloadAction<string>) => {
       state.databaseSelected = action.payload;
+      fetchCollectionByDatabase(action.payload);
     }
   },
   extraReducers(builder) {
