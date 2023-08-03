@@ -1,13 +1,26 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from './menu.module.scss';
 
 import GenericButton from "@components/ui/button/GenericButton";
 import SelectInput from "@components/ui/inputs/select/SelectInput";
 
+import getDatabase from "@/infrastructure/databaseGateway";
+import { DatabaseType } from "@/domain/entities/database-types";
+
 const SideMenu = () => {
-  const [database, setDatabase] = useState('');
+  const [databaseSelected, setDatabaseSelected] = useState('');
+  const [listDatabase, setListDatabase] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchAllDatabase();
+  }, []);
+
+  const fetchAllDatabase = async () => {
+    const database = await getDatabase();
+    setListDatabase(database.map((db: DatabaseType) => db.name));
+  }
 
   return (
     <aside className={styles.aside}>
@@ -16,15 +29,17 @@ const SideMenu = () => {
 
         <SelectInput
           label="Base de données"
-          value={database}
-          options={['Option 1', 'Option 2', 'Option 3']}
-          onChange={(e) => setDatabase(e.target.value)}
+          value={databaseSelected}
+          options={listDatabase}
+          onChange={(e) => setDatabaseSelected(e.target.value)}
         />
 
-        <section className={styles.collections}>
-          <h5>Collections</h5>
-          {/* Collections */}
-        </section>
+        {databaseSelected && (
+          <section className={styles.collections}>
+            <h5>Collections</h5>
+            {/* Collections */}
+          </section>
+        )}
       </section>
 
       <section className={styles.footer}>
