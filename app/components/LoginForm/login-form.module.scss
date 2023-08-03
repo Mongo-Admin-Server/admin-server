@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+  position: relative;
+  padding: 20px;
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    height: 792px;
+
+    .title {
+      font-family: Work Sans;
+      font-size: 34px;
+      color: $baseGreenDark;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.68px;
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      width: 427px;
+      //height: 297px;
+      flex-shrink: 0;
+    }
+
+    .formGroup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+
+      .formInput {
+        width: 100%;
+      }
+    }
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 792px;
+    border-radius: 20px;
+    background: #d9d9d9;
+
+    .backgroundImage {
+      width: 450px;
+      height: 450px;
+      background:
+        url('../../../public/images/loginImage.png'),
+        #d9d9d9 50% / cover no-repeat;
+    }
+  }
+}
