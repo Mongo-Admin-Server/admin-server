@@ -10,6 +10,12 @@
     flex-direction: column;
     gap: 16px;
     padding: 16px;
+    height: 70%;
+    overflow: hidden;
+  }
+
+  .collections {
+    overflow: scroll;
   }
 
   .footer {
