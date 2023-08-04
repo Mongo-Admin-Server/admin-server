@@ -11,7 +11,7 @@ interface TableProps {
   onClick?: (action: string, index: number) => void;
 }
 
-const Table = ({ data_header, data_body, actions, display = "initial", onClick }: TableProps) => {
+const Table = ({ data_header, data_body, actions, display, onClick }: TableProps) => {
   return (
     <table className={styles.table} style={{ display }}>
       <thead className={styles.header}>
