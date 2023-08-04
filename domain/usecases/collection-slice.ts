@@ -65,7 +65,7 @@ export const selectCollectionSelected = createSelector(
 
 export const selectCollectionByDatabase = createSelector(
   selectCollection,
-  (collection) => collection
+  (collection) => collection.collections
 );
 
 export default collectionSlice.reducer;

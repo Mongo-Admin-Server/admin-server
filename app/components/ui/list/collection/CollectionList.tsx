@@ -1,4 +1,4 @@
-import styles from './CollectionList.module.scss';
+import styles from './collectionList.module.scss';
 
 interface CollectionListProps {
   collections: string[];
