@@ -50,7 +50,7 @@ export const fetchAllDatabase = createAsyncThunk(
   async (_, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
       const response = await Api.database.getAllDatabase();
-      return response;
+      return response.data;
     } catch (error) {
       console.error("Erreur lors du fetch database : ", error);
       return rejectWithValue("Couldn't get database");

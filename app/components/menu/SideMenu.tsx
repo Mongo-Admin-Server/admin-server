@@ -9,11 +9,16 @@ import CollectionList from '@/app/components/ui/list/collection/CollectionList';
 import { DatabaseType } from "@/domain/entities/database-types";
 
 import { useSelector, useDispatch } from "@/store/store";
-import { selectDatabaseSelected, selectDatabases, setDatabaseSelected } from "@/domain/usecases/database-slice";
+import { selectDatabaseSelected, selectDatabases, setDatabaseSelected, fetchAllDatabase } from "@/domain/usecases/database-slice";
 import { selectCollectionSelected, selectCollectionByDatabase, setCollectionSelected } from "@/domain/usecases/collection-slice";
+import { useEffect } from 'react';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllDatabase());
+  }, [dispatch]);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
   const databases = useSelector(selectDatabases).map((database: DatabaseType) => database.name);
