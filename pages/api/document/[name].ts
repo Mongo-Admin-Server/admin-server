@@ -8,7 +8,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse){
             // eslint-disable-next-line no-case-declarations
             const documents = new DocumentController();
             if(req.query.name) {
-                documents.getAllDocuments(res, req.query.name);
+                documents.getAllDocumentsByCollection(res, req.query.name);
             }
             
             break;

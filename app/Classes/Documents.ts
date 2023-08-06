@@ -4,9 +4,9 @@ const client = new Instance().connection();
 
 export class Documents {
     
-    public async getAllDocuments(name: string | string[]): Promise<WithId<Document>[]>{
+    public async getAllDocumentsByCollection(name: string | string[]): Promise<WithId<Document>[]>{
         
-        let collections = Array.isArray(name) ? name : [name];
+        const collections = Array.isArray(name) ? name : [name];
         const findAllPromises = collections.map(async (n) => {
             return client.db('marketplace').collection(n).find().toArray();
         });
@@ -18,6 +18,19 @@ export class Documents {
         } catch (error) {
             throw new Error("Error fetching documents : "+ error);
         }
+    }
+
+    public async getAllDocuments(): Promise<WithId<Document>[][]>{
+        const collections = await client.db('marketplace').listCollections().toArray()
+        const collectionNames = collections.map((n) => n.name);
+        Array.isArray(collectionNames) ? collectionNames : [collectionNames];
+
+        let allResults = [];
+        for(const collection of collectionNames) {
+            const documents = await this.getAllDocumentsByCollection(collection);
+            allResults.push(documents);            
+        }
+        return allResults;
     }
 
    public async countDocumentsByCollection(name: string | string[]): Promise<number> {
