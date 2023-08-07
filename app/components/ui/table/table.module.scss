@@ -1,22 +1,22 @@
 .table {
-  border-radius: 15px;
   min-width: 100%;
-  border-collapse: collapse;
-  overflow: scroll;
-  max-height: 700px;
+  border-collapse: separate;
+  background-color: #fff;
+  background-color: $lightBase;
 
   .header {
     height: 50px;
     position: sticky;
     top: 0;
     z-index: 2;
+    background-color: $lightBase;
 
     th {
-      border-bottom: 1px solid $lightContrast;
-      background-color: $lightBase;
       vertical-align: middle;
       font-weight: bold;
       min-width: 150px;
+      color: $darkText;
+      border-bottom: 1px solid $lightContrast;
     }
   }
 
@@ -27,6 +27,13 @@
       height: 80px;
       vertical-align: middle;
       text-align: center;
+      color: $darkText;
+      font-weight: 500;
+      
+      &::last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
     }
   }
 }
