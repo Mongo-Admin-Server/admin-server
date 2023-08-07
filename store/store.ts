@@ -10,10 +10,12 @@ import {
 
 import databaseSlice from "@/domain/usecases/database-slice";
 import collectionSlice from "@/domain/usecases/collection-slice";
+import settingSlice from "@/domain/usecases/setting-slice";
 
 export const reducer = combineReducers({
   database: databaseSlice,
   collection: collectionSlice,
+  setting: settingSlice,
 });
 
 export const persistConfig = {
