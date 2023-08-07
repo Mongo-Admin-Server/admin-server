@@ -4,9 +4,28 @@ const client = new Instance().connection();
 
 export class Documents {
     
-    public async getAllDocuments(name: string | string[]): Promise<WithId<Document>[]>{
+    public async getAllDocuments(): Promise<{ [collectionName: string]: {collectionName: string, result: WithId<Document>[], count: number, avgSize: number, totalSize: number } }>{
+        const collections = await client.db('marketplace').listCollections().toArray()
+        const collectionNames = collections.map((n) => n.name);
+
+        const allResults: { [collectionName: string]: {collectionName: string, result: WithId<Document>[], count: number, avgSize: number, totalSize: number } } = {};
+        try {
+            for(const collection of collectionNames) {
+                const documents = await this.getAllDocumentsByCollection(collection);
+                const count = await this.countDocumentsByCollection(collection);
+                const avgSize = await this.averageSizeDocumentsByCollection(collection);
+                const totalSize = await this.totalSizeDocumentsByCollection(collection);
+                allResults[collection] = {collectionName: collection, result: documents, count, avgSize, totalSize };
+            }        
+            return allResults;
+        } catch(error) {
+            throw new Error(`Error fetching all documents of all collection`);
+        }
+    }
+
+    public async getAllDocumentsByCollection(name: string | string[]): Promise<WithId<Document>[]>{
         
-        let collections = Array.isArray(name) ? name : [name];
+        const collections = Array.isArray(name) ? name : [name];
         const findAllPromises = collections.map(async (n) => {
             return client.db('marketplace').collection(n).find().toArray();
         });
@@ -16,7 +35,7 @@ export class Documents {
             const findAllDocuments = allResults.reduce((accumulator, current) => accumulator.concat(current), []);
             return findAllDocuments;
         } catch (error) {
-            throw new Error("Error fetching documents : "+ error);
+            throw new Error(`Error fetching documents of collection ${name}: ${error}`);
         }
     }
 
