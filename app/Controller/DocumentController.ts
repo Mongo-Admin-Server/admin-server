@@ -2,6 +2,7 @@ import { NextApiResponse } from "next";
 import { Documents } from "../Classes/Documents";
 
 export class DocumentController {
+    
     public async getAllDocumentsByCollection(response: NextApiResponse, name: string | string[]): Promise<any> {
         const documents = await new Documents().getAllDocumentsByCollection(name);
         const countDocuments = await new Documents().countDocumentsByCollection(name);
