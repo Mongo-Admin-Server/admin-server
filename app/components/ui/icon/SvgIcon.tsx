@@ -6,6 +6,7 @@ import Edit from '@/shared/icons/edit.svg';
 import Sun from '@/shared/icons/sun.svg';
 import Gear from '@/shared/icons/gear.svg';
 import Logout from '@/shared/icons/logout.svg';
+import Close from '@/shared/icons/close.svg';
 
 interface IconTypes {
   [key: string]: React.ComponentType<{ fill?: string, className: string, onClick?: () => void }>;
@@ -26,6 +27,7 @@ const iconTypes: IconTypes = {
   sun: Sun,
   gear: Gear,
   logout: Logout,
+  close: Close,
 };
 
 const SvgIcon = ({ icon_name, fill, onClick }: SvgIconProps) => {
