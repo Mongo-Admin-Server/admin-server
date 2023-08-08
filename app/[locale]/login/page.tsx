@@ -1,6 +1,6 @@
 'use client'
-import LoginForm from '../components/login/login-form/LoginForm';
-import LoginIllustration from '../components/login/login-illustration/LoginIllustration';
+import LoginForm from '@components/form/login/LoginForm';
+import LoginIllustration from '@components/form/login-illustration/LoginIllustration';
 import styles from './connexion.module.scss';
 
 export default function LoginPage() {
