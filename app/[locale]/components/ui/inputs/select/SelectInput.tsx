@@ -20,6 +20,7 @@ const SelectInput = ({ label, value, onChange, options, error }: SelectInputProp
         value={value}
         onChange={onChange}
       >
+        <option value="" disabled>Choisir</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>{option.label}</option>
         ))}

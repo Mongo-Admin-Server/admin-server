@@ -1,5 +1,3 @@
-console.log('Loaded EN');
-
 export default {
   loginForm: {
     title: 'Sign in',
@@ -11,8 +9,19 @@ export default {
   menuSideBar: {
     database: 'Database',
     collection: 'Collections',
+    theme: 'Theme',
     language: 'Language',
     setting: 'Settings',
     logout: 'Logout'
-  }
+  },
+  modal: {
+    language: {
+      title: 'Language',
+    }
+  },
+  language: {
+    en: '🇬🇧 English',
+    fr: '🇫🇷 French',
+    es: '🇪🇸 Spanish',
+  },
 } as const;

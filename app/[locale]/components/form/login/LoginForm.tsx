@@ -1,13 +1,15 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'
-import { useI18n, useChangeLocale, useCurrentLocale } from '../../../../../locales/clients';
-import GenericInput from '../../ui/inputs/generic/GenericInput';
-import GenericButton from '../../ui/button/GenericButton';
-import SelectInput from '../../ui/inputs/select/SelectInput';
-import styles from './login-form.module.scss';
+import { useRouter } from 'next/navigation';
+import { useI18n, useChangeLocale, useCurrentLocale } from '@/shared/locales/clients';
 
-type TLanguage = "fr" | "en";
+import GenericInput from '@components/ui/inputs/generic/GenericInput';
+import GenericButton from '@components/ui/button/GenericButton';
+import SelectInput from '@components/ui/inputs/select/SelectInput';
+
+import { LanguageType, Language } from "@/domain/entities/setting-types";
+
+import styles from './login-form.module.scss';
 
 export default function LoginForm() {
   /* Static Data */
@@ -15,9 +17,10 @@ export default function LoginForm() {
   const locale = useCurrentLocale();
   const changeLocale = useChangeLocale();
   const t = useI18n();
-  const optionsLanguages = [
-    { value: 'fr', label: locale === 'fr' ? '🇫🇷 Français' : '🇫🇷 French', },
-    { value: 'en', label: locale === 'fr' ? '🇬🇧 Anglais' : '🇬🇧 English', },
+  const optionsLanguages: Language[] = [
+    { value: 'fr', label: t('language.fr'), },
+    { value: 'en', label: t('language.en'), },
+    { value: 'es', label: t('language.es'), },
   ];
   /* Methods */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,7 +67,7 @@ export default function LoginForm() {
   };
 
   /* Local Data */
-  const [language, setLanguage] = useState<TLanguage>(locale);
+  const [language, setLanguage] = useState<LanguageType>(locale);
   const [userName, setUserName] = useState<string>('');
   const [passWord, setPassWord] = useState<string>('');
   const [error, setError] = useState<string>('');

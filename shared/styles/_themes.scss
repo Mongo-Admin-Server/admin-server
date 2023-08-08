@@ -1,0 +1,37 @@
+:root {
+  --color-background-accent: #{$lightBase};
+  --color-background-base: #{$lightAccent};
+  --color-background-contrast: #{$lightContrast};
+
+  --color-text-base: #{$darkBase};
+  --color-text-accent: #{$darkAccent};
+
+  --color-text-rev-base: #{$lightBase};
+  --color-text-rev-accent: #{$lightAccent};
+  --color-red: #{$baseRed};
+}
+
+[data-theme='light'] {
+  --color-background-accent: #{$lightBase};
+  --color-background-base: #{$lightAccent};
+  --color-background-contrast: #{$lightContrast};
+
+  --color-text-base: #{$darkBase};
+  --color-text-accent: #{$darkAccent};
+
+  --color-text-rev-base: #{$lightBase};
+  --color-text-rev-accent: #{$lightAccent};
+  --color-red: #{$baseRed};
+}
+
+[data-theme='dark'] {
+  --color-background-accent: #{$darkAccent};
+  --color-background-base: #{$darkBase};
+  --color-background-contrast: #{$darkContrast};
+
+  --color-text-base: #{$lightBase};
+  --color-text-accent: #{$lightAccent};
+
+  --color-text-rev-base: #{$darkBase};
+  --color-text-rev-accent: #{$darkAccent};
+}
