@@ -1,0 +1,35 @@
+.aside {
+  width: 100%;
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    height: 70%;
+    overflow: hidden;
+  }
+
+  .collections {
+    overflow: scroll;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 0;
+
+    .divider {
+      width: 80%;
+      height: 1px;
+      background-color: $lightBase;
+      border: none;
+      margin: auto;
+    }
+  }
+}
