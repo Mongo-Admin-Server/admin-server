@@ -21,8 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <Provider store={store}>
-      <html lang="en" cz-shortcut-listen="true">
-        <body className={inter.className}>{children}</body>
+      <html lang="en">
+        <body className={inter.className} cz-shortcut-listen="true">{children}</body>
       </html>
     </Provider>
   );

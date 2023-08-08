@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang={locale}>
-      <body className={inter.className}>
+      <body className={inter.className} cz-shortcut-listen="true">
         <I18nProviderClient locale={locale} fallback={<p> Loading...</p>} fallbackLocale={fr}>
           {children}
         </I18nProviderClient>
