@@ -1,32 +1,20 @@
 import { Instance } from "./Instance";
-
-interface CollectionInfo {
-    [key: string]: {
-        count: number;
-        avgDocumentSize: number;
-        indexes: any[]; 
-        totalDocumentSize: number;
-        totalIndexSize: number;
-        storageSize: number;
-    };
-}
-
-interface Result {
-    [key: string]: CollectionInfo;
-}
+import { IResult} from '../../type/IResult';
+import { ICollectionInfo } from '../../type/ICollectionInfo';
+ 
 
 export class Collection {
 
     public async getAllCollectionDocumentsCount(): Promise<any> {
         const instance = await new Instance().connection();
         const databaseNames = await instance.db().admin().listDatabases();
-        const result: Result = {};
+        const result: IResult = {};
 
         for (const dbName of databaseNames.databases) {
             if (dbName.name != "local") {
                 const db = instance.db(dbName.name);
                 const collections = await db.listCollections().toArray();
-                const collectionInfo: CollectionInfo = {};
+                const collectionInfo: ICollectionInfo = {};
                 for (const collection of collections) {
                     const colName = collection.name;
                     const colStats = await db.collection(colName).stats();
