@@ -1,17 +1,27 @@
 'use client';
+import { useEffect } from 'react';
 
 import styles from './menu.module.scss';
 
-import GenericButton from "@components/ui/button/GenericButton";
-import SelectInput from "@components/ui/inputs/select/SelectInput";
-import CollectionList from '@/app/components/ui/list/collection/CollectionList';
+import GenericButton from '@components/ui/button/GenericButton';
+import SelectInput from '@components/ui/inputs/select/SelectInput';
+import CollectionList from '@components/ui/list/collection/CollectionList';
 
-import { DatabaseType } from "@/domain/entities/database-types";
+import { DatabaseType } from '@/domain/entities/database-types';
 
-import { useSelector, useDispatch } from "@/store/store";
-import { selectDatabaseSelected, selectDatabases, setDatabaseSelected, fetchAllDatabase } from "@/domain/usecases/database-slice";
-import { selectCollectionSelected, selectCollectionByDatabase, setCollectionSelected } from "@/domain/usecases/collection-slice";
-import { useEffect } from 'react';
+import { useSelector, useDispatch } from '@/store/store';
+import {
+  selectDatabaseSelected,
+  selectDatabases,
+  setDatabaseSelected,
+  fetchAllDatabase,
+} from '@/domain/usecases/database-slice';
+import {
+  selectCollectionSelected,
+  selectCollectionByDatabase,
+  setCollectionSelected,
+} from '@/domain/usecases/collection-slice';
+// import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
@@ -21,10 +31,30 @@ const SideMenu = () => {
   }, [dispatch]);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
-  const databases = useSelector(selectDatabases).map((database: DatabaseType) => database.name);
+  const databases = useSelector(selectDatabases).map(
+    (database: DatabaseType) => database.name
+  );
 
   const collectionSelected = useSelector(selectCollectionSelected);
-  const collections = useSelector(selectCollectionByDatabase).map((collection: any) => collection.name);
+  const collections = useSelector(selectCollectionByDatabase).map(
+    (collection: any) => collection.name
+  );
+
+  // const theme = useSelector(selectTheme);
+
+  // useEffect(() => {
+  //   localStorage.setItem('theme', theme);
+  //   document.documentElement.setAttribute('data-theme', theme);
+  // }, [theme]);
+
+  // const handleChangeTheme = () => {
+  //   const theme = document.documentElement.getAttribute('data-theme');
+  //   if (theme === 'dark') {
+  //     dispatch(setTheme('light'));
+  //   } else {
+  //     dispatch(setTheme('dark'));
+  //   }
+  // };
 
   return (
     <aside className={styles.aside}>
@@ -42,10 +72,13 @@ const SideMenu = () => {
           <section>
             <h5>Collections</h5>
             <div className={styles.collections}>
-              <CollectionList 
+              <CollectionList
                 collections={collections}
                 collectionSelected={collectionSelected}
-                onClick={(collection) => dispatch(setCollectionSelected(collection))} />
+                onClick={(collection) =>
+                  dispatch(setCollectionSelected(collection))
+                }
+              />
             </div>
           </section>
         )}
@@ -74,7 +107,7 @@ const SideMenu = () => {
           padding="0 20px"
           onClick={() => console.log('Click theme')}
         >
-          Langue
+          Theme
         </GenericButton>
 
         <GenericButton
@@ -84,7 +117,7 @@ const SideMenu = () => {
           color="#FFFFFF"
           background="transparent"
           padding="0 20px"
-          onClick={() => console.log('Click setting')}
+          onClick={() => console.log('Click settings')}
         >
           Paramètres
         </GenericButton>
@@ -103,6 +136,6 @@ const SideMenu = () => {
       </section>
     </aside>
   );
-}
+};
 
 export default SideMenu;
