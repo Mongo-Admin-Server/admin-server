@@ -13,5 +13,15 @@ export default {
     language: 'Language',
     setting: 'Settings',
     logout: 'Logout'
-  }
+  },
+  modal: {
+    language: {
+      title: 'Language',
+    }
+  },
+  language: {
+    en: '🇬🇧 English',
+    fr: '🇫🇷 French',
+    es: '🇪🇸 Spanish',
+  },
 } as const;

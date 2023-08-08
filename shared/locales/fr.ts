@@ -12,5 +12,15 @@ export default {
     language: 'Langue',
     setting: 'Paramètres',
     logout: 'Déconnexion'
-  }
+  },
+  modal: {
+    language: {
+      title: 'Langue',
+    }
+  },
+  language: {
+    en: '🇬🇧 Anglais',
+    fr: '🇫🇷 Français',
+    es: '🇪🇸 Espagnol',
+  },
 } as const;

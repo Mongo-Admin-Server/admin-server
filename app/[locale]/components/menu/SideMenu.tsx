@@ -1,12 +1,13 @@
 'use client';
-import { useEffect } from 'react';
-import { useI18n, useCurrentLocale } from '../../../../shared/locales/clients';
+import { useEffect, useState } from 'react';
+import { useI18n } from '@/shared/locales/clients';
 
 import styles from './menu.module.scss';
 
 import GenericButton from '@components/ui/button/GenericButton';
 import SelectInput from '@components/ui/inputs/select/SelectInput';
 import CollectionList from '@components/ui/list/collection/CollectionList';
+import LanguageModal from '@components/modal/language/LanguageModal';
 
 import { DatabaseType } from '@/domain/entities/database-types';
 
@@ -27,7 +28,8 @@ import {
 const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useI18n();
-  const locale = useCurrentLocale();
+
+  const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllDatabase());
@@ -62,84 +64,91 @@ const SideMenu = () => {
   // };
 
   return (
-    <aside className={styles.aside}>
-      <section className={styles.header}>
-        {/* Logo */}
+    <>
+      <aside className={styles.aside}>
+        <section className={styles.header}>
+          {/* Logo */}
 
-        <SelectInput
-          label={t('menuSideBar.database')}
-          value={databaseSelected}
-          options={databases}
-          onChange={(e) => dispatch(setDatabaseSelected(e.target.value))}
-        />
+          <SelectInput
+            label={t('menuSideBar.database')}
+            value={databaseSelected}
+            options={databases}
+            onChange={(e) => dispatch(setDatabaseSelected(e.target.value))}
+          />
 
-        {databaseSelected && (
-          <section>
-            <h5>{t('menuSideBar.collection')}</h5>
-            <div className={styles.collections}>
-              <CollectionList
-                collections={collections}
-                collectionSelected={collectionSelected}
-                onClick={(collection) =>
-                  dispatch(setCollectionSelected(collection))
-                }
-              />
-            </div>
-          </section>
-        )}
-      </section>
+          {databaseSelected && (
+            <section>
+              <h5>{t('menuSideBar.collection')}</h5>
+              <div className={styles.collections}>
+                <CollectionList
+                  collections={collections}
+                  collectionSelected={collectionSelected}
+                  onClick={(collection) =>
+                    dispatch(setCollectionSelected(collection))
+                  }
+                />
+              </div>
+            </section>
+          )}
+        </section>
 
-      <section className={styles.footer}>
-        <hr className={styles.divider} />
-        <GenericButton
-          icon_name="gear"
-          width="100%"
-          border="none"
-          color="#FFFFFF"
-          background="transparent"
-          padding="0 20px"
-          onClick={() => console.log('Click language')}
-        >
-          {t('menuSideBar.language')}
-        </GenericButton>
+        <section className={styles.footer}>
+          <hr className={styles.divider} />
+          <GenericButton
+            icon_name="flag"
+            width="100%"
+            border="none"
+            color="#FFFFFF"
+            background="transparent"
+            padding="0 20px"
+            onClick={() => setOpenLanguageModal(true)}
+          >
+            {t('menuSideBar.language')}
+          </GenericButton>
 
-        <GenericButton
-          icon_name="sun"
-          width="100%"
-          border="none"
-          color="#FFFFFF"
-          background="transparent"
-          padding="0 20px"
-          onClick={() => console.log('Click theme')}
-        >
-          {t('menuSideBar.theme')}
-        </GenericButton>
+          <GenericButton
+            icon_name="sun"
+            width="100%"
+            border="none"
+            color="#FFFFFF"
+            background="transparent"
+            padding="0 20px"
+            onClick={() => console.log('Click theme')}
+          >
+            {t('menuSideBar.theme')}
+          </GenericButton>
 
-        <GenericButton
-          icon_name="gear"
-          width="100%"
-          border="none"
-          color="#FFFFFF"
-          background="transparent"
-          padding="0 20px"
-          onClick={() => console.log('Click settings')}
-        >
-          {t('menuSideBar.setting')}
-        </GenericButton>
+          <GenericButton
+            icon_name="gear"
+            width="100%"
+            border="none"
+            color="#FFFFFF"
+            background="transparent"
+            padding="0 20px"
+            onClick={() => console.log('Click settings')}
+          >
+            {t('menuSideBar.setting')}
+          </GenericButton>
 
-        <GenericButton
-          icon_name="logout"
-          width="100%"
-          border="none"
-          color="#EB5757"
-          background="transparent"
-          padding="0 20px"
-          onClick={() => console.log('Click logout')}
-        >
-          {t('menuSideBar.logout')}
-        </GenericButton>
-      </section>
-    </aside>
+          <GenericButton
+            icon_name="logout"
+            width="100%"
+            border="none"
+            color="#EB5757"
+            background="transparent"
+            padding="0 20px"
+            onClick={() => console.log('Click logout')}
+          >
+            {t('menuSideBar.logout')}
+          </GenericButton>
+        </section>
+      </aside>
+
+      <LanguageModal
+        open={openLanguageModal}
+        onClose={() => setOpenLanguageModal(false)}
+      />
+    </>
   );
 };
 
