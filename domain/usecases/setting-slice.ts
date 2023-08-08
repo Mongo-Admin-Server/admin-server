@@ -18,6 +18,10 @@ export const settingSlice = createSlice({
     setTheme: (state, action: PayloadAction<string>) => {
       localStorage.setItem("theme", action.payload);
       state.theme = action.payload;
+    },
+    setLanguage: (state, action: PayloadAction<string>) => {
+      localStorage.setItem("locale", action.payload);
+      state.language = action.payload;
     }
   },
 });

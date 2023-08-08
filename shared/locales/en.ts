@@ -1,5 +1,3 @@
-console.log('Loaded EN');
-
 export default {
   loginForm: {
     title: 'Sign in',
