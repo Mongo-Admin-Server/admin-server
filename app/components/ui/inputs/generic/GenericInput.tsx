@@ -2,8 +2,7 @@ import { useState } from 'react';
 
 import styles from './input.module.scss';
 
-import Eye from '@shared/icons/eye.svg';
-import EyeSlash from '@shared/icons/eyeSlash.svg';
+import SvgIcon from '@components/ui/icon/SvgIcon';
 
 interface GenericInputProps {
   label: string;
@@ -31,7 +30,7 @@ const GenericInput = ({ label, value, onChange, type, placeholder, error }: Gene
 
       {type === 'password' && (
         <div className={styles.iconContainer} onClick={() => setShowPassword(!showPassword)}>
-          {showPassword ? <Eye /> : <EyeSlash />}
+          {showPassword ? <SvgIcon icon_name='eye' /> : <SvgIcon icon_name='eyeSlash' />}
         </div>
       )}
       

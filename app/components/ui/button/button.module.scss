@@ -7,6 +7,14 @@
   border-radius: 8px;
   font-size: 12px;
 
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &.center {
+    justify-content: center;
+  }
+
   &:disabled {
     background-color: $lightAccent;
     color: $darkAccent;

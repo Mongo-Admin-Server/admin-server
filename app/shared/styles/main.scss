@@ -1,5 +1,6 @@
 @import '_reset.scss';
 @import '_variables.scss';
+@import '_cursor-mixins.scss';
 
 h1 {
   font-size: 24px;
@@ -38,4 +39,53 @@ p {
 
 label {
   font-size: 12px;
+  font-weight: bold;
+}
+
+.scrollable {
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #C1C1C1 #FFFFFF;
+
+  /* Chrome, Edge and Safari */
+  &::-webkit-scrollbar {
+    width: 10px;
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #FFFFFF;
+  }
+
+  &::-webkit-scrollbar-track:hover {
+    background-color: #FFFFFF;
+  }
+
+  &::-webkit-scrollbar-track:active {
+    background-color: #FFFFFF;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #C1C1C1;
+    border: 2px solid #fff;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #C1C1C1;
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background-color: #C1C1C1;
+  }
+}
+
+.max_height{
+  height: 100%;
+  max-height: calc(100vh - 126px);
+  border: 1px solid #fff;
+  border-radius: 5px;
 }
