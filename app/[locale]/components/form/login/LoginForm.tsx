@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'
-import { useI18n, useChangeLocale, useCurrentLocale } from '../../../../../locales/clients';
+import { useI18n, useChangeLocale, useCurrentLocale } from '../../../../../shared/locales/clients';
 import GenericInput from '../../ui/inputs/generic/GenericInput';
 import GenericButton from '../../ui/button/GenericButton';
 import SelectInput from '../../ui/inputs/select/SelectInput';

@@ -7,6 +7,7 @@ export default {
   },
   menuSideBar: {
     database: 'Base de données',
+    theme: 'Thème',
     collection: 'Collections',
     language: 'Langue',
     setting: 'Paramètres',

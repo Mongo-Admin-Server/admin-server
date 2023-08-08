@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { useI18n, useCurrentLocale } from '../../../../locales/clients';
+import { useI18n, useCurrentLocale } from '../../../../shared/locales/clients';
 
 import styles from './menu.module.scss';
 
@@ -29,14 +29,15 @@ const SideMenu = () => {
   const t = useI18n();
   const locale = useCurrentLocale();
 
-
   useEffect(() => {
     dispatch(fetchAllDatabase());
   }, [dispatch]);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
   const databases = useSelector(selectDatabases).map(
-    (database: DatabaseType) => database.name
+    (database: DatabaseType) => {
+      return { value: database.name, label: database.name };
+    }
   );
 
   const collectionSelected = useSelector(selectCollectionSelected);
@@ -72,18 +73,20 @@ const SideMenu = () => {
           onChange={(e) => dispatch(setDatabaseSelected(e.target.value))}
         />
 
-        <section className={styles.collections}>
-          <h5>{t('menuSideBar.collection')}</h5>
-          <div className={styles.collections}>
-            <CollectionList
-              collections={collections}
-              collectionSelected={collectionSelected}
-              onClick={(collection) =>
-                dispatch(setCollectionSelected(collection))
-              }
-            />
-          </div>
-        </section>
+        {databaseSelected && (
+          <section>
+            <h5>{t('menuSideBar.collection')}</h5>
+            <div className={styles.collections}>
+              <CollectionList
+                collections={collections}
+                collectionSelected={collectionSelected}
+                onClick={(collection) =>
+                  dispatch(setCollectionSelected(collection))
+                }
+              />
+            </div>
+          </section>
+        )}
       </section>
 
       <section className={styles.footer}>
@@ -97,7 +100,7 @@ const SideMenu = () => {
           padding="0 20px"
           onClick={() => console.log('Click language')}
         >
-          {locale === 'fr' ?  '🇫🇷 Français' : '🇫🇷 French'}
+          {t('menuSideBar.language')}
         </GenericButton>
 
         <GenericButton
@@ -109,7 +112,7 @@ const SideMenu = () => {
           padding="0 20px"
           onClick={() => console.log('Click theme')}
         >
-          {t('menuSideBar.language')}
+          {t('menuSideBar.theme')}
         </GenericButton>
 
         <GenericButton

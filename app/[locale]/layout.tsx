@@ -1,6 +1,6 @@
 'use client'
-import { I18nProviderClient } from '../../locales/clients';
-import fr from '../../locales/fr';
+import { I18nProviderClient } from '../../shared/locales/clients';
+import fr from '../../shared/locales/fr';
 import './globals.css';
 import { Inter } from 'next/font/google';
 

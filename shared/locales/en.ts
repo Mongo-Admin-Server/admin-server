@@ -11,6 +11,7 @@ export default {
   menuSideBar: {
     database: 'Database',
     collection: 'Collections',
+    theme: 'Theme',
     language: 'Language',
     setting: 'Settings',
     logout: 'Logout'
