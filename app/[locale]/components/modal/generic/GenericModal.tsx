@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useI18n } from '@/shared/locales/clients';
 
 import SvgIcon from '@components/ui/icon/SvgIcon';
 import GenericButton from '@components/ui/button/GenericButton';
@@ -15,6 +16,7 @@ interface GenericModalProps {
 }
 
 const GenericModal = ({ open, title, withButton = true, children, onClose, onValidate }: GenericModalProps) => {
+  const t = useI18n();
   const modalRef = useRef(null);
 
   const dialogClasses = useMemo(() => {
@@ -76,7 +78,7 @@ const GenericModal = ({ open, title, withButton = true, children, onClose, onVal
             width="100%"
             onClick={onClose}
           >
-            Cancel
+            {t('modal.button.cancel')}
           </GenericButton>
           <GenericButton
             center
@@ -87,7 +89,7 @@ const GenericModal = ({ open, title, withButton = true, children, onClose, onVal
             padding="0 20px"
             onClick={onValidate}
           >
-            Confirm
+            {t('modal.button.confirm')}
           </GenericButton>
         </section>
       )}

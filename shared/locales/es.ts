@@ -16,7 +16,14 @@ export default {
   modal: {
     language: {
       title: 'Idioma',
-    }
+    },
+    confirm: {
+      title: 'Confirmación',
+    },
+    button: {
+      cancel: 'Cancelar',
+      confirm: 'Confirmar',
+    },
   },
   database: {
     title: 'Base de datos',
