@@ -18,6 +18,15 @@ export default {
       title: 'Idioma',
     }
   },
+  database: {
+    title: 'Base de datos',
+    create: 'Crear base de datos',
+    deleteConfirm: '¿Estás seguro de que quieres eliminar esta base de datos?',
+    deleteSuccess: 'Base de datos eliminada con éxito',
+    deleteError: 'Error al eliminar la base de datos',
+    createSuccess: 'Base de datos creada con éxito',
+    createError: 'Error al crear la base de datos',
+  },
   language: {
     en: '🇬🇧 Inglés',
     fr: '🇫🇷 Francés',

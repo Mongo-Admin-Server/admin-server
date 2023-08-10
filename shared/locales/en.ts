@@ -14,6 +14,15 @@ export default {
     setting: 'Settings',
     logout: 'Logout'
   },
+  database: {
+    title: 'Database',
+    create: 'Create database',
+    deleteConfirm: 'Are you sure you want to delete this database?',
+    deleteSuccess: 'Database deleted successfully',
+    deleteError: 'Error deleting database',
+    createSuccess: 'Database created successfully',
+    createError: 'Error creating database',
+  },
   modal: {
     language: {
       title: 'Language',
