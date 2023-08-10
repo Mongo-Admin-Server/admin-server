@@ -8,6 +8,7 @@ import Gear from '@/shared/icons/gear.svg';
 import Logout from '@/shared/icons/logout.svg';
 import Close from '@/shared/icons/close.svg';
 import Flag from '@/shared/icons/flag.svg';
+import Search from '@/shared/icons/search.svg';
 
 interface IconTypes {
   [key: string]: React.ComponentType<{
@@ -34,6 +35,7 @@ const iconTypes: IconTypes = {
   logout: Logout,
   close: Close,
   flag: Flag,
+  search: Search,
 };
 
 const SvgIcon = ({ icon_name, fill, onClick }: SvgIconProps) => {
