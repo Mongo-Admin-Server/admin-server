@@ -75,18 +75,13 @@ const GenericModal = ({ open, title, withButton = true, children, onClose, onVal
         <section className={styles["modal__footer"]}>
           <GenericButton
             center
-            width="100%"
+            outline
             onClick={onClose}
           >
             {t('modal.button.cancel')}
           </GenericButton>
           <GenericButton
             center
-            width="100%"
-            border="1px solid #F27523"
-            color="#FFFFFF"
-            background="#F27523"
-            padding="0 20px"
             onClick={onValidate}
           >
             {t('modal.button.confirm')}

@@ -2,11 +2,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: $lightBase;
+  background-color: var(--color-text-base);
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 20px;
-  color: $darkBase;
+  color: var(--color-background-accent);
 
   &__title {
     font-size: 18px;

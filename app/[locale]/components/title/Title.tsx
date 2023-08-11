@@ -16,19 +16,18 @@ const Title = ({ title, wordingButton, onClick }: TitleProps) => {
       <div className={styles['title-container__buttons']}>
         <GenericButton
           onClick={() => onClick && onClick('search')}
-          width="40px"
-          height="40px"
+          size="small"
           center
-          padding="0"
-          border="1px solid #E6E9ED"
+          outline
         >
           <SvgIcon icon_name="search" />
         </GenericButton>
         {wordingButton && (
           <GenericButton
-            onClick={() => onClick && onClick('add')}
+            outline
             center
-            width="auto"
+            size="auto"
+            onClick={() => onClick && onClick('add')}
           >
             {wordingButton}
           </GenericButton>

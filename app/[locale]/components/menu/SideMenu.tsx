@@ -23,7 +23,7 @@ import {
   selectCollectionByDatabase,
   setCollectionSelected,
 } from '@/domain/usecases/collection-slice';
-// import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
+import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
@@ -47,21 +47,11 @@ const SideMenu = () => {
     (collection: any) => collection.name
   );
 
-  // const theme = useSelector(selectTheme);
+  const theme = useSelector(selectTheme);
 
-  // useEffect(() => {
-  //   localStorage.setItem('theme', theme);
-  //   document.documentElement.setAttribute('data-theme', theme);
-  // }, [theme]);
-
-  // const handleChangeTheme = () => {
-  //   const theme = document.documentElement.getAttribute('data-theme');
-  //   if (theme === 'dark') {
-  //     dispatch(setTheme('light'));
-  //   } else {
-  //     dispatch(setTheme('dark'));
-  //   }
-  // };
+  const handleChangeTheme = () => {
+    theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'));
+  };
 
   return (
     <>
@@ -96,35 +86,26 @@ const SideMenu = () => {
           <hr className={styles.divider} />
           <GenericButton
             icon_name="flag"
-            width="100%"
-            border="none"
-            color="#FFFFFF"
-            background="transparent"
             padding="0 20px"
+            transparent
             onClick={() => setOpenLanguageModal(true)}
           >
             {t('menuSideBar.language')}
           </GenericButton>
 
           <GenericButton
-            icon_name="sun"
-            width="100%"
-            border="none"
-            color="#FFFFFF"
-            background="transparent"
+            icon_name={theme === 'light' ? 'moon' : 'sun'}
             padding="0 20px"
-            onClick={() => console.log('Click theme')}
+            transparent
+            onClick={handleChangeTheme}
           >
-            {t('menuSideBar.theme')}
+            {theme === 'light' ? t('theme.dark') : t('theme.light')}
           </GenericButton>
 
           <GenericButton
             icon_name="gear"
-            width="100%"
-            border="none"
-            color="#FFFFFF"
-            background="transparent"
             padding="0 20px"
+            transparent
             onClick={() => console.log('Click settings')}
           >
             {t('menuSideBar.setting')}
@@ -132,11 +113,9 @@ const SideMenu = () => {
 
           <GenericButton
             icon_name="logout"
-            width="100%"
-            border="none"
-            color="#EB5757"
-            background="transparent"
             padding="0 20px"
+            transparent
+            variant='danger'
             onClick={() => console.log('Click logout')}
           >
             {t('menuSideBar.logout')}
