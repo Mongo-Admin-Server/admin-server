@@ -5,9 +5,12 @@ export default {
     userName: 'Nombre de usuario',
     passWord: 'Contraseña',
   },
+  theme: {
+    light: 'Claro',
+    dark: 'Oscuro',
+  },
   menuSideBar: {
     database: 'Base de datos',
-    theme: 'Tema',
     collection: 'Colecciones',
     language: 'Idioma',
     setting: 'Configuración',

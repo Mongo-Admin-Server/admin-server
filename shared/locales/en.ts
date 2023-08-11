@@ -6,10 +6,13 @@ export default {
     passWord: 'Password',
     login: 'Sign in',
   },
+  theme: {
+    light: 'Light',
+    dark: 'Dark',
+  },
   menuSideBar: {
     database: 'Database',
     collection: 'Collections',
-    theme: 'Theme',
     language: 'Language',
     setting: 'Settings',
     logout: 'Logout'

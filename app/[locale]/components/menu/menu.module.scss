@@ -27,7 +27,7 @@
     .divider {
       width: 80%;
       height: 1px;
-      background-color: $lightBase;
+      background-color: var(--color-background-accent);
       border: none;
       margin: auto;
     }

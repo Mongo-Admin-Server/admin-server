@@ -6,8 +6,15 @@ import {
 
 import { SettingState } from "../entities/setting-types";
 
+let defaultTheme = "light";
+if (typeof window !== "undefined") {
+  defaultTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", defaultTheme);
+  localStorage.setItem("theme", defaultTheme);
+}
+
 const initialState: SettingState = {
-  theme: "light",
+  theme: defaultTheme,
   language: "en",
 };
 
@@ -17,6 +24,7 @@ export const settingSlice = createSlice({
   reducers: {
     setTheme: (state, action: PayloadAction<string>) => {
       localStorage.setItem("theme", action.payload);
+      document.documentElement.setAttribute("data-theme", action.payload);
       state.theme = action.payload;
     },
     setLanguage: (state, action: PayloadAction<string>) => {
