@@ -40,12 +40,10 @@
   &.outline {
     background-color: transparent;
     color: var(--color-background-accent);
-    border: 1px solid var(--color-background-accent);
+    border: 1px solid var(--color-text-contrast);
 
     &:hover {
-      background-color: var(--color-background-base);
       border: 1px solid var(--color-background-base);
-      color: var(--color-text-base);
     }
   }
 
