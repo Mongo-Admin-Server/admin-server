@@ -1,91 +1,93 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import * as Api from '@/infrastructure';
+import { useI18n } from '@/shared/locales/clients';
+import Link from 'next/link';
+import styles from './collections.module.scss';
+import Title from '../../components/title/Title';
 import Table from '../../components/ui/table/Table';
-import styles from './collections.module.scss'
-import axios from "axios";
-import { Console } from 'console';
 
 interface CollectionInfo {
   collectionName: string;
   count: number;
   avgDocumentSize: number;
   totalDocumentSize: number;
- // indexes: number;
- // totalIndexSize: number;
+  indexes: string[];
+  totalIndexSize: number;
 }
 
-async function getCollectionDetails(): Promise<CollectionInfo[]> {
-  try {
-    const [collectionsResponse, documentsResponse] = await Promise.all([
-      axios.get('http://localhost:3000/api/collections'),
-      axios.get('http://localhost:3000/api/document')
-    ]);
-    const collectionsData: CollectionInfo[] = [];
+const CollectionsList: React.FC = () => {
 
-    for (const [collectionName, collection] of Object.entries(collectionsResponse.data.marketplace)) {
-      const documentsInfo = documentsResponse.data[collectionName]
-      collectionsData.push({
-        collectionName: collectionName,
-        count: documentsInfo ? documentsInfo.count : 0,
-        avgDocumentSize: documentsInfo ? documentsInfo.avgSize || 0 : 0,
-        totalDocumentSize: documentsInfo ? documentsInfo.totalSize || 0 : 0,
-       // indexes: collection.indexes,
-       // totalIndexSize: collection.totalIndexSize,
-      });
-    }
-    
-    return collectionsData;
-  } catch (error) {
-    console.error('error fetching collection details', error);
-    return [];
-  }
-}
- 
-
-const HomePage: React.FC = () => {
   const [collections, setCollections] = useState<CollectionInfo[]>([]);
+  const [database, setDatabase] = useState<string>('marketplace');
+  const t = useI18n();
+  const isDataLoaded = t('collection.loading');
+  const actions = ['edit'];
+  const isDarkMode = false;
 
   useEffect(() => {
     async function fetchData() {
-      const collectionDetails = await getCollectionDetails();
-      setCollections(collectionDetails);
-    }
-
-    fetchData();
-  }, []);
-
-  interface Column {
-    label: string;
-    key: keyof CollectionInfo;
-  }
-  const dataHeader: Column[] = [
-    { label: 'Name collection', key: 'collectionName' },
-    { label: 'Document', key: 'count' },
-    { label: 'Avg document size', key: 'avgDocumentSize' },
-    { label: 'Total document size', key: 'totalDocumentSize' }
-  ]; 
-
-  const actions = ['edit'];
-  console.log('collections:', collections); 
-  const isDataLoaded = collections.length > 0;
-  return (
-    <div>
-      <h1>Liste Collections</h1>
-      <div>
-        {isDataLoaded && (
-          <div  className={styles.container}>  
-            <Table
-          data_header={dataHeader.map(column => column.label)}
-          data_body={collections}
-          actions={actions}
-        />
-        </div>
+      try {
+        const collectionDetails = await Api.collection.getCollectionsByDatabase(database);
         
-        )}</div>
-        {!isDataLoaded && <p>Loading data...</p>}
-      
-    </div>
-  );
-        }
+        const parsedCollectionData = Object.entries(collectionDetails).map(([collectionName, collectionData]: [string, any]) =>({
+          collectionName,
+          ...collectionData,
+          avgDocumentSize: parseInt(collectionData.avgDocumentSize),
+          count: parseInt(collectionData.count),
+          indexes: collectionData.indexes.map((index: any) => index.key),
+          totalDocumentSize: parseInt(collectionData.totalDocumentSize),
+          totalIndexSize: parseInt(collectionData.totalIndexSize)
+        }));
 
-export default HomePage;
+        setCollections(parsedCollectionData);
+       
+      }catch (error) {
+        console.error('error fetching collection data', error);
+        setCollections([]);
+      }
+    }
+    fetchData();
+  }, [database]);
+
+  const dataHeader = [
+    t('collection.collectionName'),
+    t('collection.count'),
+    t('collection.avgDocumentSize'),
+    t('collection.totalDocumentSize'),
+    t('collection.indexes'),
+    t('collection.totalIndexSize')
+  ];
+
+  const dataBody = collections.map((collection) => {
+
+    const mappedData: Record<string, React.ReactNode> = {};
+    
+    mappedData[t('collection.collectionName')] = (
+      <Link className={styles.link} href='#'>
+        {collection.collectionName}
+      </Link>
+    );
+    mappedData[t('collection.count')] = collection.count;
+    mappedData[t('collection.avgDocumentSize')] = `${collection.avgDocumentSize} B`;
+    mappedData[t('collection.totalDocumentSize')] = `${collection.totalDocumentSize} KB`;
+    mappedData[t('collection.indexes')] = collection.indexes;
+    mappedData[t('collection.totalIndexSize')] = `${collection.totalIndexSize} KB`;
+
+    return mappedData;
+  });
+
+  return (
+    <>
+      <Title title={t('collection.title')} />
+      {collections.length > 0 ? (
+        <Table data_header={dataHeader} data_body={dataBody} actions={actions} />
+      ) : (
+        <p>{isDataLoaded}</p>
+      )}
+    </>
+  );
+
+};
+
+export default CollectionsList;
