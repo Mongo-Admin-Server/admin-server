@@ -9,7 +9,9 @@
   .select {
     padding: 14px 32px 14px 14px;
     border-radius: 8px;
-    border: 1px solid $lightAccent;
+    border: 1px solid var(--color-text-contrast);
+    background-color: var(--color-text-base);
+    color: var(--color-background-base);
     font-size: 12px;
     appearance: none;
     -moz-appearance: none;
@@ -19,20 +21,20 @@
 
     &:focus {
       outline: none;
-      border: 1px solid $darkAccent;
+      border: 1px solid var(--color-background-base);
     }
 
     &:hover {
-      border: 1px solid $darkAccent;
+      border: 1px solid var(--color-background-base);
     }
   }
 
   .selectError {
-    border: 1px solid $baseRed;
+    border: 1px solid var(--color-red);
   }
 
   .error {
-    color: $baseRed;
+    color: var(--color-red);
     font-size: 10px;
   }
 

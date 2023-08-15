@@ -1,12 +1,11 @@
 .main {
-  background-color: $baseGreenDark;
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
   display: flex;
 
   .container {
-    background-color: $lightBeige;
+    background-color: var(--color-text-accent);
     width: 100%;
     margin: 10px 10px 10px 0;
     padding: 20px;

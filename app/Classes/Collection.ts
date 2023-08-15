@@ -19,7 +19,7 @@ export class Collection {
                     const colName = collection.name;
                     const colStats = await db.collection(colName).stats();
                     const count = colStats.count;
-                    const avgDocumentSize = colStats.avgObjSize;
+                    const avgDocumentSize = count !== 0 ? colStats.avgObjSize : 0;
                     const totalDocumentSize = colStats.size;
                     const totalindexSize = colStats.totalIndexSize;
                     const storageSize = colStats.storageSize;
@@ -48,6 +48,41 @@ export class Collection {
         }
 
         return result;
+    }
+
+    public async getOneCollectionDocumentsCount(name: string): Promise<any> {
+        const instance = await new Instance().connection();
+        const db = instance.db(name);
+        const collectionsList = await db.listCollections().toArray()
+        const collectionInfo: ICollectionInfo = {};
+
+        for (const collection of collectionsList) {
+            const colName = collection.name;
+            const colStats = await db.collection(colName).stats();
+            const count = colStats.count;
+            const avgDocumentSize = count !== 0 ? colStats.avgObjSize : 0;
+            const totalDocumentSize = colStats.size;
+            const totalindexSize = colStats.totalIndexSize;
+            const storageSize = colStats.storageSize;
+            const indexes = await db.collection(colName).indexes();
+            const formattedIndexes = indexes.map((index) => {
+                const keyFields = Object.keys(index.key).join(', ');
+                return {
+                    key: index.key._id
+                };
+            });
+
+            collectionInfo[colName] = {
+                count: count,
+                avgDocumentSize: avgDocumentSize,
+                indexes: formattedIndexes,
+                totalDocumentSize: totalDocumentSize,
+                totalIndexSize: totalindexSize,
+                storageSize: storageSize,
+            };
+            }
+
+        return collectionInfo;
     }
 
 }

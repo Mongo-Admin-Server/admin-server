@@ -5,7 +5,7 @@ module.exports = {
   transpilePackages: ['next-international', 'international-types'],
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    prependData: `@import "/app/shared/styles/_variables.scss";`
+    prependData: `@import "/shared/styles/_variables.scss";`
   },
   webpack(config) {
     // Grab the existing rule that handles SVG imports

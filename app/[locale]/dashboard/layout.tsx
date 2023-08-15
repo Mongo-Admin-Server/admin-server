@@ -1,8 +1,11 @@
-'use client'
-import SideMenu from '@/app/[locale]/components/menu/SideMenu';
-import { I18nProviderClient } from '../../../locales/clients';
-import fr from '../../../locales/fr';
+'use client';
+
+import { I18nProviderClient } from '@/shared/locales/clients';
+import fr from '@/shared/locales/fr';
+
 import styles from './dashboard.module.scss';
+
+import SideMenu from '@components/menu/SideMenu';
 
 export default function DashboardLayout({
   children,

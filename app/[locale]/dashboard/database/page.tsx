@@ -1,33 +1,69 @@
 'use client';
-import Table from "@/app/[locale]/components/ui/table/Table";
-import React, { useEffect, useState } from "react";
+
+import { useState } from 'react';
+import { useI18n } from '@/shared/locales/clients';
+
+import Table from '@components/ui/table/Table';
+import Title from '@components/title/Title';
+import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+
+import { useSelector } from '@/store/store';
+import { selectDatabases } from '@/domain/usecases/database-slice';
+
 
 export default function ListBDD() {
-  
-  const [result, setResult] = useState({data: [{}] });
+  const t = useI18n();
 
-  useEffect(() => {
-    fetch('/api/database')
-      .then((response) => response.json())
-      .then((data) => setResult(data))
-      .catch((error) => console.error('Erreur lors de la récupération des statistiques', error));
-  }, []);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const databases = useSelector(selectDatabases);
+
+  const handleClick = (action: string, index?: number) => {
+    switch (action) {
+      case 'create':
+        console.log('Create');
+        break;
+      case 'trash':
+        // save index in state to delete the right database
+        setOpenDeleteModal(true);
+        break;
+      case 'search':
+        console.log('Search');
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleDelete = () => {
+    console.log('Delete');
+  };
 
   return (
-    <div>
-      <h1>Database</h1>
-      <div className="scrollable max_height">
+    <>
+      <Title
+        title={t('database.title')}
+        wordingButton={t('database.create')}
+        onClick={(action) => handleClick(action)}
+      />
 
-      {!result.data ? (
+      {!databases ? (
         <p>Loading...</p>
-        ) : (
-          <Table
-            data_header={Object.keys(result.data[0])}
-            data_body={result.data}
-          />
-          )
-        }
-      </div>
-    </div>
+      ) : (
+        <Table
+          data_header={Object.keys(databases[0])}
+          data_body={databases}
+          actions={['trash']}
+          onClick={(action, index) => handleClick(action, index)}
+        />
+      )}
+
+      <ConfirmModal
+        open={openDeleteModal}
+        description={t('database.deleteConfirm')}
+        onConfirm={handleDelete}
+        onClose={() => setOpenDeleteModal(false)}
+      />
+    </>
   );
 }

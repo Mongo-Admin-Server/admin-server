@@ -1,22 +1,28 @@
+.table-container {
+  max-height: 90%;
+  overflow: scroll;
+  border-radius: 10px;
+}
+
 .table {
   min-width: 100%;
   border-collapse: separate;
-  background-color: #fff;
-  background-color: $lightBase;
+  background-color: var(--color-text-base);
+  border-radius: 10px;
 
   .header {
     height: 50px;
     position: sticky;
     top: 0;
     z-index: 2;
-    background-color: $lightBase;
 
     th {
       vertical-align: middle;
       font-weight: bold;
       min-width: 150px;
-      color: $darkText;
       border-bottom: 1px solid $lightContrast;
+      background-color: var(--color-text-base);
+      color: var(--color-background-accent);
     }
   }
 
@@ -27,13 +33,8 @@
       height: 80px;
       vertical-align: middle;
       text-align: center;
-      color: $darkText;
+      color: var(--color-background-accent);
       font-weight: 500;
-      
-      &::last-child {
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-      }
     }
   }
 }

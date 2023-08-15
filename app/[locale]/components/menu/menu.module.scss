@@ -10,6 +10,12 @@
     flex-direction: column;
     gap: 16px;
     padding: 16px;
+    height: 70%;
+    overflow: hidden;
+  }
+
+  .collections {
+    overflow: scroll;
   }
 
   .footer {
@@ -21,7 +27,7 @@
     .divider {
       width: 80%;
       height: 1px;
-      background-color: $lightBase;
+      background-color: var(--color-background-accent);
       border: none;
       margin: auto;
     }
