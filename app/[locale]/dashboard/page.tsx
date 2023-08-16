@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useI18n } from '@/shared/locales/clients';
 
 import Table from '@components/ui/table/Table';
+import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
 import Title from '@components/title/Title';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 
@@ -52,7 +53,7 @@ export default function DashboardPage() {
       />
 
       {loading ? (
-        <p>Loading...</p>
+        <TableSkeleton />
       ) : (
         <Table
           data_header={Object.keys(databases[0])}
