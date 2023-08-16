@@ -16,7 +16,6 @@ import {
   selectDatabaseSelected,
   selectDatabases,
   setDatabaseSelected,
-  fetchAllDatabase,
 } from '@/domain/usecases/database-slice';
 import {
   selectCollectionSelected,
@@ -30,10 +29,6 @@ const SideMenu = () => {
   const t = useI18n();
 
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchAllDatabase());
-  }, [dispatch]);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
   const databases = useSelector(selectDatabases).map(

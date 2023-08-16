@@ -1,7 +1,8 @@
 export type DatabaseType = {
   name: string;
-  sizeOnDisk: number;
-  empty: boolean;
+  sizeOnDisk?: number;
+  empty?: boolean;
+  collections?: any;
 };
 
 export type DatabaseState = {
