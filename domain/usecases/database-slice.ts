@@ -46,11 +46,11 @@ export const databaseSlice = createSlice({
 /************   USECASES FUNCTIONS FOR DATABASE  ************/
 
 export const fetchAllDatabase = createAsyncThunk(
-  "todos/myTodos",
+  "database/fetchAllDatabase",
   async (_, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
       const response = await Api.database.getAllDatabase();
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Erreur lors du fetch database : ", error);
       return rejectWithValue("Couldn't get database");
@@ -70,6 +70,16 @@ export const selectDatabaseSelected = createSelector(
 export const selectDatabases = createSelector(
   selectDatabase,
   (database) => database.databases
+);
+
+export const selectLoading = createSelector(
+  selectDatabase,
+  (database) => database.loading
+);
+
+export const selectError = createSelector(
+  selectDatabase,
+  (database) => database.error
 );
 
 export default databaseSlice.reducer;
