@@ -46,7 +46,8 @@ export const fetchCollectionByDatabase = createAsyncThunk(
   async (database: string, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
       const response = await Api.collection.getCollectionsByDatabase(database);
-      return response.data;
+      console.log("response.data", response);
+      return response;
     } catch (error) {
       console.error("Erreur lors du fetch collection : ", error);
       return rejectWithValue("Couldn't get collection");
@@ -66,6 +67,11 @@ export const selectCollectionSelected = createSelector(
 export const selectCollectionByDatabase = createSelector(
   selectCollection,
   (collection) => collection.collections
+);
+
+export const selectLoadingCollection = createSelector(
+  selectCollection,
+  (collection) => collection.loading
 );
 
 export default collectionSlice.reducer;

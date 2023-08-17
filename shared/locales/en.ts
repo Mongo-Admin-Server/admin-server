@@ -25,6 +25,10 @@ export default {
     deleteError: 'Error deleting database',
     createSuccess: 'Database created successfully',
     createError: 'Error creating database',
+    name: 'Database',
+    storage: 'Storage',
+    collection: 'Collections',
+    indexes: 'Indexes',
   },
   modal: {
     language: {
@@ -37,6 +41,16 @@ export default {
       cancel: 'Cancel',
       confirm: 'Confirm',
     },
+  },
+  collection: {
+    title: 'Collections',
+    collectionName: 'Collection Name',
+    count: 'Document',
+    avgDocumentSize: 'Avg. Document Size',
+    totalDocumentSize: 'Total Document Size',
+    indexes: 'Num. Indexes',
+    totalIndexSize: 'Total Index Size',
+    deleteConfirm: 'Are you sure you want to delete this collection?',
   },
   language: {
     en: '🇬🇧 English',

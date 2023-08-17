@@ -43,6 +43,11 @@ label {
   font-weight: bold;
 }
 
+a {
+  cursor: pointer;
+  color: currentColor;
+}
+
 path {
   fill: currentColor;
 }
