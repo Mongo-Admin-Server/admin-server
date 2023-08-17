@@ -4,38 +4,25 @@ const client = new Instance().connection();
 
 export class Documents {
     
-    public async getAllDocuments(): Promise<{ [collectionName: string]: {collectionName: string, result: WithId<Document>[], count: number, avgSize: number, totalSize: number } }>{
-        const collections = await client.db('marketplace').listCollections().toArray()
-        const collectionNames = collections.map((n) => n.name);
 
-        const allResults: { [collectionName: string]: {collectionName: string, result: WithId<Document>[], count: number, avgSize: number, totalSize: number } } = {};
-        try {
-            for(const collection of collectionNames) {
-                const documents = await this.getAllDocumentsByCollection(collection);
-                const count = await this.countDocumentsByCollection(collection);
-                const avgSize = await this.averageSizeDocumentsByCollection(collection);
-                const totalSize = await this.totalSizeDocumentsByCollection(collection);
-                allResults[collection] = {collectionName: collection, result: documents, count, avgSize, totalSize };
-            }        
-            return allResults;
-        } catch(error) {
-            throw new Error(`Error fetching all documents of all collection`);
-        }
-    }
+    public async getAllDocumentsByCollection(databaseName: string | string[], collectionName: string | string[]): Promise<WithId<Document>[]>{
+        if(Array.isArray(databaseName)){
+            throw new Error();
+        }else{
+            const collections = Array.isArray(collectionName) ? collectionName : [collectionName];
+            const findAllPromises = collections.map(async (n) => {
+                return client.db(databaseName).collection(n).find().toArray();
+            });
 
-    public async getAllDocumentsByCollection(name: string | string[]): Promise<WithId<Document>[]>{
-        
-        const collections = Array.isArray(name) ? name : [name];
-        const findAllPromises = collections.map(async (n) => {
-            return client.db('marketplace').collection(n).find().toArray();
-        });
-
-        try {
-            const allResults = await Promise.all(findAllPromises);
-            const findAllDocuments = allResults.reduce((accumulator, current) => accumulator.concat(current), []);
-            return findAllDocuments;
-        } catch (error) {
-            throw new Error(`Error fetching documents of collection ${name}: ${error}`);
+            try {
+                const allResults = await Promise.all(findAllPromises);
+                const findAllDocuments = allResults.reduce((accumulator, current) => accumulator.concat(current), []);
+                return findAllDocuments;
+            } catch (error) {
+                throw new Error(`Error fetching documents of collection ${collectionName}: ${error}`);
+            }finally{
+                await client.close();
+            }
         }
     }
 
