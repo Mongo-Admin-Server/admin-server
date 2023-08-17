@@ -24,6 +24,9 @@ export default function RootLayout({
       const newColorScheme = e.matches ? "dark" : "light";
       dispatch(setTheme(newColorScheme));
     });
+
+    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    dispatch(setTheme(colorScheme));
   }, [dispatch]);
   return (
     <html lang={locale}>

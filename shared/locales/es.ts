@@ -36,6 +36,10 @@ export default {
     deleteError: 'Error al eliminar la base de datos',
     createSuccess: 'Base de datos creada con éxito',
     createError: 'Error al crear la base de datos',
+    name: 'Base de datos',
+    storage: 'Almacenamiento',
+    collection: 'Colecciones',
+    indexes: 'Índice',
   },
   language: {
     en: '🇬🇧 Inglés',

@@ -10,6 +10,7 @@
   --color-text-rev-base: #{$lightBase};
   --color-text-rev-accent: #{$lightAccent};
   --color-red: #{$baseRed};
+  --loading-skeleton: #{$loadingLight};
 }
 
 [data-theme='dark'] {
@@ -24,6 +25,7 @@
   --color-text-rev-base: #{$lightBase};
   --color-text-rev-accent: #{$lightAccent};
   --color-red: #{$baseRed};
+  --loading-skeleton: #{$loadingDark};
 }
 
 [data-theme='light'] {
@@ -37,6 +39,9 @@
 
   --color-text-rev-base: #{$darkBase};
   --color-text-rev-accent: #{$darkAccent};
+
+  --color-red: #{$baseRed};
+  --loading-skeleton: #{$loadingLight};
 }
 
 body {

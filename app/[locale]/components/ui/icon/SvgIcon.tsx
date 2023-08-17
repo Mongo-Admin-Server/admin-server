@@ -10,6 +10,9 @@ import Close from '@/shared/icons/close.svg';
 import Flag from '@/shared/icons/flag.svg';
 import Search from '@/shared/icons/search.svg';
 import Moon from '@/shared/icons/moon.svg';
+import Loader from '@/shared/icons/loader.svg';
+import Refresh from '@/shared/icons/refresh.svg';
+import Add from '@/shared/icons/add.svg';
 
 interface IconTypes {
   [key: string]: React.ComponentType<{
@@ -38,6 +41,9 @@ const iconTypes: IconTypes = {
   flag: Flag,
   search: Search,
   moon: Moon,
+  loader: Loader,
+  refresh: Refresh,
+  add: Add,
 };
 
 const SvgIcon = ({ icon_name, className, onClick }: SvgIconProps) => {
