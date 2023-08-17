@@ -1,4 +1,4 @@
-import { DatabaseController } from "@/app/Controller/DatabaseController";
+import { DatabaseController } from "@/api/src/Controller/DatabaseController";
 import { NextApiResponse } from "next";
 
 export default async function handler(req:Request, res: NextApiResponse){

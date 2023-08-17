@@ -1,4 +1,4 @@
-import { DocumentController } from "@/app/Controller/DocumentController";
+import { DocumentController } from "@/api/src/Controller/DocumentController";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse){
