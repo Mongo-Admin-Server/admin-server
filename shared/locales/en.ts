@@ -50,7 +50,7 @@ export default {
     totalDocumentSize: 'Total Document Size',
     indexes: 'Num. Indexes',
     totalIndexSize: 'Total Index Size',
-    loading: 'Loading data...'
+    deleteConfirm: 'Are you sure you want to delete this collection?',
   },
   language: {
     en: '🇬🇧 English',

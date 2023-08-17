@@ -49,7 +49,7 @@ export default {
     totalDocumentSize: 'Tamaño total del documento',
     indexes: 'Número índices',
     totalIndexSize: 'Tamaño total del índice',
-    loading: 'Cargando datos...'
+    deleteConfirm: '¿Estás seguro de que quieres eliminar esta colección?',
   },
   language: {
     en: '🇬🇧 Inglés',
