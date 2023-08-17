@@ -1,11 +1,11 @@
 import { Instance } from "./Instance";
 import { type WithId, type Document, ObjectId } from 'mongodb';
-const client = new Instance().connection();
 
 export class Documents {
     
 
     public async getAllDocumentsByCollection(databaseName: string | string[], collectionName: string | string[]): Promise<WithId<Document>[]>{
+        const client = await new Instance().connection();
         if(Array.isArray(databaseName)){
             throw new Error();
         }else{
@@ -20,14 +20,12 @@ export class Documents {
                 return findAllDocuments;
             } catch (error) {
                 throw new Error(`Error fetching documents of collection ${collectionName}: ${error}`);
-            }finally{
-                await client.close();
             }
         }
     }
 
    public async countDocumentsByCollection(name: string | string[]): Promise<number> {
-        
+        const client = await new Instance().connection();
         try {
             let collections = Array.isArray(name) ? name : [name];
             let countDocuments = 0;
@@ -44,7 +42,7 @@ export class Documents {
     }
 
     public async averageSizeDocumentsByCollection(name: string | string[]): Promise<number> {
-
+        const client = await new Instance().connection();
         try {
             let collections = Array.isArray(name) ? name : [name];
             let totalDocuments = 0;
@@ -70,7 +68,7 @@ export class Documents {
     }
     
     public async totalSizeDocumentsByCollection(name: string | string[]): Promise<number> {
-
+        const client = await new Instance().connection();
         try {
             let collections = Array.isArray(name) ? name : [name];
             let totalDocuments = 0;

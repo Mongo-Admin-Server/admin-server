@@ -7,7 +7,7 @@ export class Database{
     
     public async listDatabase() {
         try{
-            const client  = new Instance().connection();
+            const client  = await new Instance().connection();
             const listDatabase = await client.db().admin().listDatabases(); //todo add authoreddatabase to true
             const rows: IDatabaseRO[] = []
             for(const database of listDatabase.databases){

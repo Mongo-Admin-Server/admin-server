@@ -50,7 +50,7 @@ export class Collection {
     //     return result;
     // }
 
-    public async getOneCollectionDocumentsCount(name: string): Promise<any> {
+    public async getOneCollectionDocumentsCount(name: string): Promise<ICollectionInfo[]> {
         const instance = await new Instance().connection();
         const db = instance.db(name);
         const collectionsList = await db.listCollections().toArray()

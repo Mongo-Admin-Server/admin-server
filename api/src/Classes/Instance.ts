@@ -3,13 +3,15 @@ import { MongoClient } from "mongodb";
 
 export class Instance{
     
-    public connection() : MongoClient{
-        try{ //todo delete try catch
-            let uri = process.env.MONGODB_URI || '';
-            const client = new MongoClient(uri);
-            return client;
+    public async connection() : Promise<MongoClient>{
+        const uri = process.env.MONGODB_URI || '';
+        const client = new MongoClient(uri);
+        try{
+            return await client.connect();
         }catch(error){
             throw(error);
+        }finally{
+            await client.close()
         }
     }
 }
