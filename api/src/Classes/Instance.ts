@@ -10,8 +10,6 @@ export class Instance{
             return await client.connect();
         }catch(error){
             throw(error);
-        }finally{
-            await client.close()
         }
     }
 }

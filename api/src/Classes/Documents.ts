@@ -1,3 +1,4 @@
+import { ApiError } from "./Errors/ApiError";
 import { Instance } from "./Instance";
 import { type WithId, type Document, ObjectId } from 'mongodb';
 
@@ -7,7 +8,7 @@ export class Documents {
     public async getAllDocumentsByCollection(databaseName: string | string[], collectionName: string | string[]): Promise<WithId<Document>[]>{
         const client = await new Instance().connection();
         if(Array.isArray(databaseName)){
-            throw new Error();
+            throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         }else{
             const collections = Array.isArray(collectionName) ? collectionName : [collectionName];
             const findAllPromises = collections.map(async (n) => {
@@ -20,6 +21,8 @@ export class Documents {
                 return findAllDocuments;
             } catch (error) {
                 throw new Error(`Error fetching documents of collection ${collectionName}: ${error}`);
+            }finally{
+               await client.close();
             }
         }
     }
@@ -38,6 +41,8 @@ export class Documents {
             return countDocuments;
         } catch (error) {
             throw new Error("Error counting documents : "+ error);
+        }finally{
+            await client.close();
         }
     }
 
@@ -63,6 +68,8 @@ export class Documents {
             return avgSize;
         } catch (error) {
             throw new Error("Error calculating average size of documents : "+ error);
+        }finally{
+            await client.close();
         }
         
     }
@@ -88,6 +95,8 @@ export class Documents {
             return totalCount;
         } catch (error) {
             throw new Error("Error calculating total size of documents : "+ error);
+        }finally{
+            await client.close();
         }
     }
 }
