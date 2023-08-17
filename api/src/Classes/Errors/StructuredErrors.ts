@@ -22,6 +22,9 @@ export type StructuredErrors =
   'challenge/not-active' |
   'challenge/already-exist' |
 
+  //Query
+  'query/not-found' |
+
   // Default
   'internal/unknown'
   ;
