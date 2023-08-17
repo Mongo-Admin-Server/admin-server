@@ -47,15 +47,20 @@ export default function CollectionsPage({
     const mappedData: Record<string, React.ReactNode> = {};
 
     mappedData[t('collection.collectionName')] = (
-      <Link href={`/dashboard/${params.database_name}/${collection.name}`} onClick={() => dispatch(setCollectionSelected(collection.name))}>
-        {collection.name}
+      <Link
+        href={`/dashboard/${params.database_name}/${collection.collectionName}`}
+        onClick={() =>
+          dispatch(setCollectionSelected(collection.collectionName))
+        }
+      >
+        {collection.collectionName}
       </Link>
     );
     mappedData[t('collection.count')] = collection.count;
     mappedData[t('collection.avgDocumentSize')] = collection.avgDocumentSize;
     mappedData[t('collection.totalDocumentSize')] =
       collection.totalDocumentSize;
-    mappedData[t('collection.indexes')] = collection.indexes;
+    mappedData[t('collection.indexes')] = collection.indexes[0].key;
     mappedData[t('collection.totalIndexSize')] = collection.totalIndexSize;
 
     return mappedData;

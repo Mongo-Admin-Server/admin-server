@@ -1,10 +1,11 @@
 export type CollectionType = {
-  name: string;
+  collectionName: string;
   count: number;
   avgDocumentSize: number;
   totalDocumentSize: number;
-  indexes: string[];
+  indexes: any[];
   totalIndexSize: number;
+  storageSize: number;
 }
 
 export type CollectionState = {
