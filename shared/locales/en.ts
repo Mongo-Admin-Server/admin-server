@@ -25,6 +25,10 @@ export default {
     deleteError: 'Error deleting database',
     createSuccess: 'Database created successfully',
     createError: 'Error creating database',
+    name: 'Database',
+    storage: 'Storage',
+    collection: 'Collections',
+    indexes: 'Indexes',
   },
   modal: {
     language: {
