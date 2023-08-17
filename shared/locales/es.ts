@@ -41,6 +41,16 @@ export default {
     collection: 'Colecciones',
     indexes: 'Índice',
   },
+  collection: {
+    title: 'Colecciones',
+    collectionName: 'Nombre de la colección',
+    count: 'Documento',
+    avgDocumentSize: 'Tamaño medio del documento',
+    totalDocumentSize: 'Tamaño total del documento',
+    indexes: 'Número índices',
+    totalIndexSize: 'Tamaño total del índice',
+    deleteConfirm: '¿Estás seguro de que quieres eliminar esta colección?',
+  },
   language: {
     en: '🇬🇧 Inglés',
     fr: '🇫🇷 Francés',

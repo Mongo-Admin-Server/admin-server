@@ -42,6 +42,16 @@ export default {
       confirm: 'Confirm',
     },
   },
+  collection: {
+    title: 'Collections',
+    collectionName: 'Collection Name',
+    count: 'Document',
+    avgDocumentSize: 'Avg. Document Size',
+    totalDocumentSize: 'Total Document Size',
+    indexes: 'Num. Indexes',
+    totalIndexSize: 'Total Index Size',
+    deleteConfirm: 'Are you sure you want to delete this collection?',
+  },
   language: {
     en: '🇬🇧 English',
     fr: '🇫🇷 French',
