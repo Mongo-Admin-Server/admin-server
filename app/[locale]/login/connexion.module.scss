@@ -1,0 +1,12 @@
+.main {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  min-height: 100vh;
+}
+.left {
+  flex: 1.5;
+}
+.right {
+  flex: 2;
+}

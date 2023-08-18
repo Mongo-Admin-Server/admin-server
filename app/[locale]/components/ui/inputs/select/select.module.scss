@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 4px;
+  width: auto;
+  position: relative;
+
+  .select {
+    padding: 14px 32px 14px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-text-contrast);
+    background-color: var(--color-text-base);
+    color: var(--color-background-base);
+    font-size: 12px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    transition: all 0.2s ease-in-out;
+    background: transparent;
+
+    &:focus {
+      outline: none;
+      border: 1px solid var(--color-background-base);
+    }
+
+    &:hover {
+      border: 1px solid var(--color-background-base);
+    }
+  }
+
+  .selectError {
+    border: 1px solid var(--color-red);
+  }
+
+  .error {
+    color: var(--color-red);
+    font-size: 10px;
+  }
+
+  .iconContainer {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+  }
+}

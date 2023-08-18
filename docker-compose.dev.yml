@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    container_name: admin_server
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb+srv://marketplace:HtQNb0a6OqP9APiK@cluster-marketplace.shyjtqn.mongodb.net/?retryWrites=true&w=majority
+    volumes:
+      # Nous allons préciser le dossier local
+      - .:/server:cached
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
