@@ -1,4 +1,4 @@
-import { CollectionController } from "@/app/Controller/CollectionController";
+import { CollectionController } from "@/api/src/Controller/CollectionController";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

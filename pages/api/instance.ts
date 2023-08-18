@@ -1,4 +1,4 @@
-import { InstanceController } from "@/app/Controller/InstanceController";
+import { InstanceController } from "@/api/src/Controller/InstanceController";
 import { NextApiResponse } from "next";
 
 export default function handler(req:Request, res: NextApiResponse){

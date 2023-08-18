@@ -46,7 +46,6 @@ export const fetchCollectionByDatabase = createAsyncThunk(
   async (database: string, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
       const response = await Api.collection.getCollectionsByDatabase(database);
-      console.log("response.data", response);
       return response;
     } catch (error) {
       console.error("Erreur lors du fetch collection : ", error);

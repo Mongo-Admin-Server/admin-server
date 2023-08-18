@@ -1,4 +1,4 @@
-import { DocumentController } from "@/app/Controller/DocumentController";
+import { DocumentController } from "@/api/src/Controller/DocumentController";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse){
@@ -7,8 +7,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse){
         case 'GET':
             // eslint-disable-next-line no-case-declarations
             const documents = new DocumentController();
-            if(req.query.name) {
-                documents.getAllDocumentsByCollection(res, req.query.name);
+            if(req.query.name && req.query.databaseName) {
+                documents.getAllDocumentsByCollection(res, req.query.databaseName, req.query.name);
             }
             
             break;

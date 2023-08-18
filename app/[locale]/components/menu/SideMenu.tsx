@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useI18n } from '@/shared/locales/clients';
 
 import styles from './menu.module.scss';
@@ -39,7 +39,7 @@ const SideMenu = () => {
 
   const collectionSelected = useSelector(selectCollectionSelected);
   const collections = useSelector(selectCollectionByDatabase).map(
-    (collection: any) => collection.name
+    (collection) => collection.collectionName
   );
 
   const theme = useSelector(selectTheme);

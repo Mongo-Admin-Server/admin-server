@@ -6,8 +6,8 @@ import { IDatabaseRO } from "../types/IDatabase";
 export class Database{
     
     public async listDatabase() {
+        const client  = await new Instance().connection();
         try{
-            const client  = new Instance().connection();
             const listDatabase = await client.db().admin().listDatabases(); //todo add authoreddatabase to true
             const rows: IDatabaseRO[] = []
             for(const database of listDatabase.databases){
@@ -25,8 +25,9 @@ export class Database{
                 rows: rows,
             })
         }catch(error){
-            console.log("Error listing databases:", error);
             throw error;
+        }finally{
+            await client.close();
         }
         
     }
