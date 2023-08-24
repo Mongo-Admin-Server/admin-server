@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useI18n } from '@/shared/locales/clients';
 
 import styles from './menu.module.scss';
@@ -27,7 +28,7 @@ import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
 const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useI18n();
-
+  const router = useRouter();
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
@@ -111,7 +112,7 @@ const SideMenu = () => {
             padding="0 20px"
             transparent
             variant='danger'
-            onClick={() => console.log('Click logout')}
+            onClick={() => router.push(`/login`)}
           >
             {t('menuSideBar.logout')}
           </GenericButton>
