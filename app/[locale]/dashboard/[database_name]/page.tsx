@@ -26,6 +26,7 @@ export default function CollectionsPage({
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setCollectionSelected(''));
     dispatch(fetchCollectionByDatabase(params.database_name));
   }, [params.database_name, dispatch]);
 

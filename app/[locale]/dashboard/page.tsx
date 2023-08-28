@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useI18n } from '@/shared/locales/clients';
 import Link from 'next/link';
 
@@ -11,10 +11,16 @@ import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 
 import { useSelector, useDispatch } from '@/store/store';
 import { selectDatabases, fetchAllDatabase, selectLoading, setDatabaseSelected } from '@/domain/usecases/database-slice';
+import { setCollectionSelected } from '@/domain/usecases/collection-slice';
 
 export default function DashboardPage() {
   const t = useI18n();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setDatabaseSelected(''));
+    dispatch(setCollectionSelected(''));
+  }, [dispatch]);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
