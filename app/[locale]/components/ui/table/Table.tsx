@@ -48,7 +48,7 @@ const Table = ({
                   data_header.map((column, index_data) => (
                     <td key={index_data}>{row[column]}</td>
                   ))}
-                <td>
+                <td className={styles.actions}>
                   {actions &&
                     actions.map((action, index_action) => (
                       <SvgIcon

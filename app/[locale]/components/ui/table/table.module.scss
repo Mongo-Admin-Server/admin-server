@@ -43,6 +43,13 @@
         color: var(--color-background-accent);
         font-weight: 500;
       }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+      }
     }
   }
 }
