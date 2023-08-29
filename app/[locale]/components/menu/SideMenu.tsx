@@ -29,7 +29,6 @@ const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useI18n();
   const router = useRouter();
-
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
@@ -124,7 +123,7 @@ const SideMenu = () => {
             padding="0 20px"
             transparent
             variant='danger'
-            onClick={() => console.log('Click logout')}
+            onClick={() => router.push(`/login`)}
           >
             {t('menuSideBar.logout')}
           </GenericButton>
