@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useI18n } from '@/shared/locales/clients';
+import { useRouter } from 'next/navigation';
 
 import styles from './menu.module.scss';
 
@@ -49,6 +49,17 @@ const SideMenu = () => {
     theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'));
   };
 
+  const handleDatabaseChange = (database: string) => {
+    dispatch(setDatabaseSelected(database));
+    dispatch(setCollectionSelected(''));
+    router.push(`/dashboard/${database}`);
+  };
+
+  const handleCollectionChange = (collection: string) => {
+    dispatch(setCollectionSelected(collection));
+    router.push(`/dashboard/${databaseSelected}/${collection}`);
+  };
+
   return (
     <>
       <aside className={styles.aside}>
@@ -59,7 +70,7 @@ const SideMenu = () => {
             label={t('menuSideBar.database')}
             value={databaseSelected}
             options={databases}
-            onChange={(e) => dispatch(setDatabaseSelected(e.target.value))}
+            onChange={(e) => handleDatabaseChange(e.target.value)}
           />
 
           {databaseSelected && (
@@ -70,7 +81,7 @@ const SideMenu = () => {
                   collections={collections}
                   collectionSelected={collectionSelected}
                   onClick={(collection) =>
-                    dispatch(setCollectionSelected(collection))
+                    handleCollectionChange(collection)
                   }
                 />
               </div>
