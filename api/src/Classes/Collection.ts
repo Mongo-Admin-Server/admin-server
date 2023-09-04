@@ -90,7 +90,6 @@ export class Collection {
         const instance = await new Instance().connection();
         const db = instance.db(name);
         await db.createCollection(collectionName);
-        console.log('Nouvelle collection crée avec succès.');
         await instance.close();
         return collectionName;
     }
@@ -99,7 +98,6 @@ export class Collection {
         const instance = await new Instance().connection();
         const db = instance.db(name);
         await db.dropCollection(collectionName);
-        console.log('Collection supprimée avec succès.');
         await instance.close();
         return collectionName;
     }

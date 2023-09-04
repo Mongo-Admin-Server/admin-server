@@ -16,7 +16,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             case 'POST':
                 try {
                     const collectionController = new CollectionController();
-                    if(typeof req.query.name === "string" &&typeof req.query.collectionName === "string" ) {
+                    if(typeof req.query.name === "string" && typeof req.query.collectionName === "string" ) {
                         collectionController.addOneCollection(res, req.query.name, req.query.collectionName);
                     }
                 } catch (error) {
@@ -26,7 +26,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             case 'DELETE':
                 try {
                     const collectionController = new CollectionController();
-                    if(typeof req.query.name === "string" &&typeof req.query.collectionName === "string" ) {
+                    if(typeof req.query.name === "string" && typeof req.query.collectionName === "string" ) {
                         collectionController.deleteOneCollection(res, req.query.name, req.query.collectionName);
                     }
                 } catch (error) {
