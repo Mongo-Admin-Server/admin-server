@@ -86,4 +86,22 @@ export class Collection {
         return collectionInfo;
     }
 
+    public async addNewCollection(name: string, collectionName: string): Promise<string> {
+        const instance = await new Instance().connection();
+        const db = instance.db(name);
+        await db.createCollection(collectionName);
+        console.log('Nouvelle collection crée avec succès.');
+        await instance.close();
+        return collectionName;
+    }
+
+    public async deleteCollection(name: string, collectionName: string): Promise<string> {
+        const instance = await new Instance().connection();
+        const db = instance.db(name);
+        await db.dropCollection(collectionName);
+        console.log('Collection supprimée avec succès.');
+        await instance.close();
+        return collectionName;
+    }
+
 }
