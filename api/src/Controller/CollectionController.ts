@@ -28,4 +28,31 @@ export class CollectionController {
             }
         }
     }
+
+    public async addOneCollection(response: NextApiResponse, name: string, collectionName: string): Promise<any>{
+        const collection = await new Collection().addNewCollection(name, collectionName);
+        if (!collection) {
+            response.status(404).json('error');
+        } else {
+            try {
+                response.status(200).json(collection);
+            } catch (error) {
+                response.status(500).json('error');
+            }
+        }
+    }
+
+    public async deleteOneCollection(response: NextApiResponse, name: string, collectionName: string): Promise<any>{
+        const collection = await new Collection().deleteCollection(name, collectionName);
+        if (!collection) {
+            response.status(404).json('error');
+        } else {
+            try {
+                response.status(200).json(collection);
+            } catch (error) {
+                response.status(500).json('error');
+            }
+        }
+    }
+
 }
