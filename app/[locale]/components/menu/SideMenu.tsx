@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useI18n } from '@/shared/locales/clients';
+import { useRouter } from 'next/navigation';
 
 import styles from './menu.module.scss';
 
@@ -27,7 +28,7 @@ import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
 const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useI18n();
-
+  const router = useRouter();
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
@@ -48,6 +49,17 @@ const SideMenu = () => {
     theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'));
   };
 
+  const handleDatabaseChange = (database: string) => {
+    dispatch(setDatabaseSelected(database));
+    dispatch(setCollectionSelected(''));
+    router.push(`/dashboard/${database}`);
+  };
+
+  const handleCollectionChange = (collection: string) => {
+    dispatch(setCollectionSelected(collection));
+    router.push(`/dashboard/${databaseSelected}/${collection}`);
+  };
+
   return (
     <>
       <aside className={styles.aside}>
@@ -58,7 +70,7 @@ const SideMenu = () => {
             label={t('menuSideBar.database')}
             value={databaseSelected}
             options={databases}
-            onChange={(e) => dispatch(setDatabaseSelected(e.target.value))}
+            onChange={(e) => handleDatabaseChange(e.target.value)}
           />
 
           {databaseSelected && (
@@ -69,7 +81,7 @@ const SideMenu = () => {
                   collections={collections}
                   collectionSelected={collectionSelected}
                   onClick={(collection) =>
-                    dispatch(setCollectionSelected(collection))
+                    handleCollectionChange(collection)
                   }
                 />
               </div>
@@ -111,7 +123,7 @@ const SideMenu = () => {
             padding="0 20px"
             transparent
             variant='danger'
-            onClick={() => console.log('Click logout')}
+            onClick={() => router.push(`/login`)}
           >
             {t('menuSideBar.logout')}
           </GenericButton>

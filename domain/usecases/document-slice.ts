@@ -38,8 +38,8 @@ export const fetchAllDocumentByCollection = createAsyncThunk(
   "document/fetchAllDocumentByCollection",
   async (collection: string, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
-      const response = await Api.document.getAllDocumentByCollection(collection);
-      return response.data;
+      // const response = await Api.document.getAllDocumentByCollection(collection);
+      // return response.data;
     } catch (error) {
       console.error("Erreur lors du fetch document : ", error);
       return rejectWithValue("Couldn't get document");
