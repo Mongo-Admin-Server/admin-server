@@ -50,9 +50,9 @@ export class Collection {
     //     return result;
     // }
 
-    public async getOneCollectionDocumentsCount(databaseName: string): Promise<ICollectionInfo[]> {
+    public async getOneCollectionDocumentsCount(name: string): Promise<ICollectionInfo[]> {
         const instance = await new Instance().connection();
-        const db = instance.db(databaseName);
+        const db = instance.db(name);
         const collectionsList = await db.listCollections().toArray()
         let collectionInfo: ICollectionInfo[] = [];
 
@@ -84,35 +84,6 @@ export class Collection {
         }
         await instance.close();
         return collectionInfo;
-    }
-
-    public async addNewCollection(databaseName: string, collectionName: string) {
-        try{   
-            const instance = await new Instance().connection();
-            const db = instance.db(databaseName);
-            await db.createCollection(collectionName);
-            return {
-                status: 'success',
-                detatils:'collection_created'
-            }
-        }catch(error){
-            throw(error);
-        }
-    }
-
-
-    public async deleteCollection(databaseName: string, collectionName: string){
-        try{
-            const instance = await new Instance().connection();
-            const db = instance.db(databaseName);
-            await db.dropCollection(collectionName);
-            return {
-                status: 'success',
-                detatils:'collection_deleted'
-            }
-        }catch(error){
-            throw(error);
-        }
     }
 
 }

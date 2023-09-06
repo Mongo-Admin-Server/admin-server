@@ -52,7 +52,7 @@ export default function LoginForm() {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const value = event.target.value
-    if (value === "fr" || value === "en" || value === "es") {
+    if (value === "fr" || value === "en") {
       setLanguage(value);
       changeLocale(value);
     } else {
