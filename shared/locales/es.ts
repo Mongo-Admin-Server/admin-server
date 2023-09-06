@@ -5,6 +5,13 @@ export default {
     userName: 'Nombre de usuario',
     passWord: 'Contraseña',
   },
+  formCreateDB: {
+    title: 'Crear base de datos',
+    nameDB: 'Nombre de la base de datos',
+    nameFirstCollection: 'Nombre de la colección',
+    error500: 'El nombre de la base de datos no puede contener espacios',
+    error409: 'El nombre de la base de datos ya está en uso'
+  },
   theme: {
     light: 'Claro',
     dark: 'Oscuro',

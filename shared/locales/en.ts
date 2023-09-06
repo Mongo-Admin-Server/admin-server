@@ -6,6 +6,13 @@ export default {
     passWord: 'Password',
     login: 'Sign in',
   },
+  formCreateDB: {
+    title: 'Create database',
+    nameDB: 'Database name',
+    nameFirstCollection: 'Collection name',
+    error500: 'Database name cannot contain spaces',
+    error409: 'Database name is already us'
+  },
   theme: {
     light: 'Light',
     dark: 'Dark',
