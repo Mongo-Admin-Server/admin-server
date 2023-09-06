@@ -22,6 +22,11 @@ export const collectionSlice = createSlice({
   reducers: {
     setCollectionSelected: (state, action: PayloadAction<string>) => {
       state.collectionSelected = action.payload;
+    },
+    deleteCollection: (state, action) => {
+      const collectionNameToDelete = action.payload;
+      state.collections = state.collections.filter(
+        (collection) => collection.collectionName !== collectionNameToDelete)
     }
   },
   extraReducers(builder) {
@@ -54,7 +59,7 @@ export const fetchCollectionByDatabase = createAsyncThunk(
   }
 );
 
-export const { setCollectionSelected } = collectionSlice.actions;
+export const { setCollectionSelected, deleteCollection } = collectionSlice.actions;
 
 const selectCollection = (state: { collection: CollectionState }) => state.collection;
 

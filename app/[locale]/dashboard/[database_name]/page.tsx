@@ -15,6 +15,7 @@ import {
   selectCollectionByDatabase,
   selectLoadingCollection,
   setCollectionSelected,
+  deleteCollection
 } from '@/domain/usecases/collection-slice';
 
 export default function CollectionsPage({
@@ -31,6 +32,7 @@ export default function CollectionsPage({
   }, [params.database_name, dispatch]);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [collectionNameToDelete, setCollectionNameToDelete] = useState('');
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
@@ -68,13 +70,19 @@ export default function CollectionsPage({
   });
 
   const handleClick = (action: string, index?: number) => {
+    let collectionToDelete;
+    if (index !== undefined) {
     switch (action) {
       case 'create':
         console.log('Create');
         break;
       case 'trash':
         // save index in state to delete the right database
+        collectionToDelete = collections[index];
+        if(collectionToDelete) {
+          setCollectionNameToDelete(collectionToDelete.collectionName)
         setOpenDeleteModal(true);
+        }
         break;
       case 'search':
         console.log('Search');
@@ -85,10 +93,18 @@ export default function CollectionsPage({
       default:
         break;
     }
+  }
   };
 
-  const handleDelete = () => {
-    console.log('Delete');
+  const handleDelete = async () => {
+    if(collectionNameToDelete) {
+      try {
+        dispatch(deleteCollection(collectionNameToDelete));
+        setOpenDeleteModal(false)
+      } catch (error) {
+        console.error(" Erreur de suppression: ", error);
+      }
+    }
   };
 
   return (
