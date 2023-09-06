@@ -16,6 +16,7 @@ import {
   selectLoadingCollection,
   setCollectionSelected,
 } from '@/domain/usecases/collection-slice';
+import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
 
 export default function CollectionsPage({
   params,
@@ -31,6 +32,7 @@ export default function CollectionsPage({
   }, [params.database_name, dispatch]);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openCreateModal, setOpenCreateModal] = useState(false);
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
@@ -69,8 +71,8 @@ export default function CollectionsPage({
 
   const handleClick = (action: string, index?: number) => {
     switch (action) {
-      case 'create':
-        console.log('Create');
+      case 'add':
+        setOpenCreateModal(true);
         break;
       case 'trash':
         // save index in state to delete the right database
@@ -115,6 +117,10 @@ export default function CollectionsPage({
         description={t('collection.deleteConfirm')}
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
+      />
+      <FormCreateCollection
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)} 
       />
     </>
   );
