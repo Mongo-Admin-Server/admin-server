@@ -52,9 +52,6 @@ export default {
     totalIndexSize: 'Total Index Size',
     deleteConfirm: 'Are you sure you want to delete this collection?',
   },
-  document: {
-    noDocument: 'No document',
-  },
   language: {
     en: '🇬🇧 English',
     fr: '🇫🇷 French',

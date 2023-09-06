@@ -51,9 +51,6 @@ export default {
     totalIndexSize: 'Tamaño total del índice',
     deleteConfirm: '¿Estás seguro de que quieres eliminar esta colección?',
   },
-  document: {
-    noDocument: 'Ningún documento',
-  },
   language: {
     en: '🇬🇧 Inglés',
     fr: '🇫🇷 Francés',
