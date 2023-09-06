@@ -15,7 +15,7 @@ import {
   selectCollectionByDatabase,
   selectLoadingCollection,
   setCollectionSelected,
-  deleteCollection
+  deleteCollectionByName
 } from '@/domain/usecases/collection-slice';
 
 export default function CollectionsPage({
@@ -72,35 +72,39 @@ export default function CollectionsPage({
   const handleClick = (action: string, index?: number) => {
     let collectionToDelete;
     if (index !== undefined) {
-    switch (action) {
-      case 'create':
-        console.log('Create');
-        break;
-      case 'trash':
-        // save index in state to delete the right database
-        collectionToDelete = collections[index];
-        if(collectionToDelete) {
-          setCollectionNameToDelete(collectionToDelete.collectionName)
-        setOpenDeleteModal(true);
-        }
-        break;
-      case 'search':
-        console.log('Search');
-        break;
-      case 'refresh':
-        dispatch(fetchCollectionByDatabase(params.database_name));
-        break;
-      default:
-        break;
+      switch (action) {
+        case 'create':
+          console.log('Create');
+          break;
+        case 'trash':
+          collectionToDelete = collections[index];
+          if(collectionToDelete) {
+            setCollectionNameToDelete(collectionToDelete.collectionName)
+          setOpenDeleteModal(true);
+          }
+          break;
+        case 'search':
+          console.log('Search');
+          break;
+        case 'refresh':
+          dispatch(fetchCollectionByDatabase(params.database_name));
+          break;
+        default:
+          break;
+      }
     }
-  }
   };
 
   const handleDelete = async () => {
     if(collectionNameToDelete) {
       try {
-        dispatch(deleteCollection(collectionNameToDelete));
-        setOpenDeleteModal(false)
+         await dispatch(deleteCollectionByName({
+          databaseName: params.database_name,
+          collectionName: collectionNameToDelete
+         }));
+            dispatch(fetchCollectionByDatabase(params.database_name));
+            setOpenDeleteModal(false);
+        
       } catch (error) {
         console.error(" Erreur de suppression: ", error);
       }

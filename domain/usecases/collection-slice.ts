@@ -23,11 +23,6 @@ export const collectionSlice = createSlice({
     setCollectionSelected: (state, action: PayloadAction<string>) => {
       state.collectionSelected = action.payload;
     },
-    deleteCollection: (state, action) => {
-      const collectionNameToDelete = action.payload;
-      state.collections = state.collections.filter(
-        (collection) => collection.collectionName !== collectionNameToDelete)
-    }
   },
   extraReducers(builder) {
     builder.addCase(fetchCollectionByDatabase.pending, (state) => {
@@ -42,6 +37,10 @@ export const collectionSlice = createSlice({
       state.loading = false;
       state.error = "";
     });
+    builder.addCase(deleteCollectionByName.fulfilled, (state, action) => {
+      state.loading = false;
+    console.log('Suppression réussie:', action.payload);
+    })
   },
 });
 
@@ -58,8 +57,21 @@ export const fetchCollectionByDatabase = createAsyncThunk(
     }
   }
 );
+export const deleteCollectionByName = createAsyncThunk(
+  "collection/deleteCollectionByName",
+  async (params: {databaseName: string; collectionName: string}) =>{
+    try {
+     const response = await Api.collection.deleteCollectionByName(params.databaseName, params.collectionName);
+        return response;
+    }catch(error) {
+      console.error('Erreur lors de la suppression', error);
+      throw error;
+    }
+    
+  }
+);
 
-export const { setCollectionSelected, deleteCollection } = collectionSlice.actions;
+export const { setCollectionSelected } = collectionSlice.actions;
 
 const selectCollection = (state: { collection: CollectionState }) => state.collection;
 
