@@ -40,7 +40,15 @@ export const collectionSlice = createSlice({
     builder.addCase(deleteCollectionByName.fulfilled, (state, action) => {
       state.loading = false;
     console.log('Suppression réussie:', action.payload);
-    })
+    });
+    builder.addCase(deleteCollectionByName.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(deleteCollectionByName.rejected, (state) => {
+      state.loading = false;
+    state.error = "";
+    });
   },
 });
 

@@ -71,17 +71,15 @@ export default function CollectionsPage({
 
   const handleClick = (action: string, index?: number) => {
     let collectionToDelete;
-    if (index !== undefined) {
       switch (action) {
         case 'create':
           console.log('Create');
           break;
         case 'trash':
-          collectionToDelete = collections[index];
-          if(collectionToDelete) {
-            setCollectionNameToDelete(collectionToDelete.collectionName)
+          collectionToDelete = collections[index!];
+          setCollectionNameToDelete(collectionToDelete.collectionName)
           setOpenDeleteModal(true);
-          }
+          
           break;
         case 'search':
           console.log('Search');
@@ -92,24 +90,21 @@ export default function CollectionsPage({
         default:
           break;
       }
-    }
+    
   };
 
-  const handleDelete = async () => {
+  const handleDelete = ()=> {
     if(collectionNameToDelete) {
-      try {
-         await dispatch(deleteCollectionByName({
-          databaseName: params.database_name,
-          collectionName: collectionNameToDelete
-         }));
-            dispatch(fetchCollectionByDatabase(params.database_name));
-            setOpenDeleteModal(false);
-        
-      } catch (error) {
-        console.error(" Erreur de suppression: ", error);
-      }
+      dispatch(deleteCollectionByName({
+        databaseName: params.database_name, 
+        collectionName: collectionNameToDelete
+      }))
+      .then(() => {
+        dispatch(fetchCollectionByDatabase(params.database_name))
+        setOpenDeleteModal(false);
+      })
     }
-  };
+  }
 
   return (
     <>
