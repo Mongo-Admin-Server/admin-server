@@ -3,9 +3,11 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
+  Dispatch,
 } from "@reduxjs/toolkit";
 
 import { CollectionState } from "../entities/collection-types";
+import eventEmitter from '@/shared/emitter/events';
 
 import * as Api from "@/infrastructure";
 
@@ -37,17 +39,17 @@ export const collectionSlice = createSlice({
       state.loading = false;
       state.error = "";
     });
-    builder.addCase(deleteCollectionByName.fulfilled, (state, action) => {
+    builder.addCase(deleteCollectionByName.fulfilled, (state) => {
       state.loading = false;
-    console.log('Suppression réussie:', action.payload);
     });
     builder.addCase(deleteCollectionByName.pending, (state) => {
-      state.loading = true;
+      eventEmitter.dispatch('alert', { type: 'success', message: 'Collection supprimée !' });
       state.error = "";
     });
     builder.addCase(deleteCollectionByName.rejected, (state) => {
       state.loading = false;
-    state.error = "";
+      eventEmitter.dispatch('alert', { type: 'error', message: 'Un probleme est survenu lors de la suppresion !' });
+      state.error = "";
     });
   },
 });
@@ -65,19 +67,19 @@ export const fetchCollectionByDatabase = createAsyncThunk(
     }
   }
 );
-export const deleteCollectionByName = createAsyncThunk(
+  export const deleteCollectionByName = createAsyncThunk(
   "collection/deleteCollectionByName",
-  async (params: {databaseName: string; collectionName: string}) =>{
+  async (params: {databaseName: string; collectionName: string}, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
     try {
-     const response = await Api.collection.deleteCollectionByName(params.databaseName, params.collectionName);
-        return response;
+     await Api.collection.deleteCollectionByName(params.databaseName, params.collectionName);
+     dispatch(fetchCollectionByDatabase(params.databaseName));  
     }catch(error) {
       console.error('Erreur lors de la suppression', error);
-      throw error;
+      return rejectWithValue('Couldn\'t delete collection');
     }
     
   }
-);
+); 
 
 export const { setCollectionSelected } = collectionSlice.actions;
 

@@ -79,7 +79,6 @@ export default function CollectionsPage({
           collectionToDelete = collections[index!];
           setCollectionNameToDelete(collectionToDelete.collectionName)
           setOpenDeleteModal(true);
-          
           break;
         case 'search':
           console.log('Search');
@@ -90,19 +89,16 @@ export default function CollectionsPage({
         default:
           break;
       }
-    
   };
-
+  
   const handleDelete = ()=> {
     if(collectionNameToDelete) {
       dispatch(deleteCollectionByName({
         databaseName: params.database_name, 
         collectionName: collectionNameToDelete
-      }))
-      .then(() => {
-        dispatch(fetchCollectionByDatabase(params.database_name))
+      }))   
+        setCollectionNameToDelete('');
         setOpenDeleteModal(false);
-      })
     }
   }
 
@@ -124,7 +120,7 @@ export default function CollectionsPage({
           onClick={(action, index) => handleClick(action, index)}
         />
       )}
-
+    
       <ConfirmModal
         open={openDeleteModal}
         description={t('collection.deleteConfirm')}
