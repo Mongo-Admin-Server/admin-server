@@ -10,6 +10,7 @@
   --color-text-rev-base: #{$lightBase};
   --color-text-rev-accent: #{$lightAccent};
   --color-red: #{$baseRed};
+  --color-green: #{$baseGreen};
   --loading-skeleton: #{$loadingLight};
 }
 
@@ -25,6 +26,7 @@
   --color-text-rev-base: #{$lightBase};
   --color-text-rev-accent: #{$lightAccent};
   --color-red: #{$baseRed};
+  --color-green: #{$baseGreen};
   --loading-skeleton: #{$loadingDark};
 }
 
@@ -41,6 +43,7 @@
   --color-text-rev-accent: #{$darkAccent};
 
   --color-red: #{$baseRed};
+  --color-green: #{$baseGreen};
   --loading-skeleton: #{$loadingLight};
 }
 

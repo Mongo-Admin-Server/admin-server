@@ -8,6 +8,8 @@ import fr from '@/shared/locales/fr';
 import { useDispatch } from '@/store/store';
 import { setTheme } from '@/domain/usecases/setting-slice';
 
+import Toast from '@components/ui/toast/Toast';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
@@ -33,6 +35,7 @@ export default function RootLayout({
       <body className={inter.className} cz-shortcut-listen="true">
         <I18nProviderClient locale={locale} fallback={<p> Loading...</p>} fallbackLocale={fr}>
           {children}
+        <Toast />
         </I18nProviderClient>
       </body>
     </html>
