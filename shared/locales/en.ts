@@ -54,6 +54,9 @@ export default {
   },
   document: {
     noDocument: 'No document',
+    deleteConfirm: 'Are you sure you want to delete this document?',
+    deleteSuccess: 'Document deleted successfully',
+    deleteError: 'Error deleting document',
   },
   language: {
     en: '🇬🇧 English',

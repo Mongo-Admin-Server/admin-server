@@ -5,6 +5,11 @@ class Document {
     const response = await axios.get(`/document/${database}/${collection}`);
     return response.data.result;
   }
+
+  public async deleteDocument(database: string, collection: string, id: string) {
+    const response = await axios.delete(`/document/${database}/${collection}/${id}`);
+    return response;
+  }
 }
 
 export const document = new Document()

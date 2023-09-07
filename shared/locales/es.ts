@@ -53,6 +53,9 @@ export default {
   },
   document: {
     noDocument: 'Ningún documento',
+    deleteConfirm: '¿Estás seguro de que quieres eliminar este documento?',
+    deleteSuccess: 'Documento eliminado con éxito',
+    deleteError: 'Error al eliminar el documento',
   },
   language: {
     en: '🇬🇧 Inglés',
