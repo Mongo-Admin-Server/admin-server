@@ -6,46 +6,46 @@ import styles from './toast.module.scss';
 
 import SvgIcon from '@components/ui/icon/SvgIcon';
 
-import eventEmitter from "@/shared/emitter/events";
-
 interface ToastProps {
-  type: 'success' | 'error';
+  type: 'success' | 'error' | 'warning' | 'info';
   message: string;
+  onClose: () => void;
 }
 
-const Toast = () => {
-  const [visible, setVisible] = useState(false);
-  const [status, setStatus] = useState<ToastProps['type'] | null>(null);
-  const [message, setMessage] = useState<ToastProps['message']>('');
-
+const Toast = ({ type, message, onClose }: ToastProps) => {
+  const [visible, setVisible] = useState<boolean>(false);
+  
   useEffect(() => {
-    eventEmitter.subscribe('alert', (event: ToastProps) => {
-      setStatus(event.type);
-      setMessage(event.message);
-      setVisible(true);
-      
-      setTimeout(() => {
-        setVisible(false);
-      }, 5000);
-    });
-  }, [visible]);
+    setVisible(true);
+    setTimeout(() => {
+      setVisible(false);
+      onClose();
+    }, 5000);
+  }, [onClose]);
+
+  const handleClose = () => {
+    setVisible(false);
+    onClose();
+  };
 
   const toastClasses = useMemo(() => {
     const _arr = [styles['toast']];
     if (visible) _arr.push(styles['toast--open']);
-    if (status) _arr.push(styles[`toast--${status}`]);
+    if (type) _arr.push(styles[`toast--${type}`]);
 
     return _arr.join(' ');
-  }, [visible, status]);
+  }, [type, visible]);
 
   const iconMap = useMemo(() => {
     return {
       success: <SvgIcon className={styles['toast--success--icon']} icon_name="success" />,
       error: <SvgIcon className={styles['toast--error--icon']} icon_name="error" />,
+      warning: <SvgIcon className={styles['toast--warning--icon']} icon_name="warning" />,
+      info: <SvgIcon className={styles['toast--info--icon']} icon_name="info" />,
     };
   }, []);
 
-  const toastIcon = status ? iconMap[status] : null;
+  const toastIcon = type ? iconMap[type] : null;
 
   return (
     <div className={toastClasses} role="alert">
@@ -53,7 +53,7 @@ const Toast = () => {
         {toastIcon}
         <h3>{message}</h3>
       </div>
-      <SvgIcon className={styles['toast--close']} icon_name="close" onClick={() => setVisible(false)} />
+      <SvgIcon className={styles['toast--close']} icon_name="close" onClick={handleClose} />
     </div>
   );
 }
