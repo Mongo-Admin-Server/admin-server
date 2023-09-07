@@ -1,0 +1,85 @@
+.toast {
+  box-shadow: hsl(25 10% 10% / 10%) 0px 1px 3px 0px,
+    hsl(25 10% 10% / 5%) 0px 1px 2px 0px;
+  border-radius: 0.5em;
+  color: $lightBase;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+  max-width: 350px;
+  width: 100%;
+  transform: translateX(calc(100% + 2rem));
+
+  &--open {
+    opacity: 0.99;
+    transform: translateX(0);
+  }
+
+  &--success {
+    background-color: var(--color-green);
+
+    &--icon {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &--error {
+    background-color: var(--color-red);
+
+    &--icon {
+      width: 30px;
+      height: 30px;
+  
+      path:first-child {
+        fill: transparent;
+      }
+    }
+  }
+
+  &--warning {
+    background-color: var(--color-orange);
+
+    &--icon {
+      width: 30px;
+      height: 30px;
+
+      path:first-child {
+        fill: transparent;
+      }
+    }
+  }
+
+  &--info {
+    background-color: var(--color-blue);
+
+    &--icon {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &:hover {
+    opacity: 1;
+    box-shadow: hsl(25 10% 10% / 30%) 0px 1px 3px 0px,
+      hsl(25 10% 10% / 15%) 0px 1px 2px 0px;
+  }
+
+  &--close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  &--message {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    position: relative;
+
+    h3 {
+      margin: 0;
+      font-weight: normal;
+    }
+  }
+}
