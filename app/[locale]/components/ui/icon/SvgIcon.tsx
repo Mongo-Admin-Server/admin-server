@@ -13,6 +13,10 @@ import Moon from '@/shared/icons/moon.svg';
 import Loader from '@/shared/icons/loader.svg';
 import Refresh from '@/shared/icons/refresh.svg';
 import Add from '@/shared/icons/add.svg';
+import Succes from '@/shared/icons/success.svg';
+import Error from '@/shared/icons/error.svg';
+import Info from '@/shared/icons/info.svg';
+import Warning from '@/shared/icons/warning.svg';
 
 interface IconTypes {
   [key: string]: React.ComponentType<{
@@ -44,6 +48,10 @@ const iconTypes: IconTypes = {
   loader: Loader,
   refresh: Refresh,
   add: Add,
+  success: Succes,
+  error: Error,
+  info: Info,
+  warning: Warning,
 };
 
 const SvgIcon = ({ icon_name, className, onClick }: SvgIconProps) => {
