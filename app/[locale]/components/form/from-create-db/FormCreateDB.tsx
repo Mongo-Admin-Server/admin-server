@@ -24,8 +24,7 @@ export default function FormCreateDB({ open, onClose }: CreateDBModalProps) {
   const error = useSelector(selectError);
 
   useEffect(() => {
-    if (open) dispatch(setError(''));
-
+    dispatch(setError(''));
     setDatabaseName('');
     setCollectionName('');
   }, [open, dispatch]);
