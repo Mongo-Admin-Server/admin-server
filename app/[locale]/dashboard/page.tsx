@@ -80,14 +80,6 @@ export default function DashboardPage() {
     console.log('Delete');
   };
 
-  const handleCreate = () => {
-    console.log('Create');
-  }
-
-  const handleClose = () => {
-    setOpenCreateModal(false);
-  };
-
   return (
     <>
       <Title
@@ -113,10 +105,10 @@ export default function DashboardPage() {
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
       />
+
       <FormCreateDB
         open={openCreateModal}
-        onConfirm={handleCreate}
-        onClose={handleClose}
+        onClose={() => setOpenCreateModal(false)}
       />
     </>
   );

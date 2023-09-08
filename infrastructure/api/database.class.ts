@@ -6,17 +6,12 @@ class Database {
     return response.data.rows;
   }
 
-  public async createDB(databaseName: string, collectionName: string) {
-    try {
-      const response = await axios.post("/database", {
-        databaseName,
-        collectionName,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Erreur lors de la création de la base de données : ", error);
-      return error;
-    }
+  public async postDatabase(databaseName: string, collectionName: string) {
+    const response = await axios.post('/database', {
+      databaseName,
+      collectionName
+    });
+    return response.data;
   }
 }
 

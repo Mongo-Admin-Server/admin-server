@@ -5,14 +5,6 @@ export default {
     userName: "Nom d'utilisateur",
     passWord: 'Mot de passe',
   },
-  formCreateDB: {
-    title: 'Créer une base de données',
-    nameDB: 'Nom de la base de données',
-    nameFirstCollection: 'Nom de la colletion',
-    error500: 'Le nom de la base de données ne peut pas contenir d\'espace',
-    error409: 'Le nom de la base de données est déjà utilisé',
-    buttonCancel: 'Annuler'
-  },
   theme: {
     light: 'Clair',
     dark: 'Sombre',
@@ -34,6 +26,7 @@ export default {
     button: {
       cancel: 'Annuler',
       confirm: 'Confirmer',
+      create: 'Créer',
     },
   },
   database: {
@@ -44,6 +37,7 @@ export default {
     deleteError: 'Erreur lors de la suppression de la base de données',
     createSuccess: 'Base de données créée avec succès',
     createError: 'Erreur lors de la création de la base de données',
+    createTitle: 'Créer une base de données',
     name: 'Base de données',
     storage: 'Stockage',
     collection: 'Collections',

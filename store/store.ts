@@ -17,14 +17,13 @@ import {
   useSelector as useSelectorBase,
 } from 'react-redux';
 
-import { databaseReducer, databaseCreateReducer } from "@/domain/usecases/database-slice";
+import databaseSlice from "@/domain/usecases/database-slice";
 import collectionSlice from "@/domain/usecases/collection-slice";
 import settingSlice from "@/domain/usecases/setting-slice";
 import authSlice from "@/domain/usecases/auth-slice";
 
 export const reducer = combineReducers({
-  database: databaseReducer,
-  dataCreateDB: databaseCreateReducer,
+  database: databaseSlice,
   collection: collectionSlice,
   setting: settingSlice,
   auth: authSlice,

@@ -6,14 +6,6 @@ export default {
     passWord: 'Password',
     login: 'Sign in',
   },
-  formCreateDB: {
-    title: 'Create database',
-    nameDB: 'Database name',
-    nameFirstCollection: 'Collection name',
-    error500: 'Database name cannot contain spaces',
-    error409: 'Database name is already us',
-    buttonCancel: 'Cancel'
-  },
   theme: {
     light: 'Light',
     dark: 'Dark',
@@ -33,6 +25,7 @@ export default {
     deleteError: 'Error deleting database',
     createSuccess: 'Database created successfully',
     createError: 'Error creating database',
+    createTitle: 'Create database',
     name: 'Database',
     storage: 'Storage',
     collection: 'Collections',
@@ -48,6 +41,7 @@ export default {
     button: {
       cancel: 'Cancel',
       confirm: 'Confirm',
+      create: 'Create',
     },
   },
   collection: {

@@ -24,7 +24,6 @@ const ToastList = () => {
 
   const handleClose = (index: number) => {
     setListNotification((prev) => prev.filter((_, i) => i !== index));
-    console.log('close', listNotification);
   };
 
   return (

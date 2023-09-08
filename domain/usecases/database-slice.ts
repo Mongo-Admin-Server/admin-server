@@ -3,9 +3,10 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
+  Dispatch,
 } from "@reduxjs/toolkit";
 
-import { DatabaseState, CreateDatabaseState } from "../entities/database-types";
+import { DatabaseState } from "../entities/database-types";
 
 import * as Api from "@/infrastructure";
 
@@ -18,13 +19,6 @@ const initialState: DatabaseState = {
   error: "",
 };
 
-const initialCreateState: CreateDatabaseState = {
-  dataCreateDB: [],
-  isCreate: false,
-  loading: false,
-  error: null,
-}
-
 export const databaseSlice = createSlice({
   name: "database",
   initialState,
@@ -32,7 +26,10 @@ export const databaseSlice = createSlice({
     setDatabaseSelected: (state, action: PayloadAction<string>) => {
       state.databaseSelected = action.payload;
       fetchCollectionByDatabase(action.payload);
-    }
+    },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchAllDatabase.pending, (state) => {
@@ -47,37 +44,20 @@ export const databaseSlice = createSlice({
       state.loading = false;
       state.error = "";
     });
+    builder.addCase(postDatabase.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(postDatabase.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(postDatabase.rejected, (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   }
 });
 
-export const databaseCreateSlice = createSlice({
-  name: "dataCreateDB",
-  initialState: initialCreateState,
-  reducers: {
-    setIsCreate: (state, action: PayloadAction<boolean>) => {
-      state.isCreate = action.payload;
-    },
-    resetIsCreate: (state) => {
-      state.isCreate = false;
-    }
-  },
-
-  extraReducers(builder) {
-    builder.addCase(createDatabase.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(createDatabase.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isCreate = action.payload;
-    });
-    builder.addCase(createDatabase.rejected, (state, action: any) => {
-      state.loading = false;
-      state.isCreate = false;
-      state.error = action.payload.errorMessage || "Une erreur s'est produite";
-    });
-  },
-})
 /************   USECASES FUNCTIONS FOR DATABASE  ************/
 
 export const fetchAllDatabase = createAsyncThunk(
@@ -93,29 +73,27 @@ export const fetchAllDatabase = createAsyncThunk(
   }
 );
 
-export const createDatabase = createAsyncThunk(
-  "database",
+export const postDatabase = createAsyncThunk(
+  "database/postDatabase",
   async (
-    data: { databaseName: string; collectionName: string }
+    { databaseName, collectionName }: { databaseName: string; collectionName: string },
+    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }
   ) => {
-    const response = await Api.database.createDB(
-      data.databaseName,
-      data.collectionName
-    );
-    return response;
+    try {
+      await Api.database.postDatabase(databaseName, collectionName);
+      dispatch(fetchAllDatabase());
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        return rejectWithValue("Database already exists");
+      }
+      return rejectWithValue("Couldn't post database");
+    }
   }
 );
 
-export const { setDatabaseSelected } = databaseSlice.actions;
-export const { setIsCreate } = databaseCreateSlice.actions;
-export const { resetIsCreate } = databaseCreateSlice.actions;
-
-export const databaseReducer = databaseSlice.reducer;
-export const databaseCreateReducer = databaseCreateSlice.reducer;
+export const { setDatabaseSelected, setError } = databaseSlice.actions;
 
 const selectDatabase = (state: { database: DatabaseState }) => state.database;
-
-const selectCreateDatabase = (state: { dataCreateDB: CreateDatabaseState }) => state.dataCreateDB;
 
 export const selectDatabaseSelected = createSelector(
   selectDatabase,
@@ -137,7 +115,4 @@ export const selectError = createSelector(
   (database) => database.error
 );
 
-export const selectIsCreate = createSelector(
-  selectCreateDatabase,
-  (dataCreateDB) => dataCreateDB.isCreate
-);
+export default databaseSlice.reducer;

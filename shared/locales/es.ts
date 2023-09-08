@@ -5,14 +5,6 @@ export default {
     userName: 'Nombre de usuario',
     passWord: 'Contraseña',
   },
-  formCreateDB: {
-    title: 'Crear base de datos',
-    nameDB: 'Nombre de la base de datos',
-    nameFirstCollection: 'Nombre de la colección',
-    error500: 'El nombre de la base de datos no puede contener espacios',
-    error409: 'El nombre de la base de datos ya está en uso',
-    buttonCancel: 'Cancelar'
-  },
   theme: {
     light: 'Claro',
     dark: 'Oscuro',
@@ -34,6 +26,7 @@ export default {
     button: {
       cancel: 'Cancelar',
       confirm: 'Confirmar',
+      create: 'Crear',
     },
   },
   database: {
@@ -44,6 +37,7 @@ export default {
     deleteError: 'Error al eliminar la base de datos',
     createSuccess: 'Base de datos creada con éxito',
     createError: 'Error al crear la base de datos',
+    createTitle: 'Crear base de datos',
     name: 'Base de datos',
     storage: 'Almacenamiento',
     collection: 'Colecciones',
