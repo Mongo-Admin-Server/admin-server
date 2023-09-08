@@ -16,7 +16,7 @@ class Collection {
   }
 
   public async postCollectionByName(databaseName: string, collectionName: string) {
-    const response = await axios.post(`/collection/`, { databaseName, collectionName });
+    const response = await axios.post(`/collection`, { databaseName, collectionName });
     return response.data
   }
 }
