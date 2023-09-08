@@ -42,7 +42,7 @@ export class Collection {
         return collectionInfo;
     }
 
-    public async addNewCollection(databaseName: string, collectionName: string):Promise< String | ApiError> {
+    public async addNewCollection(databaseName: string, collectionName: string): Promise<String | ApiError> {
         try{   
             const instance = await new Instance().connection();
             const db = instance.db(databaseName);
@@ -61,14 +61,14 @@ export class Collection {
             return new ApiError(409, 'collection/duplicate-value', 'collection_already_exist')
 
             await db.createCollection(collectionName);
-            return 'Collection_created'
+            return 'collection_created'
         }catch(error){
             throw(error);
         }
     }
 
 
-    public async deleteCollection(databaseName: string, collectionName: string){
+    public async deleteCollection(databaseName: string, collectionName: string): Promise<String | ApiError>{
         try{
             const instance = await new Instance().connection();
             const db = instance.db(databaseName);
@@ -77,10 +77,7 @@ export class Collection {
             return new ApiError(400, 'query/invalid', 'invalid_collection_name')
         
             await db.dropCollection(collectionName);
-            return {
-                status: 'success',
-                detatils:'collection_deleted'
-            }
+            return 'collection_deleted'
         }catch(error){
             throw(error);
         }
