@@ -3,11 +3,14 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
+  Dispatch,
 } from "@reduxjs/toolkit";
-
 import { CollectionState } from "../entities/collection-types";
 
 import * as Api from "@/infrastructure";
+import { store } from "@/store/store";
+
+import  eventEmitter from '@/shared/emitter/events'
 
 const initialState: CollectionState = {
   collections: [],
@@ -16,6 +19,19 @@ const initialState: CollectionState = {
   error: "",
 };
 
+interface ILanguageTrad {
+  [key: string]: string
+}
+const createSuccess: ILanguageTrad = {
+  fr: 'Collection créée avec succès.',
+  en: 'Collection created successfully.',
+  es: 'Colección creada exitosamente.',
+}
+const createError: ILanguageTrad = {
+  fr: 'Erreur lors de la création de la collection.',
+  en: 'Error while creating the collection',
+  es: 'Error al crear la colección.',
+}
 export const collectionSlice = createSlice({
   name: "collection",
   initialState,
@@ -37,6 +53,21 @@ export const collectionSlice = createSlice({
       state.loading = false;
       state.error = "";
     });
+    builder.addCase(postCollectionByName.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(postCollectionByName.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = "";
+      console.log(action.payload)
+      eventEmitter.dispatch("alert", {type: "success", message: createSuccess[action.payload]})
+    })
+    builder.addCase(postCollectionByName.rejected, (state, action) => {
+      state.loading = false;
+      state.error = "";
+      eventEmitter.dispatch("alert", {type: "error", message: createError[action.payload as string]})
+    });
   },
 });
 
@@ -54,6 +85,24 @@ export const fetchCollectionByDatabase = createAsyncThunk(
   }
 );
 
+export const postCollectionByName = createAsyncThunk(
+  "collection/postCollectionByName",
+  async (collectionName: string, 
+    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) => {
+    try {
+      const reduxStore = store.getState()
+      const language = reduxStore.setting.language
+      const databaseName = reduxStore.database.databaseSelected;
+      await Api.collection.postCollectionByName(databaseName, collectionName);
+      dispatch(fetchCollectionByDatabase(databaseName))
+
+      return language
+    } catch (error) {
+      console.error('Erreur lors de la creation', error)
+      return rejectWithValue("Couldn't post collection");
+    }
+  }
+);
 export const { setCollectionSelected } = collectionSlice.actions;
 
 const selectCollection = (state: { collection: CollectionState }) => state.collection;
