@@ -10,7 +10,13 @@ import Title from '@components/title/Title';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 
 import { useSelector, useDispatch } from '@/store/store';
-import { selectDatabases, fetchAllDatabase, selectLoading, setDatabaseSelected } from '@/domain/usecases/database-slice';
+import {
+  selectDatabases,
+  fetchAllDatabase,
+  selectLoading,
+  setDatabaseSelected
+} from '@/domain/usecases/database-slice';
+
 import { setCollectionSelected } from '@/domain/usecases/collection-slice';
 import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
 
@@ -57,7 +63,6 @@ export default function DashboardPage() {
         setOpenCreateModal(true);
         break;
       case 'trash':
-        // save index in state to delete the right database
         setOpenDeleteModal(true);
         break;
       case 'search':
@@ -78,6 +83,10 @@ export default function DashboardPage() {
   const handleCreate = () => {
     console.log('Create');
   }
+
+  const handleCancel = () => {
+    setOpenCreateModal(false);
+  };
 
   return (
     <>
@@ -104,12 +113,12 @@ export default function DashboardPage() {
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
       />
-      <FormCreateDB 
+      <FormCreateDB
         open={openCreateModal}
         onConfirm={handleCreate}
-        onClose={() => setOpenCreateModal(false)}
+        onCancel={handleCancel}
+        onClose={handleCancel}
       />
     </>
   );
 }
-

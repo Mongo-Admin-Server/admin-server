@@ -11,3 +11,15 @@ export type DatabaseState = {
   loading: boolean;
   error: string;
 };
+
+export type CreateDatabaseType = {
+  databaseName: string;
+  collectionName: string;
+}
+
+export type CreateDatabaseState = {
+  dataCreateDB: CreateDatabaseType[];
+  isCreate: boolean;
+  loading: boolean;
+  error: any;
+}

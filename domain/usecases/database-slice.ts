@@ -5,7 +5,7 @@ import {
   createAsyncThunk,
 } from "@reduxjs/toolkit";
 
-import { DatabaseState } from "../entities/database-types";
+import { DatabaseState, CreateDatabaseState } from "../entities/database-types";
 
 import * as Api from "@/infrastructure";
 
@@ -17,6 +17,13 @@ const initialState: DatabaseState = {
   loading: false,
   error: "",
 };
+
+const initialCreateState: CreateDatabaseState = {
+  dataCreateDB: [],
+  isCreate: false,
+  loading: false,
+  error: null,
+}
 
 export const databaseSlice = createSlice({
   name: "database",
@@ -43,6 +50,34 @@ export const databaseSlice = createSlice({
   }
 });
 
+export const databaseCreateSlice = createSlice({
+  name: "dataCreateDB",
+  initialState: initialCreateState,
+  reducers: {
+    setIsCreate: (state, action: PayloadAction<boolean>) => {
+      state.isCreate = action.payload;
+    },
+    resetIsCreate: (state) => {
+      state.isCreate = false;
+    }
+  },
+
+  extraReducers(builder) {
+    builder.addCase(createDatabase.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(createDatabase.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isCreate = action.payload;
+    });
+    builder.addCase(createDatabase.rejected, (state, action: any) => {
+      state.loading = false;
+      state.isCreate = false;
+      state.error = action.payload.errorMessage || "Une erreur s'est produite";
+    });
+  },
+})
 /************   USECASES FUNCTIONS FOR DATABASE  ************/
 
 export const fetchAllDatabase = createAsyncThunk(
@@ -58,9 +93,40 @@ export const fetchAllDatabase = createAsyncThunk(
   }
 );
 
+export const createDatabase = createAsyncThunk(
+  "database",
+  async (
+    data: { databaseName: string; collectionName: string },
+    { rejectWithValue }: { rejectWithValue: any }
+  ) => {
+    try {
+      const response = await Api.database.createDB(
+        data.databaseName,
+        data.collectionName
+      );
+      return response;
+    } catch (error: any) {
+      console.error("Erreur lors de la création de la base de données : ", error);
+      if (error.response) {
+        const { status, data } = error.response;
+        return rejectWithValue({ status, errorMessage: data.message });
+      } else {
+        return rejectWithValue({ status: 500, errorMessage: "Erreur réseau" });
+      }
+    }
+  }
+);
+
 export const { setDatabaseSelected } = databaseSlice.actions;
+export const { setIsCreate } = databaseCreateSlice.actions;
+export const { resetIsCreate } = databaseCreateSlice.actions;
+
+export const databaseReducer = databaseSlice.reducer;
+export const databaseCreateReducer = databaseCreateSlice.reducer;
 
 const selectDatabase = (state: { database: DatabaseState }) => state.database;
+
+const selectCreateDatabase = (state: { dataCreateDB: CreateDatabaseState }) => state.dataCreateDB;
 
 export const selectDatabaseSelected = createSelector(
   selectDatabase,
@@ -82,4 +148,7 @@ export const selectError = createSelector(
   (database) => database.error
 );
 
-export default databaseSlice.reducer;
+export const selectIsCreate = createSelector(
+  selectCreateDatabase,
+  (dataCreateDB) => dataCreateDB.isCreate
+);

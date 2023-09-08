@@ -10,7 +10,8 @@ export default {
     nameDB: 'Nom de la base de données',
     nameFirstCollection: 'Nom de la colletion',
     error500: 'Le nom de la base de données ne peut pas contenir d\'espace',
-    error409: 'Le nom de la base de données est déjà utilisé'
+    error409: 'Le nom de la base de données est déjà utilisé',
+    buttonCancel: 'Annuler'
   },
   theme: {
     light: 'Clair',

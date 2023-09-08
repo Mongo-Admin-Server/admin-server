@@ -11,7 +11,8 @@ export default {
     nameDB: 'Database name',
     nameFirstCollection: 'Collection name',
     error500: 'Database name cannot contain spaces',
-    error409: 'Database name is already us'
+    error409: 'Database name is already us',
+    buttonCancel: 'Cancel'
   },
   theme: {
     light: 'Light',

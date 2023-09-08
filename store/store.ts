@@ -1,5 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "reduxjs-toolkit-persist";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "reduxjs-toolkit-persist";
 import storage from "reduxjs-toolkit-persist/lib/storage";
 
 import {
@@ -8,13 +17,14 @@ import {
   useSelector as useSelectorBase,
 } from 'react-redux';
 
-import databaseSlice from "@/domain/usecases/database-slice";
+import { databaseReducer, databaseCreateReducer } from "@/domain/usecases/database-slice";
 import collectionSlice from "@/domain/usecases/collection-slice";
 import settingSlice from "@/domain/usecases/setting-slice";
 import authSlice from "@/domain/usecases/auth-slice";
 
 export const reducer = combineReducers({
-  database: databaseSlice,
+  database: databaseReducer,
+  dataCreateDB: databaseCreateReducer,
   collection: collectionSlice,
   setting: settingSlice,
   auth: authSlice,
@@ -26,7 +36,7 @@ export const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, reducer)
+const persistedReducer = persistReducer(persistConfig, reducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -49,4 +59,3 @@ export const useSelector = <TSelected = unknown>(
   selector: (state: RootState) => TSelected,
   equalityFn?: EqualityFn<TSelected> | undefined
 ): TSelected => useSelectorBase<RootState, TSelected>(selector, equalityFn);
-
