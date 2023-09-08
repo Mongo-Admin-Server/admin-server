@@ -38,9 +38,9 @@ export default function FormCreateDB({ open, onClose }: CreateDBModalProps) {
 
   /* Methods */
   const handleSubmit = async () => {
-    await dispatch(postDatabase({ databaseName, collectionName }));
-    console.log(!error);
-    if (!error) onClose();
+    await dispatch(postDatabase({ databaseName, collectionName })).then((result) => {
+      if (!result.payload) onClose();
+    });
   };
 
   return (
