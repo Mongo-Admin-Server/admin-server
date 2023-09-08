@@ -37,7 +37,7 @@ export default function DocumentsPage({
 
   const handleClick = (action: string, index?: number) => {
     switch (action) {
-      case 'create':
+      case 'add':
         console.log('Create');
         break;
       case 'trash':

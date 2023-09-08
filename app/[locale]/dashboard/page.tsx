@@ -51,7 +51,7 @@ export default function DashboardPage() {
 
   const handleClick = (action: string, index?: number) => {
     switch (action) {
-      case 'create':
+      case 'add':
         console.log('Create');
         break;
       case 'trash':
