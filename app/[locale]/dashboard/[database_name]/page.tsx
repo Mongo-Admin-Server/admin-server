@@ -17,6 +17,7 @@ import {
   setCollectionSelected,
   deleteCollectionByName
 } from '@/domain/usecases/collection-slice';
+import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
 
 export default function CollectionsPage({
   params,
@@ -33,6 +34,7 @@ export default function CollectionsPage({
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [collectionNameToDelete, setCollectionNameToDelete] = useState('');
+  const [openCreateModal, setOpenCreateModal] = useState(false);
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
@@ -72,8 +74,8 @@ export default function CollectionsPage({
   const handleClick = (action: string, index?: number) => {
     let collectionToDelete;
       switch (action) {
-        case 'create':
-          console.log('Create');
+        case 'add':
+          setOpenCreateModal(true);
           break;
         case 'trash':
           collectionToDelete = collections[index!];
@@ -92,14 +94,15 @@ export default function CollectionsPage({
   };
   
   const handleDelete = ()=> {
-    if(collectionNameToDelete) {
-      dispatch(deleteCollectionByName({
-        databaseName: params.database_name, 
-        collectionName: collectionNameToDelete
-      }))   
-        setCollectionNameToDelete('');
-        setOpenDeleteModal(false);
-    }
+    if (!collectionNameToDelete) return;
+    dispatch(
+      deleteCollectionByName({
+        databaseName: params.database_name,
+        collectionName: collectionNameToDelete,
+      })
+    );
+    setCollectionNameToDelete('');
+    setOpenDeleteModal(false);
   }
 
   return (
@@ -126,6 +129,10 @@ export default function CollectionsPage({
         description={t('collection.deleteConfirm')}
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
+      />
+      <FormCreateCollection
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)} 
       />
     </>
   );

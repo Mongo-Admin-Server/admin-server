@@ -43,6 +43,7 @@ export default {
   },
   collection: {
     title: 'Colecciones',
+    create: 'Crear Colección',
     collectionName: 'Nombre de la colección',
     count: 'Documento',
     avgDocumentSize: 'Tamaño medio del documento',
@@ -50,6 +51,10 @@ export default {
     indexes: 'Número índices',
     totalIndexSize: 'Tamaño total del índice',
     deleteConfirm: '¿Estás seguro de que quieres eliminar esta colección?',
+  },
+  formCreateCollection: {
+    title: 'Crear Colección',
+    collectionName: 'Nombre de la Colección',
   },
   document: {
     noDocument: 'Ningún documento',
