@@ -96,24 +96,13 @@ export const fetchAllDatabase = createAsyncThunk(
 export const createDatabase = createAsyncThunk(
   "database",
   async (
-    data: { databaseName: string; collectionName: string },
-    { rejectWithValue }: { rejectWithValue: any }
+    data: { databaseName: string; collectionName: string }
   ) => {
-    try {
-      const response = await Api.database.createDB(
-        data.databaseName,
-        data.collectionName
-      );
-      return response;
-    } catch (error: any) {
-      console.error("Erreur lors de la création de la base de données : ", error);
-      if (error.response) {
-        const { status, data } = error.response;
-        return rejectWithValue({ status, errorMessage: data.message });
-      } else {
-        return rejectWithValue({ status: 500, errorMessage: "Erreur réseau" });
-      }
-    }
+    const response = await Api.database.createDB(
+      data.databaseName,
+      data.collectionName
+    );
+    return response;
   }
 );
 

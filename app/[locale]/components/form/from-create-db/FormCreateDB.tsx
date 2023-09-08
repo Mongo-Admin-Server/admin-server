@@ -14,14 +14,12 @@ import { ApiError } from '@/api/src/Classes/Errors/ApiError';
 
 interface CreateDBModalProps {
   open: boolean;
-  onCancel: () => void;
   onConfirm: () => void;
   onClose: () => void;
 }
 
 export default function FormCreateDB({
   open,
-  onCancel,
   onConfirm,
   onClose,
 }: CreateDBModalProps) {
@@ -51,7 +49,7 @@ export default function FormCreateDB({
     setNameDB('');
     setNameFirstCollection('');
     setError(null);
-    onCancel();
+    onClose();
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

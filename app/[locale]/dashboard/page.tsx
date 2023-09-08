@@ -84,7 +84,7 @@ export default function DashboardPage() {
     console.log('Create');
   }
 
-  const handleCancel = () => {
+  const handleClose = () => {
     setOpenCreateModal(false);
   };
 
@@ -116,8 +116,7 @@ export default function DashboardPage() {
       <FormCreateDB
         open={openCreateModal}
         onConfirm={handleCreate}
-        onCancel={handleCancel}
-        onClose={handleCancel}
+        onClose={handleClose}
       />
     </>
   );
