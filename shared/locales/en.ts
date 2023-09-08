@@ -25,6 +25,7 @@ export default {
     deleteError: 'Error deleting database',
     createSuccess: 'Database created successfully',
     createError: 'Error creating database',
+    createTitle: 'Create database',
     name: 'Database',
     storage: 'Storage',
     collection: 'Collections',
@@ -40,10 +41,12 @@ export default {
     button: {
       cancel: 'Cancel',
       confirm: 'Confirm',
+      create: 'Create',
     },
   },
   collection: {
     title: 'Collections',
+    create: 'Create Collection',
     collectionName: 'Collection Name',
     count: 'Document',
     avgDocumentSize: 'Avg. Document Size',
@@ -51,6 +54,10 @@ export default {
     indexes: 'Num. Indexes',
     totalIndexSize: 'Total Index Size',
     deleteConfirm: 'Are you sure you want to delete this collection?',
+  },
+  formCreateCollection: {
+    title: 'Create Collection',
+    collectionName: 'Collection Name',
   },
   document: {
     noDocument: 'No document',

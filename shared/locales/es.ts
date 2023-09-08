@@ -26,6 +26,7 @@ export default {
     button: {
       cancel: 'Cancelar',
       confirm: 'Confirmar',
+      create: 'Crear',
     },
   },
   database: {
@@ -36,6 +37,7 @@ export default {
     deleteError: 'Error al eliminar la base de datos',
     createSuccess: 'Base de datos creada con éxito',
     createError: 'Error al crear la base de datos',
+    createTitle: 'Crear base de datos',
     name: 'Base de datos',
     storage: 'Almacenamiento',
     collection: 'Colecciones',
@@ -43,6 +45,7 @@ export default {
   },
   collection: {
     title: 'Colecciones',
+    create: 'Crear Colección',
     collectionName: 'Nombre de la colección',
     count: 'Documento',
     avgDocumentSize: 'Tamaño medio del documento',
@@ -50,6 +53,10 @@ export default {
     indexes: 'Número índices',
     totalIndexSize: 'Tamaño total del índice',
     deleteConfirm: '¿Estás seguro de que quieres eliminar esta colección?',
+  },
+  formCreateCollection: {
+    title: 'Crear Colección',
+    collectionName: 'Nombre de la Colección',
   },
   document: {
     noDocument: 'Ningún documento',
