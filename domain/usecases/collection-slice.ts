@@ -6,11 +6,10 @@ import {
   Dispatch,
 } from "@reduxjs/toolkit";
 import { CollectionState } from "../entities/collection-types";
+import eventEmitter from '@/shared/emitter/events';
 
 import * as Api from "@/infrastructure";
 import { store } from "@/store/store";
-
-import  eventEmitter from '@/shared/emitter/events'
 
 const initialState: CollectionState = {
   collections: [],
@@ -38,7 +37,7 @@ export const collectionSlice = createSlice({
   reducers: {
     setCollectionSelected: (state, action: PayloadAction<string>) => {
       state.collectionSelected = action.payload;
-    }
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchCollectionByDatabase.pending, (state) => {
@@ -51,6 +50,18 @@ export const collectionSlice = createSlice({
     });
     builder.addCase(fetchCollectionByDatabase.rejected, (state) => {
       state.loading = false;
+      state.error = "";
+    });
+    builder.addCase(deleteCollectionByName.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(deleteCollectionByName.pending, (state) => {
+      eventEmitter.dispatch('alert', { type: 'success', message: 'Collection supprimée !' });
+      state.error = "";
+    });
+    builder.addCase(deleteCollectionByName.rejected, (state) => {
+      state.loading = false;
+      eventEmitter.dispatch('alert', { type: 'error', message: 'Un probleme est survenu lors de la suppresion !' });
       state.error = "";
     });
     builder.addCase(postCollectionByName.pending, (state) => {
@@ -84,6 +95,19 @@ export const fetchCollectionByDatabase = createAsyncThunk(
     }
   }
 );
+  export const deleteCollectionByName = createAsyncThunk(
+  "collection/deleteCollectionByName",
+  async (params: {databaseName: string; collectionName: string}, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
+    try {
+     await Api.collection.deleteCollectionByName(params.databaseName, params.collectionName);
+     dispatch(fetchCollectionByDatabase(params.databaseName));  
+    }catch(error) {
+      console.error('Erreur lors de la suppression', error);
+      return rejectWithValue('Couldn\'t delete collection');
+    }
+    
+  }
+); 
 
 export const postCollectionByName = createAsyncThunk(
   "collection/postCollectionByName",
