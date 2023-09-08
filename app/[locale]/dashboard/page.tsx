@@ -10,10 +10,20 @@ import Title from '@components/title/Title';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 
 import { useSelector, useDispatch } from '@/store/store';
-import { selectDatabases, fetchAllDatabase, selectLoading, setDatabaseSelected } from '@/domain/usecases/database-slice';
+import { 
+  selectDatabases,
+  fetchAllDatabase, 
+  selectLoading, 
+  setDatabaseSelected,
+  deleteDatabase
+ } from '@/domain/usecases/database-slice';
 import { setCollectionSelected } from '@/domain/usecases/collection-slice';
 
-export default function DashboardPage() {
+export default function DashboardPage({
+  params,
+}: {
+  params: { databaseName: string };
+}) {
   const t = useI18n();
   const dispatch = useDispatch();
 
@@ -23,6 +33,7 @@ export default function DashboardPage() {
   }, [dispatch]);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [databaseNameToDelete, setDatabaseNameToDelete] = useState('');
 
   const databases = useSelector(selectDatabases);
   const loading = useSelector(selectLoading);
@@ -50,13 +61,15 @@ export default function DashboardPage() {
   });
 
   const handleClick = (action: string, index?: number) => {
+    let databaseToDelete;
     switch (action) {
       case 'add':
         console.log('Create');
         break;
       case 'trash':
-        // save index in state to delete the right database
-        setOpenDeleteModal(true);
+        databaseToDelete = databases[index!];
+        setDatabaseNameToDelete(databaseToDelete.name)
+          setOpenDeleteModal(true);
         break;
       case 'search':
         console.log('Search');
@@ -70,8 +83,15 @@ export default function DashboardPage() {
   };
 
   const handleDelete = () => {
-    console.log('Delete');
-  };
+    if (!databaseNameToDelete) return;
+    dispatch(
+      deleteDatabase({
+        databaseName: params.databaseName,
+      })
+    );
+    setDatabaseNameToDelete(''); 
+    setOpenDeleteModal(false);
+  }; 
 
   return (
     <>
