@@ -5,6 +5,7 @@ import Title from '@components/title/Title';
 import Table from '@components/ui/table/Table';
 import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+import DocumentModal from '@components/modal/document/DocumentModal';
 
 import { useSelector } from '@/store/store';
 import { selectDatabaseSelected } from '@/domain/usecases/database-slice';
@@ -24,7 +25,8 @@ export default function DocumentsPage({
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [documentToDelete, setDocumentToDelete] = useState('');
+  const [openDocumentModal, setOpenDocumentModal] = useState(false);
+  const [currentDocument, setCurrentDocument] = useState('');
 
   const databaseSelected = useSelector(selectDatabaseSelected);
 
@@ -49,7 +51,7 @@ export default function DocumentsPage({
         console.log('Create');
         break;
       case 'trash':
-        setDocumentToDelete((documents[index!] as any)._id);
+        setCurrentDocument((documents[index!] as any)._id);
         setOpenDeleteModal(true);
         break;
       case 'search':
@@ -57,6 +59,10 @@ export default function DocumentsPage({
         break;
       case 'refresh':
         fetchDocuments();
+        break;
+      case 'edit':
+        setCurrentDocument((documents[index!] as any)._id);
+        setOpenDocumentModal(true);
         break;
       default:
         break;
@@ -68,7 +74,7 @@ export default function DocumentsPage({
       await Api.document.deleteDocument(
         databaseSelected,
         params.collection_name,
-        documentToDelete
+        currentDocument
       ); 
       eventEmitter.dispatch('alert', {
         type: 'success',
@@ -82,6 +88,7 @@ export default function DocumentsPage({
       });
     } finally {
       setOpenDeleteModal(false);
+      setCurrentDocument('');
     }
   };
 
@@ -114,6 +121,12 @@ export default function DocumentsPage({
         description={t('document.deleteConfirm')}
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
+      />
+
+      <DocumentModal
+        open={openDocumentModal}
+        idDocument={currentDocument}
+        onClose={() => setOpenDocumentModal(false)}
       />
     </>
   );

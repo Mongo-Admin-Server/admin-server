@@ -56,6 +56,12 @@ export default {
     deleteConfirm: 'Êtes-vous sûr de vouloir supprimer ce document ?',
     deleteSuccess: 'Document supprimé avec succès',
     deleteError: 'Erreur lors de la suppression du document',
+    updateSuccess: 'Document mis à jour avec succès',
+    updateError: 'Erreur lors de la mise à jour du document',
+    createSuccess: 'Document créé avec succès',
+    createError: 'Erreur lors de la création du document',
+    createTitle: 'Créer un document',
+    updateTitle: 'Mettre à jour le document',
   },
   language: {
     en: '🇬🇧 Anglais',

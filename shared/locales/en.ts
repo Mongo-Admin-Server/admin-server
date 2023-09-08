@@ -57,6 +57,12 @@ export default {
     deleteConfirm: 'Are you sure you want to delete this document?',
     deleteSuccess: 'Document deleted successfully',
     deleteError: 'Error deleting document',
+    updateSuccess: 'Document updated successfully',
+    updateError: 'Error updating document',
+    createSuccess: 'Document created successfully',
+    createError: 'Error creating document',
+    createTitle: 'Create document',
+    updateTitle: 'Update document',
   },
   language: {
     en: '🇬🇧 English',
