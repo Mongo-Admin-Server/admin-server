@@ -16,6 +16,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse){
                 document.DeleteOneDocument(res, req.query.databaseName, req.query.name, req.query.id);
             }
             break;
+        case 'PUT':
+            if(document && req.query.databaseName && req.query.name && req.query.id && req.body){
+                document.UpdateOneDocument(res, req.query.databaseName, req.query.name, req.query.id, req.body);
+            }
+            break;
         default:
             return 'Method not found';
     }

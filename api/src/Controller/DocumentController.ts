@@ -1,5 +1,6 @@
 import { NextApiResponse } from "next";
 import { Documents } from "../Classes/Documents";
+import { UpdateFilter } from "mongodb";
 
 export class DocumentController {
     
@@ -59,6 +60,19 @@ export class DocumentController {
         } else {
             try {
                 response.status(200).json(deleteDocument);
+            } catch (error) {
+                response.status(500).json('error');
+            }
+        }
+    }
+
+    public async UpdateOneDocument(response: NextApiResponse, databaseName: string | string[], collectionName: string | string[], id: string | string[], newBody: UpdateFilter<JSON>) {
+        const updateDocument = await new Documents().updateOneDocument(databaseName, collectionName, id, newBody);
+        if(!updateDocument) {
+            response.status(404).json('Error, no document provided for the updating');
+        } else {
+            try {
+                response.status(200).json(updateDocument);
             } catch (error) {
                 response.status(500).json('error');
             }
