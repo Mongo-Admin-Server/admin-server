@@ -10,12 +10,13 @@ import Title from '@components/title/Title';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 
 import { useSelector, useDispatch } from '@/store/store';
-import {
+import { 
   selectDatabases,
-  fetchAllDatabase,
-  selectLoading,
-  setDatabaseSelected
-} from '@/domain/usecases/database-slice';
+  fetchAllDatabase, 
+  selectLoading, 
+  setDatabaseSelected,
+  deleteDatabase
+ } from '@/domain/usecases/database-slice';
 
 import { setCollectionSelected } from '@/domain/usecases/collection-slice';
 import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
@@ -30,6 +31,7 @@ export default function DashboardPage() {
   }, [dispatch]);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [databaseNameToDelete, setDatabaseNameToDelete] = useState('');
   const [openCreateModal, setOpenCreateModal] = useState(false);
 
   const databases = useSelector(selectDatabases);
@@ -63,6 +65,7 @@ export default function DashboardPage() {
         setOpenCreateModal(true);
         break;
       case 'trash':
+        setDatabaseNameToDelete(databases[index!].name)
         setOpenDeleteModal(true);
         break;
       case 'search':
@@ -77,8 +80,11 @@ export default function DashboardPage() {
   };
 
   const handleDelete = () => {
-    console.log('Delete');
-  };
+    if (!databaseNameToDelete) return;
+    dispatch(deleteDatabase(databaseNameToDelete));
+    setDatabaseNameToDelete(''); 
+    setOpenDeleteModal(false);
+  };  
 
   return (
     <>

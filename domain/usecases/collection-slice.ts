@@ -54,9 +54,11 @@ export const collectionSlice = createSlice({
     });
     builder.addCase(deleteCollectionByName.fulfilled, (state) => {
       state.loading = false;
+      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'Collection supprimée !' });
     });
     builder.addCase(deleteCollectionByName.pending, (state) => {
-      eventEmitter.dispatch('alert', { type: 'success', message: 'Collection supprimée !' });
+      state.loading = true;
       state.error = "";
     });
     builder.addCase(deleteCollectionByName.rejected, (state) => {
@@ -71,7 +73,6 @@ export const collectionSlice = createSlice({
     builder.addCase(postCollectionByName.fulfilled, (state, action) => {
       state.loading = false;
       state.error = "";
-      console.log(action.payload)
       eventEmitter.dispatch("alert", {type: "success", message: createSuccess[action.payload]})
     })
     builder.addCase(postCollectionByName.rejected, (state, action) => {
