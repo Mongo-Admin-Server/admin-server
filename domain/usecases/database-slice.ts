@@ -3,10 +3,12 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
-  Dispatch,
+  Dispatch
+  
 } from "@reduxjs/toolkit";
 
 import { DatabaseState } from "../entities/database-types";
+import eventEmitter from '@/shared/emitter/events';
 
 import * as Api from "@/infrastructure";
 
@@ -44,6 +46,20 @@ export const databaseSlice = createSlice({
       state.loading = false;
       state.error = "";
     });
+    builder.addCase(deleteDatabase.fulfilled, (state) => {
+      state.loading = false;
+      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'Base de données supprimée !' });
+    });
+    builder.addCase(deleteDatabase.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(deleteDatabase.rejected, (state) => {
+      state.loading = false;
+      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'error', message: 'Un probleme est survenu lors de la suppresion !' });
+    });
     builder.addCase(postDatabase.pending, (state) => {
       state.loading = true;
       state.error = "";
@@ -72,6 +88,21 @@ export const fetchAllDatabase = createAsyncThunk(
     }
   }
 );
+
+export const deleteDatabase = createAsyncThunk(
+  "database/deleteDatabase",
+  async (
+    databaseName: string, 
+    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
+    try {
+      await Api.database.deleteDatabase(databaseName);
+      dispatch(fetchAllDatabase());  
+    }catch(error) {
+      console.error('Erreur lors de la suppression', error);
+      return rejectWithValue('Couldn\'t delete database');
+    }
+  }
+);  
 
 export const postDatabase = createAsyncThunk(
   "database/postDatabase",
