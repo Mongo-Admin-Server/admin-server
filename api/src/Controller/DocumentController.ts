@@ -1,6 +1,7 @@
 import { NextApiResponse } from "next";
 import { Documents } from "../Classes/Documents";
 import { UpdateFilter } from "mongodb";
+import { ApiError } from "./../Classes/Errors/ApiError";
 
 export class DocumentController {
     
@@ -46,7 +47,12 @@ export class DocumentController {
             response.status(404).json('Error, no document provided for the inserting');
         } else {
             try {
-                response.status(200).json(newDocument);
+                if(newDocument.acknowledged === true && newDocument.insertedId){
+                    response.status(200).json(true);
+                } else {
+                    const documentEerror = new ApiError(400, 'validation/failed', "The new document has not been inserted");
+                    response.status(documentEerror.code).json(documentEerror.message);
+                }                
             } catch(error) {
                 response.status(500).json('error');
             }
@@ -59,7 +65,15 @@ export class DocumentController {
             response.status(404).json('Error, no document provided for the deleting');
         } else {
             try {
-                response.status(200).json(deleteDocument);
+                if(deleteDocument.acknowledged === true && deleteDocument.deletedCount === 1) {
+                    response.status(200).json(true);
+                } else if(deleteDocument.acknowledged === true && deleteDocument.deletedCount === 0) {
+                    const documentEerror = new ApiError(404, 'query/not-found', 'The document has not been found');
+                    response.status(documentEerror.code).json(documentEerror.message);
+                } else {
+                    const documentEerror = new ApiError(400, 'validation/failed', 'The document has not been deleted');
+                    response.status(documentEerror.code).json(documentEerror.message);
+                }                
             } catch (error) {
                 response.status(500).json('error');
             }
@@ -72,7 +86,14 @@ export class DocumentController {
             response.status(404).json('Error, no document provided for the updating');
         } else {
             try {
-                response.status(200).json(updateDocument);
+                if(updateDocument.acknowledged === true && updateDocument.modifiedCount === 1 && updateDocument.matchedCount === 1) {
+                    response.status(200).json(true);
+                } else if (updateDocument.acknowledged === true && updateDocument.modifiedCount === 0 && updateDocument.matchedCount === 1) {
+                    response.status(200).json(true);
+                } else if (updateDocument.acknowledged === true && updateDocument.modifiedCount === 0 && updateDocument.matchedCount === 0) {
+                    const documentEerror =  new ApiError(404, 'sql/not-found', 'The document has not been found');
+                    response.status(documentEerror.code).json(documentEerror.message);
+                }
             } catch (error) {
                 response.status(500).json('error');
             }
