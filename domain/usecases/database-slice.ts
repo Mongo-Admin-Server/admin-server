@@ -13,7 +13,6 @@ import eventEmitter from '@/shared/emitter/events';
 import * as Api from "@/infrastructure";
 
 import { fetchCollectionByDatabase } from "./collection-slice";
-import { Console } from "console";
 
 const initialState: DatabaseState = {
   databases: [],
@@ -91,7 +90,8 @@ export const fetchAllDatabase = createAsyncThunk(
 export const deleteDatabase = createAsyncThunk(
   "database/deleteDatabase",
   async (
-    databaseName: string, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
+    databaseName: string, 
+    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
     try {
       await Api.database.deleteDatabase(databaseName);
       dispatch(fetchAllDatabase());  
@@ -99,7 +99,6 @@ export const deleteDatabase = createAsyncThunk(
       console.error('Erreur lors de la suppression', error);
       return rejectWithValue('Couldn\'t delete database');
     }
-    
   }
 );  
 
