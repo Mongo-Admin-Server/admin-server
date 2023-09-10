@@ -127,15 +127,18 @@ export const fetchOneDocument = createAsyncThunk(
 export const postDocument = createAsyncThunk(
   "document/postDocument",
   async (
-    { collection, query }: { collection: string; query: JSON },
+    query: JSON,
     { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }
   ) => {
     try {
       const reduxStore = store.getState()
       const databaseName = reduxStore.database.databaseSelected;
+      const collectionName = reduxStore.collection.collectionSelected;
 
-      await Api.document.postDocument(databaseName, collection, query);
-      dispatch(fetchAllDocumentByCollection(collection));
+      console.log("query", query);
+
+      await Api.document.postDocument(databaseName, collectionName, query);
+      dispatch(fetchAllDocumentByCollection(collectionName));
     } catch (error) {
       console.error("Erreur lors du post document : ", error);
       return rejectWithValue("Couldn't post document");
@@ -166,15 +169,16 @@ export const deleteDocument = createAsyncThunk(
 export const updateDocument = createAsyncThunk(
   "document/updateDocument",
   async (
-    { collection, id, query }: { collection: string; id: string; query: JSON },
+    { id, query }: { id: string; query: JSON },
     { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }
   ) => {
     try {
       const reduxStore = store.getState()
       const databaseName = reduxStore.database.databaseSelected;
+      const collectionName = reduxStore.collection.collectionSelected;
 
-      await Api.document.updateDocument(databaseName, collection, id, query);
-      dispatch(fetchAllDocumentByCollection(collection));
+      await Api.document.updateDocument(databaseName, collectionName, id, query);
+      dispatch(fetchAllDocumentByCollection(collectionName));
     } catch (error) {
       console.error("Erreur lors du update document : ", error);
       return rejectWithValue("Couldn't update document");

@@ -5,7 +5,7 @@ import { useEffect, useCallback, useState } from 'react';
 import GenericModal from '@components/modal/generic/GenericModal';
 
 import { useDispatch, useSelector } from '@/store/store';
-import { fetchOneDocument, selectLoadingDocument } from '@/domain/usecases/document-slice';
+import { fetchOneDocument, postDocument, updateDocument, selectLoadingDocument } from '@/domain/usecases/document-slice';
 import { selectLanguage } from '@/domain/usecases/setting-slice';
 
 import { useI18n } from '@/shared/locales/clients';
@@ -47,33 +47,18 @@ const DocumentModal = ({ idDocument, open, onClose }: DocumentModalProps) => {
   }, [idDocument, dispatch]);
 
   useEffect(() => {
-    fetchDocument();
-  }, [fetchDocument]);
-
-  useEffect(() => {
-    if (!open) setDocument({} as JSON);
-  }, [open]);
+    if (open) fetchDocument();
+    else setDocument({} as JSON);
+  }, [fetchDocument, open]);
 
   const handleSave = async () => {
-    console.log(document);
-    // try {
-    //   if (idDocument)
-    //     await Api.document.updateDocument(
-    //       databaseSelected,
-    //       collectionSelected,
-    //       idDocument,
-    //       document
-    //     );
-    //   else
-    //     await Api.document.postDocument(
-    //       databaseSelected,
-    //       collectionSelected,
-    //       document
-    //     );
-    //   onClose();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    if (idDocument) {
+      delete (document as any)._id;
+      await dispatch(updateDocument({ id: idDocument, query: document }));
+    }
+    else await dispatch(postDocument(document));
+
+    onClose();
   };
 
   return (
