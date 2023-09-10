@@ -21,11 +21,7 @@ import {
 import { setCollectionSelected } from '@/domain/usecases/collection-slice';
 import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
 
-export default function DashboardPage({
-  params,
-}: {
-  params: { databaseName: string };
-}) {
+export default function DashboardPage() {
   const t = useI18n();
   const dispatch = useDispatch();
 
@@ -64,15 +60,12 @@ export default function DashboardPage({
   });
 
   const handleClick = (action: string, index?: number) => {
-    let databaseToDelete;
     switch (action) {
       case 'add':
         setOpenCreateModal(true);
         break;
       case 'trash':
-        databaseToDelete = databases[index!];
-        setDatabaseNameToDelete(databaseToDelete.name)
-          setOpenDeleteModal(true);
+        setDatabaseNameToDelete(databases[index!].name)
         setOpenDeleteModal(true);
         break;
       case 'search':
@@ -88,11 +81,7 @@ export default function DashboardPage({
 
   const handleDelete = () => {
     if (!databaseNameToDelete) return;
-    dispatch(
-      deleteDatabase({
-        databaseName: params.databaseName,
-      })
-    );
+    dispatch(deleteDatabase(databaseNameToDelete));
     setDatabaseNameToDelete(''); 
     setOpenDeleteModal(false);
   };  

@@ -87,14 +87,14 @@ export const fetchAllDatabase = createAsyncThunk(
     }
   }
 );
+
 export const deleteDatabase = createAsyncThunk(
   "database/deleteDatabase",
   async (
-    { databaseName }: { databaseName: string}, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
+    databaseName: string, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
     try {
-     const res = await Api.database.deleteDatabase(databaseName );
-     console.log(res);
-     dispatch(fetchAllDatabase());  
+      await Api.database.deleteDatabase(databaseName);
+      dispatch(fetchAllDatabase());  
     }catch(error) {
       console.error('Erreur lors de la suppression', error);
       return rejectWithValue('Couldn\'t delete database');

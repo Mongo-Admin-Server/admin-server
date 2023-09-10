@@ -5,12 +5,10 @@ class Database {
     const response = await axios.get('/database');
     return response.data.rows;
   }
+  
   public async deleteDatabase (databaseName: string ) {
-   /*  const response = await axios.delete('/database', {
-      data: { databaseName }
-    }); */ 
     const response = await axios.delete(`/database?databaseName=${databaseName}`);
-      return response.data;
+    return response.data;
   } 
 
   public async postDatabase(databaseName: string, collectionName: string) {
