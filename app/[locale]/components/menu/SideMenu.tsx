@@ -22,6 +22,7 @@ import {
   selectCollectionSelected,
   selectCollectionByDatabase,
   setCollectionSelected,
+  selectLoadingCollection,
 } from '@/domain/usecases/collection-slice';
 import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
 
@@ -42,6 +43,7 @@ const SideMenu = () => {
   const collections = useSelector(selectCollectionByDatabase).map(
     (collection) => collection.collectionName
   );
+  const loadingCollection = useSelector(selectLoadingCollection);
 
   const theme = useSelector(selectTheme);
 
@@ -50,9 +52,9 @@ const SideMenu = () => {
   };
 
   const handleDatabaseChange = (database: string) => {
+    router.push(`/dashboard/${database}`);
     dispatch(setDatabaseSelected(database));
     dispatch(setCollectionSelected(''));
-    router.push(`/dashboard/${database}`);
   };
 
   const handleCollectionChange = (collection: string) => {
@@ -73,7 +75,7 @@ const SideMenu = () => {
             onChange={(e) => handleDatabaseChange(e.target.value)}
           />
 
-          {databaseSelected && (
+          {(databaseSelected && !loadingCollection) &&  (
             <section>
               <h5>{t('menuSideBar.collection')}</h5>
               <div className={styles.collections}>

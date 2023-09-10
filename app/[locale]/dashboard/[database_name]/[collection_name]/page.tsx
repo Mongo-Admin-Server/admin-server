@@ -7,13 +7,10 @@ import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 import DocumentModal from '@components/modal/document/DocumentModal';
 
-import { useSelector } from '@/store/store';
-import { selectDatabaseSelected } from '@/domain/usecases/database-slice';
-
-import * as Api from '@/infrastructure';
+import { useDispatch, useSelector } from '@/store/store';
+import { fetchAllDocumentByCollection, deleteDocument, selectLoadingDocument } from '@/domain/usecases/document-slice';
 
 import { useI18n } from '@/shared/locales/clients';
-import eventEmitter from '@/shared/emitter/events';
 
 export default function DocumentsPage({
   params,
@@ -21,25 +18,20 @@ export default function DocumentsPage({
   params: { collection_name: string };
 }) {
   const t = useI18n();
+  const dispatch = useDispatch();
 
   const [documents, setDocuments] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDocumentModal, setOpenDocumentModal] = useState(false);
   const [currentDocument, setCurrentDocument] = useState('');
 
-  const databaseSelected = useSelector(selectDatabaseSelected);
-
+  const loading = useSelector(selectLoadingDocument);
 
   const fetchDocuments = useCallback(async () => {
-    setLoading(true);
-    const response = await Api.document.getAllDocumentByCollection(
-      databaseSelected,
-      params.collection_name
-    );
-    setDocuments(response);
-    setLoading(false);
-  }, [databaseSelected, params.collection_name]);
+    const response = await dispatch(fetchAllDocumentByCollection(params.collection_name));
+    setDocuments(response.payload);
+
+  }, [dispatch, params.collection_name]);
 
   useEffect(() => {
     fetchDocuments();
@@ -48,7 +40,8 @@ export default function DocumentsPage({
   const handleClick = (action: string, index?: number) => {
     switch (action) {
       case 'add':
-        console.log('Create');
+        setCurrentDocument('');
+        setOpenDocumentModal(true);
         break;
       case 'trash':
         setCurrentDocument((documents[index!] as any)._id);
@@ -70,26 +63,8 @@ export default function DocumentsPage({
   };
 
   const handleDelete = async () => {
-    try {
-      await Api.document.deleteDocument(
-        databaseSelected,
-        params.collection_name,
-        currentDocument
-      ); 
-      eventEmitter.dispatch('alert', {
-        type: 'success',
-        message: t('document.deleteSuccess'),
-      });
-      fetchDocuments();
-    } catch (error) {
-      eventEmitter.dispatch('alert', {
-        type: 'error',
-        message: t('document.deleteError'),
-      });
-    } finally {
-      setOpenDeleteModal(false);
-      setCurrentDocument('');
-    }
+    await dispatch(deleteDocument(currentDocument));
+    setOpenDeleteModal(false);
   };
 
   const renderTable = () => {
