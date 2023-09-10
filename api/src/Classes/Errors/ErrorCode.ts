@@ -1,4 +1,3 @@
-
 export enum ErrorCode {
   NotFound = 404,
   Unauthorized = 403,
