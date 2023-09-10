@@ -21,8 +21,7 @@ export class DatabaseController{
     }
 
     public async deleteDatabase(request: NextApiRequest, response: NextApiResponse){
-        const { databaseName } = request.body;
-        console.log(databaseName)
+        const { databaseName } = request.query;
         if(!databaseName) response.send(new ApiError(400, 'query/not-found', 'database_name_not_found'));
         const status = await new Database().dropDatabase(databaseName);
         response.status(200).json(status);
