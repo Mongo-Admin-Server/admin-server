@@ -17,7 +17,9 @@ import {
   setDatabaseSelected,
   deleteDatabase
  } from '@/domain/usecases/database-slice';
+
 import { setCollectionSelected } from '@/domain/usecases/collection-slice';
+import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
 
 export default function DashboardPage({
   params,
@@ -34,6 +36,7 @@ export default function DashboardPage({
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [databaseNameToDelete, setDatabaseNameToDelete] = useState('');
+  const [openCreateModal, setOpenCreateModal] = useState(false);
 
   const databases = useSelector(selectDatabases);
   const loading = useSelector(selectLoading);
@@ -64,12 +67,13 @@ export default function DashboardPage({
     let databaseToDelete;
     switch (action) {
       case 'add':
-        console.log('Create');
+        setOpenCreateModal(true);
         break;
       case 'trash':
         databaseToDelete = databases[index!];
         setDatabaseNameToDelete(databaseToDelete.name)
           setOpenDeleteModal(true);
+        setOpenDeleteModal(true);
         break;
       case 'search':
         console.log('Search');
@@ -91,7 +95,7 @@ export default function DashboardPage({
     );
     setDatabaseNameToDelete(''); 
     setOpenDeleteModal(false);
-  }; 
+  };  
 
   return (
     <>
@@ -118,7 +122,11 @@ export default function DashboardPage({
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
       />
+
+      <FormCreateDB
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
+      />
     </>
   );
 }
-

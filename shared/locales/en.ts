@@ -25,6 +25,7 @@ export default {
     deleteError: 'Error deleting database',
     createSuccess: 'Database created successfully',
     createError: 'Error creating database',
+    createTitle: 'Create database',
     name: 'Database',
     storage: 'Storage',
     collection: 'Collections',
@@ -40,6 +41,7 @@ export default {
     button: {
       cancel: 'Cancel',
       confirm: 'Confirm',
+      create: 'Create',
     },
   },
   collection: {

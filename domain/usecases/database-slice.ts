@@ -4,6 +4,7 @@ import {
   PayloadAction,
   createAsyncThunk,
   Dispatch
+  
 } from "@reduxjs/toolkit";
 
 import { DatabaseState } from "../entities/database-types";
@@ -12,6 +13,7 @@ import eventEmitter from '@/shared/emitter/events';
 import * as Api from "@/infrastructure";
 
 import { fetchCollectionByDatabase } from "./collection-slice";
+import { Console } from "console";
 
 const initialState: DatabaseState = {
   databases: [],
@@ -27,7 +29,10 @@ export const databaseSlice = createSlice({
     setDatabaseSelected: (state, action: PayloadAction<string>) => {
       state.databaseSelected = action.payload;
       fetchCollectionByDatabase(action.payload);
-    }
+    },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchAllDatabase.pending, (state) => {
@@ -54,6 +59,17 @@ export const databaseSlice = createSlice({
       eventEmitter.dispatch('alert', { type: 'error', message: 'Un probleme est survenu lors de la suppresion !' });
       state.error = "";
     });
+    builder.addCase(postDatabase.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(postDatabase.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(postDatabase.rejected, (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   }
 });
 
@@ -72,10 +88,12 @@ export const fetchAllDatabase = createAsyncThunk(
   }
 );
 export const deleteDatabase = createAsyncThunk(
-  "database/deleteDatabaseByName",
-  async (params: {databaseName: string; }, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
+  "database/deleteDatabase",
+  async (
+    { databaseName }: { databaseName: string}, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
     try {
-     await Api.database.deleteDatabase(params.databaseName );
+     const res = await Api.database.deleteDatabase(databaseName );
+     console.log(res);
      dispatch(fetchAllDatabase());  
     }catch(error) {
       console.error('Erreur lors de la suppression', error);
@@ -83,9 +101,27 @@ export const deleteDatabase = createAsyncThunk(
     }
     
   }
-); 
+);  
 
-export const { setDatabaseSelected } = databaseSlice.actions;
+export const postDatabase = createAsyncThunk(
+  "database/postDatabase",
+  async (
+    { databaseName, collectionName }: { databaseName: string; collectionName: string },
+    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }
+  ) => {
+    try {
+      await Api.database.postDatabase(databaseName, collectionName);
+      dispatch(fetchAllDatabase());
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        return rejectWithValue("Database already exists");
+      }
+      return rejectWithValue("Couldn't post database");
+    }
+  }
+);
+
+export const { setDatabaseSelected, setError } = databaseSlice.actions;
 
 const selectDatabase = (state: { database: DatabaseState }) => state.database;
 
