@@ -4,6 +4,7 @@ export type StructuredErrors =
   'sql/not-found' |
   'database/duplicate-value' |
   'database/not-found' |
+  'collection/duplicate-value' |
 
   // Crud
   'validation/failed' |
