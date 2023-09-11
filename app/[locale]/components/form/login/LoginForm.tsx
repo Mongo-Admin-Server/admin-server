@@ -30,11 +30,6 @@ export default function LoginForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (connexionUrl === '') {
-      setError('Veuillez remplir tous les champs.');
-      return;
-    }
-    setError('');
     await dispatch(postUser(connexionUrl)).then((result) => {
       if (result.meta.requestStatus === 'fulfilled') {
         router.push(`/dashboard`)
@@ -45,19 +40,15 @@ export default function LoginForm() {
   const handleLanguageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const value = event.target.value
-    if (value === "fr" || value === "en" || value === "es") {
-      setLanguage(value);
-      changeLocale(value);
-    } else {
-      console.error("Invalid language value");
-    }
+    const language = event.target.value as LanguageType;
+    setLanguage(language);
+    changeLocale(language);
   };
 
   /* Local Data */
   const [language, setLanguage] = useState<LanguageType>(locale);
-  const [userName, setUserName] = useState<string>('');
-  const [passWord, setPassWord] = useState<string>('');
+  // const [userName, setUserName] = useState<string>('');
+  // const [passWord, setPassWord] = useState<string>('');
   const [connexionUrl, setConnexionUrl] = useState<string>('');
   const [error, setError] = useState<string>('');
   const isSubmitButtonDisabled = connexionUrl === '';

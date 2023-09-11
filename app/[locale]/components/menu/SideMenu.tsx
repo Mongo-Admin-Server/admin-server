@@ -25,6 +25,7 @@ import {
   selectLoadingCollection,
 } from '@/domain/usecases/collection-slice';
 import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
+import { setIsLogged } from '@/domain/usecases/auth-slice';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,11 @@ const SideMenu = () => {
   const handleCollectionChange = (collection: string) => {
     dispatch(setCollectionSelected(collection));
     router.push(`/dashboard/${databaseSelected}/${collection}`);
+  };
+
+  const handleLogout = () => {
+    dispatch(setIsLogged(false));
+    router.push(`/`);
   };
 
   return (
@@ -125,7 +131,7 @@ const SideMenu = () => {
             padding="0 20px"
             transparent
             variant='danger'
-            onClick={() => router.push(`/login`)}
+            onClick={handleLogout}
           >
             {t('menuSideBar.logout')}
           </GenericButton>
