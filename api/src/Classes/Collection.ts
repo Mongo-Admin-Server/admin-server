@@ -7,7 +7,7 @@ import { ApiError } from "./Errors/ApiError";
 export class Collection {
 
     public async getOneCollectionDocumentsCount(databaseName: string): Promise<ICollectionInfo[]> {
-        const instance = await new Instance().connection();
+        const instance = Instance.Client;
         const db = instance.db(databaseName);
         const collectionsList = await db.listCollections().toArray();
         let collectionInfo: ICollectionInfo[] = [];
@@ -44,7 +44,7 @@ export class Collection {
 
     public async addNewCollection(databaseName: string, collectionName: string): Promise<true | ApiError> {
         try{   
-            const instance = await new Instance().connection();
+            const instance = Instance.Client;
             const db = instance.db(databaseName);
 
             if(!collectionName)
@@ -70,7 +70,7 @@ export class Collection {
 
     public async deleteCollection(databaseName: string, collectionName: string): Promise<String | ApiError>{
         try{
-            const instance = await new Instance().connection();
+            const instance = Instance.Client;
             const db = instance.db(databaseName);
 
             if(!collectionName)

@@ -8,7 +8,7 @@ import { ApiError } from "./Errors/ApiError";
 export class Database{
     
     public async listDatabase() {
-        const client  = await new Instance().connection();
+        const client  = Instance.Client;
         try{
             const listDatabase = await client.db().admin().listDatabases(); //todo add authoreddatabase to true
             const rows: IDatabaseRO[] = []
@@ -36,7 +36,7 @@ export class Database{
 
     public async createDatabase(databaseName: string, collectionName: string): Promise<true | ApiError>{
         try{
-            const client = await new Instance().connection();
+            const client = Instance.Client;
             
             if(!databaseName || databaseName == 'admin')
                 return new ApiError(400, 'query/invalid', 'invalid_database_name')
@@ -62,7 +62,7 @@ export class Database{
         if(!databaseName)
             return new ApiError(400, 'query/not-found', 'database_name_not_found');
         try{            
-            const client = await new Instance().connection();
+            const client = Instance.Client;
            
             if(Array.isArray(databaseName)){
                 for(let index=0; index < databaseName.length; index++){
