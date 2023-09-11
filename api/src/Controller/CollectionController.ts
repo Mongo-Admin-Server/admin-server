@@ -21,15 +21,10 @@ export class CollectionController {
         const { collectionName } = request.body;
         const collection = await new Collection().addNewCollection(databaseName, collectionName);
 
-        if (!collection) {
-            response.status(400).json('error');
-        } else {
-            try {
-                response.status(200).json(collection);
-            } catch (error) {
-                response.status(409).json('error');
-            }
-        }
+        if(collection === true)
+            response.status(200).json(collection);
+        else
+            response.status(collection.code).json(collection.json)
 
     }
 
