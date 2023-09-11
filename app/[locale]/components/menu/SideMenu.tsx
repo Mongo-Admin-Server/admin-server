@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { useI18n } from '@/shared/locales/clients';
-import { useRouter } from 'next/navigation';
 
 import styles from './menu.module.scss';
 
@@ -22,14 +21,13 @@ import {
   selectCollectionSelected,
   selectCollectionByDatabase,
   setCollectionSelected,
-  selectLoadingCollection,
 } from '@/domain/usecases/collection-slice';
 import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useI18n();
-  const router = useRouter();
+
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
@@ -43,23 +41,11 @@ const SideMenu = () => {
   const collections = useSelector(selectCollectionByDatabase).map(
     (collection) => collection.collectionName
   );
-  const loadingCollection = useSelector(selectLoadingCollection);
 
   const theme = useSelector(selectTheme);
 
   const handleChangeTheme = () => {
     theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'));
-  };
-
-  const handleDatabaseChange = (database: string) => {
-    router.push(`/dashboard/${database}`);
-    dispatch(setDatabaseSelected(database));
-    dispatch(setCollectionSelected(''));
-  };
-
-  const handleCollectionChange = (collection: string) => {
-    dispatch(setCollectionSelected(collection));
-    router.push(`/dashboard/${databaseSelected}/${collection}`);
   };
 
   return (
@@ -72,10 +58,10 @@ const SideMenu = () => {
             label={t('menuSideBar.database')}
             value={databaseSelected}
             options={databases}
-            onChange={(e) => handleDatabaseChange(e.target.value)}
+            onChange={(e) => dispatch(setDatabaseSelected(e.target.value))}
           />
 
-          {(databaseSelected && !loadingCollection) &&  (
+          {databaseSelected && (
             <section>
               <h5>{t('menuSideBar.collection')}</h5>
               <div className={styles.collections}>
@@ -83,7 +69,7 @@ const SideMenu = () => {
                   collections={collections}
                   collectionSelected={collectionSelected}
                   onClick={(collection) =>
-                    handleCollectionChange(collection)
+                    dispatch(setCollectionSelected(collection))
                   }
                 />
               </div>
@@ -125,7 +111,7 @@ const SideMenu = () => {
             padding="0 20px"
             transparent
             variant='danger'
-            onClick={() => router.push(`/login`)}
+            onClick={() => console.log('Click logout')}
           >
             {t('menuSideBar.logout')}
           </GenericButton>

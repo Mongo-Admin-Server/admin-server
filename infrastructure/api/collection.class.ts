@@ -5,20 +5,6 @@ class Collection {
     const response = await axios.get(`/collection/${database}`);
     return response.data;
   }
-  
-  public async deleteCollectionByName (databaseName: string, collectionName: string) {
-    {
-      const response = await axios.delete('/collection/', {
-        data: { databaseName, collectionName } 
-      });
-      return response.data;
-    } 
-  }
-
-  public async postCollectionByName(databaseName: string, collectionName: string) {
-    const response = await axios.post(`/collection/`, { databaseName, collectionName });
-    return response.data
-  }
 }
 
 export const collection = new Collection()

@@ -34,18 +34,13 @@ export const settingSlice = createSlice({
   },
 });
 
-export const { setTheme, setLanguage } = settingSlice.actions;
+export const { setTheme } = settingSlice.actions;
 
-const selectSettings = (state: { setting: SettingState }) => state.setting;
+const selectThemes = (state: { setting: SettingState }) => state.setting;
 
 export const selectTheme = createSelector(
-  selectSettings,
+  selectThemes,
   (setting) => setting.theme
 );
-
-export const selectLanguage = createSelector(
-  selectSettings,
-  (setting) => setting.language
-)
 
 export default settingSlice.reducer;
