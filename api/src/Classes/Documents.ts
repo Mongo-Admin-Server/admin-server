@@ -4,25 +4,21 @@ import { type WithId, type Document, ObjectId, InsertOneResult, DeleteResult, Up
 
 export class Documents {
 
-    public async getAllDocumentsByCollection(databaseName: string | string[], collectionName: string | string[]): Promise<WithId<Document>[]>{
-        const client = await new Instance().connection();
-        if(Array.isArray(databaseName)){
-            throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
-        }else{
-            const collections = Array.isArray(collectionName) ? collectionName : [collectionName];
-            const findAllPromises = collections.map(async (n) => {
-                return client.db(databaseName).collection(n).find().toArray();
-            });
+    public async getAllDocumentsByCollection(databaseName: string, collectionName: string, perPage: string, page: string): Promise<{ documents: WithId<Document>[], total: number }>{
+        const _perPage = parseInt(perPage) || 10;
+        const _currentPage = parseInt(page) || 0;
 
-            try {
-                const allResults = await Promise.all(findAllPromises);
-                const findAllDocuments = allResults.reduce((accumulator, current) => accumulator.concat(current), []);
-                return findAllDocuments;
-            } catch (error) {
-                throw new Error(`Error fetching documents of collection ${collectionName}: ${error}`);
-            }finally{
-               await client.close();
-            }
+        const client = await new Instance().connection();
+
+        try {
+            const documents = await client.db(databaseName).collection(collectionName).find().skip(_currentPage * _perPage).limit(_perPage).toArray();
+            const total = await client.db(databaseName).collection(collectionName).countDocuments();
+
+            return { documents, total };
+        } catch (error) {
+            throw new Error("Error getting all documents by collection : " + error);
+        } finally {
+            await client.close();
         }
     }
 
