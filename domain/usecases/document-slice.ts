@@ -23,12 +23,10 @@ export const documentSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchAllDocumentByCollection.pending, (state) => {
-      console.log("fetching document");
       state.loading = true;
       state.error = "";
     });
     builder.addCase(fetchAllDocumentByCollection.fulfilled, (state) => {
-      console.log("fetching document success");
       state.loading = false;
       state.error = "";
     });
@@ -128,17 +126,14 @@ export const postDocument = createAsyncThunk(
   "document/postDocument",
   async (
     query: JSON,
-    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }
+    { rejectWithValue }: { rejectWithValue: any }
   ) => {
     try {
       const reduxStore = store.getState()
       const databaseName = reduxStore.database.databaseSelected;
       const collectionName = reduxStore.collection.collectionSelected;
 
-      console.log("query", query);
-
       await Api.document.postDocument(databaseName, collectionName, query);
-      dispatch(fetchAllDocumentByCollection(collectionName));
     } catch (error) {
       console.error("Erreur lors du post document : ", error);
       return rejectWithValue("Couldn't post document");
@@ -150,7 +145,7 @@ export const deleteDocument = createAsyncThunk(
   "document/deleteDocument",
   async (
     id: string,
-    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }
+    { rejectWithValue }: { rejectWithValue: any }
   ) => {
     try {
       const reduxStore = store.getState()
@@ -158,7 +153,6 @@ export const deleteDocument = createAsyncThunk(
       const collectionName = reduxStore.collection.collectionSelected;
 
       await Api.document.deleteDocument(databaseName, collectionName, id);
-      dispatch(fetchAllDocumentByCollection(collectionName));
     } catch (error) {
       console.error("Erreur lors du delete document : ", error);
       return rejectWithValue("Couldn't delete document");

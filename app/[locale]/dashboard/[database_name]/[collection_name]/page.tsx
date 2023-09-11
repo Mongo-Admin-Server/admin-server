@@ -64,6 +64,7 @@ export default function DocumentsPage({
 
   const handleDelete = async () => {
     await dispatch(deleteDocument(currentDocument));
+    fetchDocuments();
     setOpenDeleteModal(false);
   };
 
@@ -102,6 +103,7 @@ export default function DocumentsPage({
         open={openDocumentModal}
         idDocument={currentDocument}
         onClose={() => setOpenDocumentModal(false)}
+        onValidate={() => fetchDocuments()}
       />
     </>
   );

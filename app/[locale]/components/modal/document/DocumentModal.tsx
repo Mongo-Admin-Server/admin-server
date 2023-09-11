@@ -19,13 +19,14 @@ interface DocumentModalProps {
   idDocument?: string;
   open: boolean;
   onClose: () => void;
+  onValidate: () => void;
 }
 
 interface LocaleType {
   [key: string]: any;
 }
 
-const DocumentModal = ({ idDocument, open, onClose }: DocumentModalProps) => {
+const DocumentModal = ({ idDocument, open, onClose, onValidate }: DocumentModalProps) => {
   const t = useI18n();
   const dispatch = useDispatch();
 
@@ -59,6 +60,7 @@ const DocumentModal = ({ idDocument, open, onClose }: DocumentModalProps) => {
     else await dispatch(postDocument(document));
 
     onClose();
+    onValidate();
   };
 
   return (
