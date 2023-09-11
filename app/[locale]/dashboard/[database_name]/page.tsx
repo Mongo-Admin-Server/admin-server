@@ -15,7 +15,9 @@ import {
   selectCollectionByDatabase,
   selectLoadingCollection,
   setCollectionSelected,
+  deleteCollectionByName
 } from '@/domain/usecases/collection-slice';
+import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
 
 export default function CollectionsPage({
   params,
@@ -26,10 +28,13 @@ export default function CollectionsPage({
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setCollectionSelected(''));
     dispatch(fetchCollectionByDatabase(params.database_name));
   }, [params.database_name, dispatch]);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [collectionNameToDelete, setCollectionNameToDelete] = useState('');
+  const [openCreateModal, setOpenCreateModal] = useState(false);
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
@@ -67,28 +72,38 @@ export default function CollectionsPage({
   });
 
   const handleClick = (action: string, index?: number) => {
-    switch (action) {
-      case 'create':
-        console.log('Create');
-        break;
-      case 'trash':
-        // save index in state to delete the right database
-        setOpenDeleteModal(true);
-        break;
-      case 'search':
-        console.log('Search');
-        break;
-      case 'refresh':
-        dispatch(fetchCollectionByDatabase(params.database_name));
-        break;
-      default:
-        break;
-    }
+    let collectionToDelete;
+      switch (action) {
+        case 'add':
+          setOpenCreateModal(true);
+          break;
+        case 'trash':
+          collectionToDelete = collections[index!];
+          setCollectionNameToDelete(collectionToDelete.collectionName)
+          setOpenDeleteModal(true);
+          break;
+        case 'search':
+          console.log('Search');
+          break;
+        case 'refresh':
+          dispatch(fetchCollectionByDatabase(params.database_name));
+          break;
+        default:
+          break;
+      }
   };
-
-  const handleDelete = () => {
-    console.log('Delete');
-  };
+  
+  const handleDelete = ()=> {
+    if (!collectionNameToDelete) return;
+    dispatch(
+      deleteCollectionByName({
+        databaseName: params.database_name,
+        collectionName: collectionNameToDelete,
+      })
+    );
+    setCollectionNameToDelete('');
+    setOpenDeleteModal(false);
+  }
 
   return (
     <>
@@ -108,12 +123,16 @@ export default function CollectionsPage({
           onClick={(action, index) => handleClick(action, index)}
         />
       )}
-
+    
       <ConfirmModal
         open={openDeleteModal}
         description={t('collection.deleteConfirm')}
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
+      />
+      <FormCreateCollection
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)} 
       />
     </>
   );

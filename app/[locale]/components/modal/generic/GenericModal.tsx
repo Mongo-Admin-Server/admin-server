@@ -9,15 +9,31 @@ import styles from './modal.module.scss';
 interface GenericModalProps {
   open: boolean;
   title: string;
+  confirmLabelTrad?: string;
+  typeButton?: 'submit' | 'button';
+  cancelLabelTrad?: string;
   withButton?: boolean;
+  disabledButton?: boolean;
   children: React.ReactNode;
   onClose: () => void;
   onValidate?: () => void;
 }
 
-const GenericModal = ({ open, title, withButton = true, children, onClose, onValidate }: GenericModalProps) => {
+const GenericModal = ({ open, title, confirmLabelTrad, cancelLabelTrad, typeButton = 'button', disabledButton = false, withButton = true, children, onClose, onValidate }: GenericModalProps) => {
   const t = useI18n();
   const modalRef = useRef(null);
+
+  const confirmText = useMemo(() => {
+    if (confirmLabelTrad) return confirmLabelTrad
+    return t('modal.button.confirm');
+  
+  }, [confirmLabelTrad, t])
+
+  const cancelText = useMemo(() => {
+    if (cancelLabelTrad) return cancelLabelTrad
+    return t('modal.button.cancel');
+  
+  }, [cancelLabelTrad, t])
 
   const dialogClasses = useMemo(() => {
     const _arr = [styles["modal"]];
@@ -78,13 +94,15 @@ const GenericModal = ({ open, title, withButton = true, children, onClose, onVal
             outline
             onClick={onClose}
           >
-            {t('modal.button.cancel')}
+            {cancelText}
           </GenericButton>
           <GenericButton
+            type={typeButton}
+            disabled={disabledButton}
             center
             onClick={onValidate}
           >
-            {t('modal.button.confirm')}
+            {confirmText}
           </GenericButton>
         </section>
       )}
