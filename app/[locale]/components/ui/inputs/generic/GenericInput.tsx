@@ -9,7 +9,7 @@ interface GenericInputProps {
   value: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  type: 'text' | 'password' | 'email' | 'number';
+  type: 'text' | 'password' | 'email';
   placeholder?: string;
   error?: string;
 }

@@ -26,7 +26,6 @@ export default {
     button: {
       cancel: 'Annuler',
       confirm: 'Confirmer',
-      create: 'Créer',
     },
   },
   database: {
@@ -37,7 +36,6 @@ export default {
     deleteError: 'Erreur lors de la suppression de la base de données',
     createSuccess: 'Base de données créée avec succès',
     createError: 'Erreur lors de la création de la base de données',
-    createTitle: 'Créer une base de données',
     name: 'Base de données',
     storage: 'Stockage',
     collection: 'Collections',
@@ -45,7 +43,6 @@ export default {
   },
   collection: {
     title: 'Collections',
-    create: 'Créer une collection',
     collectionName: 'Nom Collection',
     count: 'Document',
     avgDocumentSize: 'Taille Moyenne Document',
@@ -53,22 +50,6 @@ export default {
     indexes: 'Numero Index',
     totalIndexSize: 'Taille Totale Index',
     deleteConfirm: 'Êtes-vous sûr de vouloir supprimer cette collection ?',
-  },
-  formCreateCollection: {
-    title: 'Créer une collection',
-    collectionName: 'Nom de la collection',
-  },
-  document: {
-    noDocument: 'Aucun document',
-    deleteConfirm: 'Êtes-vous sûr de vouloir supprimer ce document ?',
-    deleteSuccess: 'Document supprimé avec succès',
-    deleteError: 'Erreur lors de la suppression du document',
-    updateSuccess: 'Document mis à jour avec succès',
-    updateError: 'Erreur lors de la mise à jour du document',
-    createSuccess: 'Document créé avec succès',
-    createError: 'Erreur lors de la création du document',
-    createTitle: 'Créer un document',
-    updateTitle: 'Mettre à jour le document',
   },
   language: {
     en: '🇬🇧 Anglais',

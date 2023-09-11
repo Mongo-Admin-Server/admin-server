@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useI18n } from '@/shared/locales/clients';
 import Link from 'next/link';
 
@@ -10,29 +10,13 @@ import Title from '@components/title/Title';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 
 import { useSelector, useDispatch } from '@/store/store';
-import { 
-  selectDatabases,
-  fetchAllDatabase, 
-  selectLoading, 
-  setDatabaseSelected,
-  deleteDatabase
- } from '@/domain/usecases/database-slice';
-
-import { setCollectionSelected } from '@/domain/usecases/collection-slice';
-import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
+import { selectDatabases, fetchAllDatabase, selectLoading, setDatabaseSelected } from '@/domain/usecases/database-slice';
 
 export default function DashboardPage() {
   const t = useI18n();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setDatabaseSelected(''));
-    dispatch(setCollectionSelected(''));
-  }, [dispatch]);
-
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [databaseNameToDelete, setDatabaseNameToDelete] = useState('');
-  const [openCreateModal, setOpenCreateModal] = useState(false);
 
   const databases = useSelector(selectDatabases);
   const loading = useSelector(selectLoading);
@@ -61,11 +45,11 @@ export default function DashboardPage() {
 
   const handleClick = (action: string, index?: number) => {
     switch (action) {
-      case 'add':
-        setOpenCreateModal(true);
+      case 'create':
+        console.log('Create');
         break;
       case 'trash':
-        setDatabaseNameToDelete(databases[index!].name)
+        // save index in state to delete the right database
         setOpenDeleteModal(true);
         break;
       case 'search':
@@ -80,11 +64,8 @@ export default function DashboardPage() {
   };
 
   const handleDelete = () => {
-    if (!databaseNameToDelete) return;
-    dispatch(deleteDatabase(databaseNameToDelete));
-    setDatabaseNameToDelete(''); 
-    setOpenDeleteModal(false);
-  };  
+    console.log('Delete');
+  };
 
   return (
     <>
@@ -111,11 +92,7 @@ export default function DashboardPage() {
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
       />
-
-      <FormCreateDB
-        open={openCreateModal}
-        onClose={() => setOpenCreateModal(false)}
-      />
     </>
   );
 }
+
