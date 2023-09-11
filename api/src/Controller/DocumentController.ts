@@ -2,29 +2,17 @@ import { NextApiResponse } from "next";
 import { Documents } from "../Classes/Documents";
 import { UpdateFilter } from "mongodb";
 import { ApiError } from "./../Classes/Errors/ApiError";
+import { RequestCustomDocument } from "@/api/src/types/IDocument";
 
 export class DocumentController {
     
-    public async getAllDocumentsByCollection(response: NextApiResponse, databaseName: string | string[], collectionName: string | string[]): Promise<any> {
-        const documents = await new Documents().getAllDocumentsByCollection(databaseName, collectionName);
-        const countDocuments = await new Documents().countDocumentsByCollection(databaseName, collectionName);
-        const avgSizeDocument = await new Documents().averageSizeDocumentsByCollection(databaseName, collectionName);
-        const totalSizeDocument = await new Documents().totalSizeDocumentsByCollection(databaseName, collectionName);
-        if(!documents ) {
-            response.status(404).json('error');
-        } else {
-            try {
-                response.status(200).json({
-                    databaseName: databaseName,
-                    collectionName: collectionName,
-                    result: documents,
-                    count: countDocuments,
-                    avgSize: avgSizeDocument,
-                    totalSize: totalSizeDocument
-                });
-            } catch(error) {
-                response.status(500).json('error');
-            }
+    public async getAllDocumentsByCollection(response: NextApiResponse, request: RequestCustomDocument): Promise<void> {
+        try {
+            const { databaseName, name, perPage, page } = request.query;
+            const { documents, total } = await new Documents().getAllDocumentsByCollection(databaseName, name, perPage, page);
+            response.status(200).json({ documents, total });
+        } catch (error) {
+            response.status(500).json('error');
         }
     }
 

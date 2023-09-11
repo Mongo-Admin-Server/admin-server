@@ -1,15 +1,13 @@
 import { DocumentController } from "@/api/src/Controller/DocumentController";
 import { NextApiRequest, NextApiResponse } from "next";
+import { RequestCustomDocument } from "@/api/src/types/IDocument";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse){
+export default function handler(req: RequestCustomDocument, res: NextApiResponse){
     
     const documents = new DocumentController();
     switch(req.method){
         case 'GET':
-            // eslint-disable-next-line no-case-declarations
-            if(documents && req.query.name && req.query.databaseName) {
-                documents.getAllDocumentsByCollection(res, req.query.databaseName, req.query.name);
-            }
+            documents.getAllDocumentsByCollection(res, req);
             break;
         case 'POST':
             if(documents && req.query.databaseName && req.query.name && req.body) {
