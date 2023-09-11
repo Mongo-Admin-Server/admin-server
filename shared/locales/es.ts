@@ -3,6 +3,7 @@ export default {
     login: 'Iniciar sesión',
     selected: 'Idioma',
     userName: 'Nombre de usuario',
+    connexionUrl: 'Connexion Url',
     passWord: 'Contraseña',
   },
   theme: {

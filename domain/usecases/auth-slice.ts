@@ -49,6 +49,18 @@ export const authSlice = createSlice({
       state.loading = false;
       state.error = "";
     });
+    builder.addCase(postUser.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(postUser.fulfilled, (state) => {
+      state.isLogged = false;
+      state.error = ""
+    });
+    builder.addCase(postUser.rejected, (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
   }
 });
 
@@ -77,6 +89,18 @@ export const logout = createAsyncThunk(
     }
   }
 );
+
+export const postUser = createAsyncThunk(
+  "auth/postUser",
+  async(connection_url: string, { rejectWithValue }: { rejectWithValue: any }) => {
+    try {
+      await Api.auth.postUser(connection_url);
+    } catch (error) {
+      console.error("Erreur lors du login : ", error);
+      return rejectWithValue("Couldn't login");
+    }
+  }
+)
 
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
 
