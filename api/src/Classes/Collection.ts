@@ -42,7 +42,7 @@ export class Collection {
         return collectionInfo;
     }
 
-    public async addNewCollection(databaseName: string, collectionName: string): Promise<String | ApiError> {
+    public async addNewCollection(databaseName: string, collectionName: string): Promise<true | ApiError> {
         try{   
             const instance = await new Instance().connection();
             const db = instance.db(databaseName);
@@ -61,7 +61,7 @@ export class Collection {
             return new ApiError(409, 'collection/duplicate-value', 'collection_already_exist')
 
             await db.createCollection(collectionName);
-            return 'collection_created'
+            return true
         }catch(error){
             throw(error);
         }
