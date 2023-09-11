@@ -4,6 +4,7 @@ export default {
     selected: 'Language',
     userName: 'Username',
     passWord: 'Password',
+    connexionUrl: 'Connexion Url',
     login: 'Sign in',
   },
   theme: {
