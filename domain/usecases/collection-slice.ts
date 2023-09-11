@@ -37,7 +37,11 @@ export const collectionSlice = createSlice({
   reducers: {
     setCollectionSelected: (state, action: PayloadAction<string>) => {
       state.collectionSelected = action.payload;
+      fetchCollectionByDatabase(action.payload);
     },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    }
   },
   extraReducers(builder) {
     builder.addCase(fetchCollectionByDatabase.pending, (state) => {
@@ -73,12 +77,12 @@ export const collectionSlice = createSlice({
     builder.addCase(postCollectionByName.fulfilled, (state, action) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch("alert", {type: "success", message: createSuccess[action.payload]})
+      eventEmitter.dispatch("alert", {type: "success", message: createSuccess[action.payload]}) 
     })
-    builder.addCase(postCollectionByName.rejected, (state, action) => {
+    builder.addCase(postCollectionByName.rejected, (state, action: any) => {
       state.loading = false;
-      state.error = "";
-      eventEmitter.dispatch("alert", {type: "error", message: createError[action.payload as string]})
+      state.error = action.payload;
+      //eventEmitter.dispatch("alert", {type: "error", message: "Collection already exists"})
     });
   },
 });
@@ -117,18 +121,20 @@ export const postCollectionByName = createAsyncThunk(
     try {
       const reduxStore = store.getState()
       const language = reduxStore.setting.language
-      const databaseName = reduxStore.database.databaseSelected;
+      const databaseName: string = reduxStore.database.databaseSelected;
       await Api.collection.postCollectionByName(databaseName, collectionName);
       dispatch(fetchCollectionByDatabase(databaseName))
 
       return language
-    } catch (error) {
-      console.error('Erreur lors de la creation', error)
-      return rejectWithValue("Couldn't post collection");
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        return rejectWithValue("Collection already exists");
+      }
+      return rejectWithValue("Couldn't post Collection");
     }
   }
 );
-export const { setCollectionSelected } = collectionSlice.actions;
+export const { setCollectionSelected, setError } = collectionSlice.actions;
 
 const selectCollection = (state: { collection: CollectionState }) => state.collection;
 
@@ -146,5 +152,10 @@ export const selectLoadingCollection = createSelector(
   selectCollection,
   (collection) => collection.loading
 );
+
+export const selectError = createSelector(
+  selectCollection,
+  (collection) => collection.error
+)
 
 export default collectionSlice.reducer;

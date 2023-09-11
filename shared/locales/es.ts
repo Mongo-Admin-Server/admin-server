@@ -57,6 +57,7 @@ export default {
   formCreateCollection: {
     title: 'Crear Colección',
     collectionName: 'Nombre de la Colección',
+    spacesNotAllowedErrorMessage:  'No se permiten espacios en el nombre.',
   },
   document: {
     noDocument: 'Ningún documento',
