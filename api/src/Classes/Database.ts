@@ -59,7 +59,9 @@ export class Database{
     }
 
     public async dropDatabase(databaseName: string | string[] | undefined): Promise<boolean | ApiError>{
-        try{
+        if(!databaseName)
+            return new ApiError(400, 'query/not-found', 'database_name_not_found');
+        try{            
             const client = await new Instance().connection();
            
             if(Array.isArray(databaseName)){
@@ -68,7 +70,7 @@ export class Database{
                         dbStats:1
                     });
                     if(stats.collections === 0)
-                        return new ApiError(409, 'database/not-found', 'database_not_found')
+                        return new ApiError(400, 'database/not-found', 'database_not_found')
                     await client.db(databaseName[index]).dropDatabase();
                 }
                 return true;
@@ -77,7 +79,7 @@ export class Database{
                     dbStats:1
                 });
                 if(stats.collections === 0)
-                    return new ApiError(409, 'database/not-found', 'database_not_found')
+                    return new ApiError(400, 'database/not-found', 'database_not_found')
                 const status = await client.db(databaseName).dropDatabase();
                 return status;
             }
