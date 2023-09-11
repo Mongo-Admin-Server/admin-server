@@ -60,6 +60,15 @@ export default {
   },
   document: {
     noDocument: 'Ningún documento',
+    deleteConfirm: '¿Estás seguro de que quieres eliminar este documento?',
+    deleteSuccess: 'Documento eliminado con éxito',
+    deleteError: 'Error al eliminar el documento',
+    updateSuccess: 'Documento actualizado con éxito',
+    updateError: 'Error al actualizar el documento',
+    createSuccess: 'Documento creado con éxito',
+    createError: 'Error al crear el documento',
+    createTitle: 'Crear documento',
+    updateTitle: 'Actualizar documento',
   },
   language: {
     en: '🇬🇧 Inglés',

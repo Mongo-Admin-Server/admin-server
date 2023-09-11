@@ -4,32 +4,34 @@ import { useCallback, useEffect, useState } from 'react';
 import Title from '@components/title/Title';
 import Table from '@components/ui/table/Table';
 import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
-// import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+import DocumentModal from '@components/modal/document/DocumentModal';
 
-import { useSelector } from '@/store/store';
-import { selectDatabaseSelected } from '@/domain/usecases/database-slice';
+import { useDispatch, useSelector } from '@/store/store';
+import { fetchAllDocumentByCollection, deleteDocument, selectLoadingDocument } from '@/domain/usecases/document-slice';
 
-import * as Api from '@/infrastructure';
+import { useI18n } from '@/shared/locales/clients';
 
 export default function DocumentsPage({
   params,
 }: {
   params: { collection_name: string };
 }) {
-  const [documents, setDocuments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const t = useI18n();
+  const dispatch = useDispatch();
 
-  const databaseSelected = useSelector(selectDatabaseSelected);
+  const [documents, setDocuments] = useState([]);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openDocumentModal, setOpenDocumentModal] = useState(false);
+  const [currentDocument, setCurrentDocument] = useState('');
+
+  const loading = useSelector(selectLoadingDocument);
 
   const fetchDocuments = useCallback(async () => {
-    setLoading(true);
-    const response = await Api.document.getAllDocumentByCollection(
-      databaseSelected,
-      params.collection_name
-    );
-    setDocuments(response);
-    setLoading(false);
-  }, [databaseSelected, params.collection_name]);
+    const response = await dispatch(fetchAllDocumentByCollection(params.collection_name));
+    setDocuments(response.payload);
+
+  }, [dispatch, params.collection_name]);
 
   useEffect(() => {
     fetchDocuments();
@@ -38,10 +40,12 @@ export default function DocumentsPage({
   const handleClick = (action: string, index?: number) => {
     switch (action) {
       case 'add':
-        console.log('Create');
+        setCurrentDocument('');
+        setOpenDocumentModal(true);
         break;
       case 'trash':
-        // setOpenDeleteModal(true);
+        setCurrentDocument((documents[index!] as any)._id);
+        setOpenDeleteModal(true);
         break;
       case 'search':
         console.log('Search');
@@ -49,9 +53,19 @@ export default function DocumentsPage({
       case 'refresh':
         fetchDocuments();
         break;
+      case 'edit':
+        setCurrentDocument((documents[index!] as any)._id);
+        setOpenDocumentModal(true);
+        break;
       default:
         break;
     }
+  };
+
+  const handleDelete = async () => {
+    await dispatch(deleteDocument(currentDocument));
+    fetchDocuments();
+    setOpenDeleteModal(false);
   };
 
   const renderTable = () => {
@@ -63,6 +77,7 @@ export default function DocumentsPage({
         data_header={Object.keys(documents[0])}
         data_body={documents}
         actions={['trash', 'edit']}
+        onClick={(action, index) => handleClick(action, index)}
       />
     );
   };
@@ -76,6 +91,20 @@ export default function DocumentsPage({
       />
 
       {renderTable()}
+
+      <ConfirmModal
+        open={openDeleteModal}
+        description={t('document.deleteConfirm')}
+        onConfirm={handleDelete}
+        onClose={() => setOpenDeleteModal(false)}
+      />
+
+      <DocumentModal
+        open={openDocumentModal}
+        idDocument={currentDocument}
+        onClose={() => setOpenDocumentModal(false)}
+        onValidate={() => fetchDocuments()}
+      />
     </>
   );
 }
