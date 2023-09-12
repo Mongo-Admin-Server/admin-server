@@ -1,6 +1,5 @@
 import { Db } from "mongodb";
 import { Instance } from "./Instance";
-import { database } from "@/infrastructure";
 import { ApiError } from "./Errors/ApiError";
 import { IDatabaseRO } from "@/domain/entities/database-types";
 
