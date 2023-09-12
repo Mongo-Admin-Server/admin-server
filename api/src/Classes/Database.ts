@@ -1,14 +1,12 @@
 import { Db } from "mongodb";
 import { Instance } from "./Instance";
-import { IDatabaseRO } from "../types/IDatabase";
-import { database } from "@/infrastructure";
 import { ApiError } from "./Errors/ApiError";
-
+import { IDatabaseRO } from "@/domain/entities/database-types";
 
 export class Database{
     
     public async listDatabase() {
-        const client  = await new Instance().connection();
+        const client  = await Instance.Client.connect();
         try{
             const listDatabase = await client.db().admin().listDatabases(); //todo add authoreddatabase to true
             const rows: IDatabaseRO[] = []
@@ -36,7 +34,7 @@ export class Database{
 
     public async createDatabase(databaseName: string, collectionName: string): Promise<true | ApiError>{
         try{
-            const client = await new Instance().connection();
+            const client = await Instance.Client.connect();
             
             if(!databaseName || databaseName == 'admin')
                 return new ApiError(400, 'query/invalid', 'invalid_database_name')
@@ -62,7 +60,7 @@ export class Database{
         if(!databaseName)
             return new ApiError(400, 'query/not-found', 'database_name_not_found');
         try{            
-            const client = await new Instance().connection();
+            const client = await Instance.Client.connect();
            
             if(Array.isArray(databaseName)){
                 for(let index=0; index < databaseName.length; index++){

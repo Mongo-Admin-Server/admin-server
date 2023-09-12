@@ -1,16 +1,15 @@
 import { Instance } from "./Instance";
-import { IResult} from '../types/IResult';
-import { ICollectionInfo } from '../types/ICollectionInfo';
+import { IResult} from '../../../domain/entities/api/IResult';
 import { ApiError } from "./Errors/ApiError";
- 
+import { CollectionType } from "@/domain/entities/collection-types";
 
 export class Collection {
 
-    public async getOneCollectionDocumentsCount(databaseName: string): Promise<ICollectionInfo[]> {
-        const instance = await new Instance().connection();
+    public async getOneCollectionDocumentsCount(databaseName: string): Promise<CollectionType[]> {
+        const instance = await Instance.Client.connect();
         const db = instance.db(databaseName);
         const collectionsList = await db.listCollections().toArray();
-        let collectionInfo: ICollectionInfo[] = [];
+        let collectionInfo: CollectionType[] = [];
 
         for (const collection of collectionsList) {
             const colName = collection.name;
@@ -44,7 +43,7 @@ export class Collection {
 
     public async addNewCollection(databaseName: string, collectionName: string): Promise<true | ApiError> {
         try{   
-            const instance = await new Instance().connection();
+            const instance = await Instance.Client.connect();
             const db = instance.db(databaseName);
 
             if(!collectionName)
@@ -70,7 +69,7 @@ export class Collection {
 
     public async deleteCollection(databaseName: string, collectionName: string): Promise<String | ApiError>{
         try{
-            const instance = await new Instance().connection();
+            const instance = await Instance.Client.connect();
             const db = instance.db(databaseName);
 
             if(!collectionName)
