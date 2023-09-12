@@ -73,6 +73,9 @@ export default {
     createTitle: 'Create document',
     updateTitle: 'Update document',
   },
+  pagination: {
+    jumpTo: 'Go to page',
+  },
   language: {
     en: '🇬🇧 English',
     fr: '🇫🇷 French',

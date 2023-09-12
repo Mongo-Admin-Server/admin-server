@@ -40,4 +40,11 @@
     right: 12px;
     cursor: pointer;
   }
+
+  .input::-webkit-outer-spin-button,
+  .xinput::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
 }

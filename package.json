@@ -1,12 +1,13 @@
 {
-  "name": "admin-server",
+  "name": "mongo-admin-server",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "mongo-admin": "next build && next start -p 3402",
     "test": "jest --watch",
     "prettier": "prettier --write .",
     "prepare": "husky install"

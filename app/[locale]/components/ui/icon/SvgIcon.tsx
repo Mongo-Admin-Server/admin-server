@@ -17,6 +17,11 @@ import Succes from '@/shared/icons/success.svg';
 import Error from '@/shared/icons/error.svg';
 import Info from '@/shared/icons/info.svg';
 import Warning from '@/shared/icons/warning.svg';
+import ChevronLeft from '@/shared/icons/chevronLeft.svg';
+import ChevronRight from '@/shared/icons/chevronRight.svg';
+import ChevronsLeft from '@/shared/icons/chevronsLeft.svg';
+import ChevronsRight from '@/shared/icons/chevronsRight.svg';
+import Elipsis from '@/shared/icons/elipsis.svg';
 
 interface IconTypes {
   [key: string]: React.ComponentType<{
@@ -52,6 +57,11 @@ const iconTypes: IconTypes = {
   error: Error,
   info: Info,
   warning: Warning,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
+  chevronsLeft: ChevronsLeft,
+  chevronsRight: ChevronsRight,
+  elipsis: Elipsis,
 };
 
 const SvgIcon = ({ icon_name, className, onClick }: SvgIconProps) => {
