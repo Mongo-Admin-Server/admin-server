@@ -88,13 +88,13 @@ export const documentSlice = createSlice({
 /************   USECASES FUNCTIONS FOR DOCUMENT  ************/
 export const fetchAllDocumentByCollection = createAsyncThunk(
   "document/fetchAllDocumentByCollection",
-  async (collection: string, { rejectWithValue }: { rejectWithValue: any }) => {
+  async ({ collection, currentPage, perPage }: {collection: string, currentPage: number, perPage: number}, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
       const reduxStore = store.getState()
       const databaseName = reduxStore.database.databaseSelected;
 
-      const response = await Api.document.getAllDocumentByCollection(databaseName, collection);
-      return response;
+      const { documents, total } = await Api.document.getAllDocumentByCollection(databaseName, collection, currentPage, perPage);
+      return { documents, total };
     } catch (error) {
       console.error("Erreur lors du fetch document : ", error);
       return rejectWithValue("Couldn't get document");
