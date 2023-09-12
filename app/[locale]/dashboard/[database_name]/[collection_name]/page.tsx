@@ -101,7 +101,6 @@ export default function DocumentsPage({
           data_header={Object.keys(documents[0])}
           data_body={documents}
           actions={['trash', 'edit']}
-          maxHeight='80%'
           onClick={(action, index) => handleClick(action, index)}
         />
 
