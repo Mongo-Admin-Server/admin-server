@@ -7,7 +7,7 @@ import { IDatabaseRO } from "@/domain/entities/database-types";
 export class Database{
     
     public async listDatabase() {
-        const client  = Instance.Client;
+        const client  = await Instance.Client.connect();
         try{
             const listDatabase = await client.db().admin().listDatabases(); //todo add authoreddatabase to true
             const rows: IDatabaseRO[] = []
@@ -35,7 +35,7 @@ export class Database{
 
     public async createDatabase(databaseName: string, collectionName: string): Promise<true | ApiError>{
         try{
-            const client = Instance.Client;
+            const client = await Instance.Client.connect();
             
             if(!databaseName || databaseName == 'admin')
                 return new ApiError(400, 'query/invalid', 'invalid_database_name')

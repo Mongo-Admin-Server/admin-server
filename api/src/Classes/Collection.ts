@@ -6,7 +6,7 @@ import { CollectionType } from "@/domain/entities/collection-types";
 export class Collection {
 
     public async getOneCollectionDocumentsCount(databaseName: string): Promise<CollectionType[]> {
-        const instance = Instance.Client;
+        const instance = await Instance.Client.connect();
         const db = instance.db(databaseName);
         const collectionsList = await db.listCollections().toArray();
         let collectionInfo: CollectionType[] = [];
@@ -43,7 +43,7 @@ export class Collection {
 
     public async addNewCollection(databaseName: string, collectionName: string): Promise<true | ApiError> {
         try{   
-            const instance = Instance.Client;
+            const instance = await Instance.Client.connect();
             const db = instance.db(databaseName);
 
             if(!collectionName)
@@ -69,7 +69,7 @@ export class Collection {
 
     public async deleteCollection(databaseName: string, collectionName: string): Promise<String | ApiError>{
         try{
-            const instance = Instance.Client;
+            const instance = await Instance.Client.connect();
             const db = instance.db(databaseName);
 
             if(!collectionName)
