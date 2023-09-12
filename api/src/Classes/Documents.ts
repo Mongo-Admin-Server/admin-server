@@ -5,7 +5,6 @@ import { type WithId, type Document, ObjectId, InsertOneResult, DeleteResult, Up
 export class Documents {
 
     public async getAllDocumentsByCollection(databaseName: string, collectionName: string, perPage: string, page: string): Promise<{ documents: WithId<Document>[], total: number }>{
-        console.log(databaseName, collectionName, perPage, page);
         const _perPage = parseInt(perPage) || 10;
         const _currentPage = parseInt(page) || 0;
 
