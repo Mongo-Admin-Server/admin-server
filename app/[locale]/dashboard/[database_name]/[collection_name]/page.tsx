@@ -6,9 +6,14 @@ import Table from '@components/ui/table/Table';
 import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 import DocumentModal from '@components/modal/document/DocumentModal';
+import Pagination from '@components/ui/pagination/Pagination';
 
 import { useDispatch, useSelector } from '@/store/store';
-import { fetchAllDocumentByCollection, deleteDocument, selectLoadingDocument } from '@/domain/usecases/document-slice';
+import {
+  fetchAllDocumentByCollection,
+  deleteDocument,
+  selectLoadingDocument,
+} from '@/domain/usecases/document-slice';
 
 import { useI18n } from '@/shared/locales/clients';
 
@@ -21,17 +26,30 @@ export default function DocumentsPage({
   const dispatch = useDispatch();
 
   const [documents, setDocuments] = useState([]);
+  const [totalDocuments, setTotalDocuments] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDocumentModal, setOpenDocumentModal] = useState(false);
   const [currentDocument, setCurrentDocument] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [pageSize, setPageSize] = useState(10);
 
   const loading = useSelector(selectLoadingDocument);
 
-  const fetchDocuments = useCallback(async () => {
-    const response = await dispatch(fetchAllDocumentByCollection(params.collection_name));
-    setDocuments(response.payload);
+  const fetchDocuments = useCallback(async (page: number = 0) => {
+    const { payload } = await dispatch(
+      fetchAllDocumentByCollection({
+        collection: params.collection_name, 
+        currentPage: page, 
+        perPage: pageSize 
+      })
+    );
+    setDocuments(payload.documents);
+    setTotalDocuments(payload.total);
 
-  }, [dispatch, params.collection_name]);
+    if (page === 0) setCurrentPage(1);
+    else setCurrentPage(page);
+  }, [dispatch, params.collection_name, pageSize]);
 
   useEffect(() => {
     fetchDocuments();
@@ -68,17 +86,33 @@ export default function DocumentsPage({
     setOpenDeleteModal(false);
   };
 
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    fetchDocuments();
+  };
+
   const renderTable = () => {
     if (loading) return <TableSkeleton />;
     if (!documents.length) return <Table no_data />;
 
     return (
+      <>
       <Table
         data_header={Object.keys(documents[0])}
         data_body={documents}
         actions={['trash', 'edit']}
         onClick={(action, index) => handleClick(action, index)}
       />
+
+      {/* <Pagination
+          total={totalDocuments}
+          currentPage={currentPage}
+          pageSizes={[10, 50, 100, 200]}
+          pageSize={pageSize}
+          onChange={(page) => fetchDocuments(page)}
+          onPageSizeChange={(size) => handlePageSizeChange(size)}
+        /> */}
+      </>
     );
   };
 
