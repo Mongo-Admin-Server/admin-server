@@ -11,3 +11,6 @@ export type DatabaseState = {
   loading: boolean;
   error: string;
 };
+
+export type IDatabaseUpdate = Partial<DatabaseType>;
+export type IDatabaseRO = Readonly<DatabaseType>;

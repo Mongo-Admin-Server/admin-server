@@ -1,9 +1,8 @@
 import { Db } from "mongodb";
 import { Instance } from "./Instance";
-import { IDatabaseRO } from "../types/IDatabase";
 import { database } from "@/infrastructure";
 import { ApiError } from "./Errors/ApiError";
-
+import { IDatabaseRO } from "@/domain/entities/database-types";
 
 export class Database{
     

@@ -1,6 +1,6 @@
 import { ErrorCode } from './ErrorCode';
 import { StructuredErrors } from './StructuredErrors';
-import { IApiError } from '../../types/api/IApiError';
+import { IApiError } from '../../../../domain/entities/api/IApiError';
 
 
 export class ApiError {

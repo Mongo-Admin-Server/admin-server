@@ -2,7 +2,7 @@ import { NextApiResponse } from "next";
 import { Documents } from "../Classes/Documents";
 import { UpdateFilter } from "mongodb";
 import { ApiError } from "./../Classes/Errors/ApiError";
-import { RequestCustomDocument } from "@/api/src/types/IDocument";
+import { RequestCustomDocument } from "@/domain/entities/document-types";
 
 export class DocumentController {
     

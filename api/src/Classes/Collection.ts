@@ -1,16 +1,15 @@
 import { Instance } from "./Instance";
-import { IResult} from '../types/IResult';
-import { ICollectionInfo } from '../types/ICollectionInfo';
+import { IResult} from '../../../domain/entities/api/IResult';
 import { ApiError } from "./Errors/ApiError";
- 
+import { CollectionType } from "@/domain/entities/collection-types";
 
 export class Collection {
 
-    public async getOneCollectionDocumentsCount(databaseName: string): Promise<ICollectionInfo[]> {
+    public async getOneCollectionDocumentsCount(databaseName: string): Promise<CollectionType[]> {
         const instance = Instance.Client;
         const db = instance.db(databaseName);
         const collectionsList = await db.listCollections().toArray();
-        let collectionInfo: ICollectionInfo[] = [];
+        let collectionInfo: CollectionType[] = [];
 
         for (const collection of collectionsList) {
             const colName = collection.name;
