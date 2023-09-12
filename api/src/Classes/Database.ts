@@ -61,7 +61,7 @@ export class Database{
         if(!databaseName)
             return new ApiError(400, 'query/not-found', 'database_name_not_found');
         try{            
-            const client = Instance.Client;
+            const client = await Instance.Client.connect();
            
             if(Array.isArray(databaseName)){
                 for(let index=0; index < databaseName.length; index++){
