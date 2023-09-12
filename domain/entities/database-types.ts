@@ -1,3 +1,5 @@
+import { NextApiRequest } from "next";
+
 export type DatabaseType = {
   name: string;
   sizeOnDisk?: number;
@@ -11,6 +13,13 @@ export type DatabaseState = {
   loading: boolean;
   error: string;
 };
+
+export interface RequestCustomDatabase extends NextApiRequest {
+  query: {
+      perPage: string,
+      page: string,
+  },
+}
 
 export type IDatabaseUpdate = Partial<DatabaseType>;
 export type IDatabaseRO = Readonly<DatabaseType>;

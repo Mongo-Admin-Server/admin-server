@@ -7,11 +7,13 @@ export type DocumentState = {
 
 
 
-export interface RequestCustomDocument extends NextApiRequest {
+export interface RequestIndexDocument extends NextApiRequest {
   query: {
       databaseName: string,
-      name: string,
+      collectionName: string,
       perPage: string,
       page: string,
   },
 }
+
+

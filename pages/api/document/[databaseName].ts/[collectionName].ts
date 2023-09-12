@@ -1,8 +1,8 @@
 import { DocumentController } from "@/api/src/Controller/DocumentController";
 import { NextApiRequest, NextApiResponse } from "next";
-import { RequestCustomDocument } from "@/domain/entities/document-types";
+import { RequestIndexDocument } from "@/domain/entities/document-types";
 
-export default function handler(req: RequestCustomDocument, res: NextApiResponse){
+export default function handler(req: RequestIndexDocument, res: NextApiResponse){
     
     const documents = new DocumentController();
     switch(req.method){
@@ -10,8 +10,8 @@ export default function handler(req: RequestCustomDocument, res: NextApiResponse
             documents.getAllDocumentsByCollection(res, req);
             break;
         case 'POST':
-            if(documents && req.query.databaseName && req.query.name && req.body) {
-                documents.addOneDocument(res, req.query.databaseName, req.query.name, req.body);
+            if(documents && req.query.databaseName && req.query.collectionName && req.body) {
+                documents.addOneDocument(res, req.query.databaseName, req.query.collectionName, req.body);
             }
             break;
         default:

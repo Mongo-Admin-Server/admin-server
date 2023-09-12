@@ -2,14 +2,14 @@ import { NextApiResponse } from "next";
 import { Documents } from "../Classes/Documents";
 import { UpdateFilter } from "mongodb";
 import { ApiError } from "./../Classes/Errors/ApiError";
-import { RequestCustomDocument } from "@/domain/entities/document-types";
+import { RequestIndexDocument } from "@/domain/entities/document-types";
 
 export class DocumentController {
     
-    public async getAllDocumentsByCollection(response: NextApiResponse, request: RequestCustomDocument): Promise<void> {
+    public async getAllDocumentsByCollection(response: NextApiResponse, request: RequestIndexDocument): Promise<void> {
         try {
-            const { databaseName, name, perPage, page } = request.query;
-            const { documents, total } = await new Documents().getAllDocumentsByCollection(databaseName, name, perPage, page);
+            const { databaseName, collectionName, perPage, page } = request.query;
+            const { documents, total } = await new Documents().getAllDocumentsByCollection(databaseName, collectionName, perPage, page);
             response.status(200).json({ documents, total });
         } catch (error) {
             response.status(500).json('error');
