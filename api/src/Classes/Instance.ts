@@ -1,16 +1,13 @@
-/* eslint-disable no-useless-catch */
 import { MongoClient } from "mongodb";
 
 export class Instance{
-    
-    public async connection() : Promise<MongoClient>{
-        const uri = process.env.MONGODB_URI || '';
-        const client = new MongoClient(uri);
+    private static client: MongoClient;
+
+    static get Client(): MongoClient{
         
-        try{
-            return await client.connect();
-        }catch(error){
-            throw(error);
-        }
+        const uri = process.env.MONGODB_URI || '';
+        if(!this.client)
+            this.client = new MongoClient(uri)
+        return this.client;
     }
 }
