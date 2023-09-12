@@ -2,7 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 25px;
+  background-color: var(--color-text-base);
+  border-radius: 10px;
+  padding: 5px 15px;
 
   &__pages {
     display: flex;
@@ -14,6 +16,12 @@
       border: none;
       path {
         stroke: var(--color-text-accent);
+      }
+    }
+
+    button:hover {
+      path {
+        stroke: var(--color-orange);
       }
     }
 

@@ -1,5 +1,5 @@
 .table-container {
-  max-height: 90%;
+  max-height: 100%;
   overflow: scroll;
   border-radius: 10px;
 
@@ -38,7 +38,7 @@
     .body {
       text-align: center;
       td {
-        height: 80px;
+        height: 60px;
         vertical-align: middle;
         color: var(--color-background-accent);
         font-weight: 500;

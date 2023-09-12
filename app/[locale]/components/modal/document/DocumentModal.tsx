@@ -66,7 +66,7 @@ const DocumentModal = ({ idDocument, open, onClose, onValidate }: DocumentModalP
   return (
     <GenericModal
       open={open}
-      title={t('document.updateTitle')}
+      title={idDocument ? t('document.updateTitle') : t('document.createTitle')}
       onClose={onClose}
       onValidate={handleSave}
     >
