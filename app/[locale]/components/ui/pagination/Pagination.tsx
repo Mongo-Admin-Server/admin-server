@@ -72,17 +72,18 @@ const Pagination = ({ total = 10, currentPage = 1, pageSizes = [10, 50, 100, 200
         array.push(i);
       }
     }
-    console.log('pagers: ', array);
     return array;
   }, [pageCount, currentPage, showPrevMore, showNextMore]);
 
   const onClickQuickPrev = () => {
     const page: any = pagers ? pagers.shift() : 0;
+    console.log(page);
     onChange(page - 1);
   };
 
   const onClickQuickNext = () => {
     const page: any = pagers ? pagers.pop() : 0;
+    console.log(page);
     onChange(page + 1);
   };
 
@@ -106,7 +107,7 @@ const Pagination = ({ total = 10, currentPage = 1, pageSizes = [10, 50, 100, 200
       <div className={styles['pagination__pages']}> 
         <GenericButton
           icon_name='chevronLeft'
-          onClick={() => onChange(currentPage + 1)}
+          onClick={() => onChange(currentPage - 1)}
           disabled={currentPage === 1}
           transparent
         />
@@ -116,6 +117,7 @@ const Pagination = ({ total = 10, currentPage = 1, pageSizes = [10, 50, 100, 200
             <li
               className={`${styles['pagination-item__number']} ${currentPage === 1 && styles['active']}`}
               aria-current={currentPage === 1}
+              onClick={() => onChange(1)}
             >
               1
             </li>
@@ -134,7 +136,6 @@ const Pagination = ({ total = 10, currentPage = 1, pageSizes = [10, 50, 100, 200
               )}
             </li>
           )}
-          {pagers.length}
           {pagers.map((page, index) => (
             <li
               key={index}
@@ -161,8 +162,9 @@ const Pagination = ({ total = 10, currentPage = 1, pageSizes = [10, 50, 100, 200
           )}
           {pageCount > 1 && (
             <li
-              className={styles['pagination-item__number']}
+              className={`${styles['pagination-item__number']} ${currentPage === pageCount && styles['active']}`}
               aria-current={currentPage === pageCount}
+              onClick={() => onChange(pageCount)}
             >
               {pageCount}
             </li>

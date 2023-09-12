@@ -30,25 +30,23 @@ export default function DocumentsPage({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDocumentModal, setOpenDocumentModal] = useState(false);
   const [currentDocument, setCurrentDocument] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const [pageSize, setPageSize] = useState(10);
 
   const loading = useSelector(selectLoadingDocument);
 
   const fetchDocuments = useCallback(
-    async (page: number = 0) => {
+    async (page: number = 1) => {
+      setCurrentPage(page - 1);
       const { payload } = await dispatch(
         fetchAllDocumentByCollection({
-          currentPage: page,
+          currentPage: page - 1,
           perPage: pageSize,
         })
       );
       setDocuments(payload.documents);
       setTotalDocuments(payload.total);
-
-      if (page === 0) setCurrentPage(1);
-      else setCurrentPage(page);
     },
     [dispatch, pageSize]
   );
@@ -103,12 +101,13 @@ export default function DocumentsPage({
           data_header={Object.keys(documents[0])}
           data_body={documents}
           actions={['trash', 'edit']}
+          maxHeight='80%'
           onClick={(action, index) => handleClick(action, index)}
         />
 
         <Pagination
           total={totalDocuments}
-          currentPage={currentPage}
+          currentPage={currentPage + 1}
           pageSizes={[10, 50, 100, 200]}
           pageSize={pageSize}
           onChange={(page) => fetchDocuments(page)}

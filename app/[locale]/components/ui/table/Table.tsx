@@ -10,6 +10,7 @@ interface TableProps {
   actions?: string[]; // trash, edit
   display?: string; // initial, block
   no_data?: boolean;
+  maxHeight?: string;
   // eslint-disable-next-line no-unused-vars
   onClick?: (action: string, index: number) => void;
 }
@@ -20,12 +21,13 @@ const Table = ({
   actions,
   display,
   no_data = false,
+  maxHeight = '90%',
   onClick,
 }: TableProps) => {
   const t = useI18n();
 
   return (
-    <div className={styles['table-container']}>
+    <div className={styles['table-container']} style={{ maxHeight }}>
       {no_data ? (
         <div className={styles['no-data']}>{t('document.noDocument')}</div>
       ) : (
