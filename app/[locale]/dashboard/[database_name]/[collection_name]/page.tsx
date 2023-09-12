@@ -36,20 +36,22 @@ export default function DocumentsPage({
 
   const loading = useSelector(selectLoadingDocument);
 
-  const fetchDocuments = useCallback(async (page: number = 0) => {
-    const { payload } = await dispatch(
-      fetchAllDocumentByCollection({
-        collection: params.collection_name, 
-        currentPage: page, 
-        perPage: pageSize 
-      })
-    );
-    setDocuments(payload.documents);
-    setTotalDocuments(payload.total);
+  const fetchDocuments = useCallback(
+    async (page: number = 0) => {
+      const { payload } = await dispatch(
+        fetchAllDocumentByCollection({
+          currentPage: page,
+          perPage: pageSize,
+        })
+      );
+      setDocuments(payload.documents);
+      setTotalDocuments(payload.total);
 
-    if (page === 0) setCurrentPage(1);
-    else setCurrentPage(page);
-  }, [dispatch, params.collection_name, pageSize]);
+      if (page === 0) setCurrentPage(1);
+      else setCurrentPage(page);
+    },
+    [dispatch, pageSize]
+  );
 
   useEffect(() => {
     fetchDocuments();
@@ -97,21 +99,21 @@ export default function DocumentsPage({
 
     return (
       <>
-      <Table
-        data_header={Object.keys(documents[0])}
-        data_body={documents}
-        actions={['trash', 'edit']}
-        onClick={(action, index) => handleClick(action, index)}
-      />
+        <Table
+          data_header={Object.keys(documents[0])}
+          data_body={documents}
+          actions={['trash', 'edit']}
+          onClick={(action, index) => handleClick(action, index)}
+        />
 
-      {/* <Pagination
+        <Pagination
           total={totalDocuments}
           currentPage={currentPage}
           pageSizes={[10, 50, 100, 200]}
           pageSize={pageSize}
           onChange={(page) => fetchDocuments(page)}
           onPageSizeChange={(size) => handlePageSizeChange(size)}
-        /> */}
+        />
       </>
     );
   };

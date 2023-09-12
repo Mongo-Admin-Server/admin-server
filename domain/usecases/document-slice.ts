@@ -3,7 +3,6 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
-  Dispatch,
 } from "@reduxjs/toolkit";
 
 import * as Api from "@/infrastructure";
@@ -88,12 +87,13 @@ export const documentSlice = createSlice({
 /************   USECASES FUNCTIONS FOR DOCUMENT  ************/
 export const fetchAllDocumentByCollection = createAsyncThunk(
   "document/fetchAllDocumentByCollection",
-  async ({ collection, currentPage, perPage }: {collection: string, currentPage: number, perPage: number}, { rejectWithValue }: { rejectWithValue: any }) => {
+  async ({ currentPage, perPage }: {currentPage: number, perPage: number}, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
       const reduxStore = store.getState()
       const databaseName = reduxStore.database.databaseSelected;
+      const collectionName = reduxStore.collection.collectionSelected;
 
-      const { documents, total } = await Api.document.getAllDocumentByCollection(databaseName, collection, currentPage, perPage);
+      const { documents, total } = await Api.document.getAllDocumentByCollection(databaseName, collectionName, currentPage, perPage);
       return { documents, total };
     } catch (error) {
       console.error("Erreur lors du fetch document : ", error);
@@ -164,7 +164,7 @@ export const updateDocument = createAsyncThunk(
   "document/updateDocument",
   async (
     { id, query }: { id: string; query: JSON },
-    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }
+    { rejectWithValue }: { rejectWithValue: any }
   ) => {
     try {
       const reduxStore = store.getState()
@@ -172,7 +172,6 @@ export const updateDocument = createAsyncThunk(
       const collectionName = reduxStore.collection.collectionSelected;
 
       await Api.document.updateDocument(databaseName, collectionName, id, query);
-      dispatch(fetchAllDocumentByCollection(collectionName));
     } catch (error) {
       console.error("Erreur lors du update document : ", error);
       return rejectWithValue("Couldn't update document");
