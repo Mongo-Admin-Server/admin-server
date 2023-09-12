@@ -5,7 +5,7 @@ import styles from './input.module.scss';
 import SvgIcon from '@/app/[locale]/components/ui/icon/SvgIcon';
 
 interface GenericInputProps {
-  label: string;
+  label?: string;
   value: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

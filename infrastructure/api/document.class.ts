@@ -1,9 +1,9 @@
 import { axios } from "./axios.class";
 
 class Document {
-  public async getAllDocumentByCollection(database: string, collection: string) {
-    const response = await axios.get(`/document/${database}/${collection}`);
-    return response.data.result;
+  public async getAllDocumentByCollection(database: string, collection: string, page: number, perPage: number) {
+    const response = await axios.get(`/document/${database}/${collection}?page=${page}&perPage=${perPage}`);
+    return response.data;
   }
 
   public async getDocument(database: string, collection: string, id: string) {
