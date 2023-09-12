@@ -1,6 +1,6 @@
 import { DocumentController } from "@/api/src/Controller/DocumentController";
 import { NextApiRequest, NextApiResponse } from "next";
-import { RequestCustomDocument } from "@/api/src/types/IDocument";
+import { RequestCustomDocument } from "@/domain/entities/document-types";
 
 export default function handler(req: RequestCustomDocument, res: NextApiResponse){
     
