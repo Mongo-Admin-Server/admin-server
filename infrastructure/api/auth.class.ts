@@ -12,6 +12,11 @@ class Auth {
   public async logout() {
     await axios.post("/auth/logout");
   }
+
+  public async postUser(connection_url: string) {
+    const response = await axios.post('/user', { connection_url})
+    return response.data
+  }
 }
 
 export const auth = new Auth();

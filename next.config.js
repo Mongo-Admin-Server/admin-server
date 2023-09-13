@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const path = require('path')
- 
+
+const nextConfig = {
+  experimental: {
+      outputStandalone: true,
+  }
+}
+
 module.exports = {
+  output: 'standalone',
   transpilePackages: ['next-international', 'international-types'],
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
@@ -35,3 +42,4 @@ module.exports = {
     return config
   },
 }
+

@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GenericInput renders 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <label
+      class="label"
+    >
+      form input
+    </label>
+    <input
+      class="input "
+      type="text"
+      value="form input value"
+    />
+  </div>
+</div>
+`;

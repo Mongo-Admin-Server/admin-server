@@ -2,6 +2,9 @@ export type StructuredErrors =
   // SQL
   'sql/failed' |
   'sql/not-found' |
+  'database/duplicate-value' |
+  'database/not-found' |
+  'collection/duplicate-value' |
 
   // Crud
   'validation/failed' |
@@ -11,7 +14,7 @@ export type StructuredErrors =
   'auth/invalid-password-format' |
   'auth/invalid-email-format' |
   'auth/missing-header' |
-  'auth/missing-password' |
+  'auth/missing-url' |
 
   // Validation
   'validation/invalid-code' |
