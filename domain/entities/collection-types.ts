@@ -1,3 +1,5 @@
+import { NextApiRequest } from "next";
+
 export type CollectionType = {
   collectionName: string;
   count: number;
@@ -14,3 +16,11 @@ export type CollectionState = {
   loading: boolean;
   error: string;
 };
+
+export interface RequestCustomCollection extends NextApiRequest {
+  query: {
+      databaseName: string,
+      perPage: string,
+      page: string,
+  },
+}

@@ -5,7 +5,7 @@ import styles from './button.module.scss';
 import SvgIcon from '@components/ui/icon/SvgIcon';
 
 interface ButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   size?: 'small' | 'auto' | 'full';

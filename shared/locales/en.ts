@@ -4,6 +4,7 @@ export default {
     selected: 'Language',
     userName: 'Username',
     passWord: 'Password',
+    connexionUrl: 'Connexion Url',
     login: 'Sign in',
   },
   theme: {
@@ -25,6 +26,7 @@ export default {
     deleteError: 'Error deleting database',
     createSuccess: 'Database created successfully',
     createError: 'Error creating database',
+    createTitle: 'Create database',
     name: 'Database',
     storage: 'Storage',
     collection: 'Collections',
@@ -40,10 +42,12 @@ export default {
     button: {
       cancel: 'Cancel',
       confirm: 'Confirm',
+      create: 'Create',
     },
   },
   collection: {
     title: 'Collections',
+    create: 'Create Collection',
     collectionName: 'Collection Name',
     count: 'Document',
     avgDocumentSize: 'Avg. Document Size',
@@ -51,6 +55,26 @@ export default {
     indexes: 'Num. Indexes',
     totalIndexSize: 'Total Index Size',
     deleteConfirm: 'Are you sure you want to delete this collection?',
+  },
+  formCreateCollection: {
+    title: 'Create Collection',
+    collectionName: 'Collection Name',
+    spacesNotAllowedErrorMessage:  'The name must not contain spaces.',
+  },
+  document: {
+    noDocument: 'No document',
+    deleteConfirm: 'Are you sure you want to delete this document?',
+    deleteSuccess: 'Document deleted successfully',
+    deleteError: 'Error deleting document',
+    updateSuccess: 'Document updated successfully',
+    updateError: 'Error updating document',
+    createSuccess: 'Document created successfully',
+    createError: 'Error creating document',
+    createTitle: 'Create document',
+    updateTitle: 'Update document',
+  },
+  pagination: {
+    jumpTo: 'Go to page',
   },
   language: {
     en: '🇬🇧 English',

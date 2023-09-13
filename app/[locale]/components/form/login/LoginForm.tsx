@@ -8,6 +8,8 @@ import GenericButton from '@components/ui/button/GenericButton';
 import SelectInput from '@components/ui/inputs/select/SelectInput';
 
 import { LanguageType, Language } from "@/domain/entities/setting-types";
+import { postUser } from '@/domain/usecases/auth-slice';
+import { useDispatch } from '@/store/store';
 
 import styles from './login-form.module.scss';
 
@@ -22,56 +24,34 @@ export default function LoginForm() {
     { value: 'en', label: t('language.en'), },
     { value: 'es', label: t('language.es'), },
   ];
+  const dispatch = useDispatch();
+
   /* Methods */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (userName === '' || passWord === '') {
-      setError('Veuillez remplir tous les champs.');
-      return;
-    }
-    setError('');
-  
-    try {
-      const url = `/api/instance?userName=${encodeURIComponent(userName)}&passWord=${encodeURIComponent(passWord)}`;
-      const response = await fetch(url);
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
+    await dispatch(postUser(connexionUrl)).then((result) => {
+      if (result.meta.requestStatus === 'fulfilled') {
         router.push(`/dashboard`)
-      } else {
-        console.error('Échec de la connexion à MongoDB.');
       }
-    } catch (error) {
-      console.error('Erreur lors de la soumission du formulaire :', error);
-    }
+    });
   };
   
   const handleLanguageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const value = event.target.value
-    if (value === "fr" || value === "en") {
-      setLanguage(value);
-      changeLocale(value);
-    } else {
-      console.error("Invalid language value");
-    }
-  };
-  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value);
-  };
-  const handlePassWordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassWord(event.target.value);
+    const language = event.target.value as LanguageType;
+    setLanguage(language);
+    changeLocale(language);
   };
 
   /* Local Data */
   const [language, setLanguage] = useState<LanguageType>(locale);
-  const [userName, setUserName] = useState<string>('');
-  const [passWord, setPassWord] = useState<string>('');
+  // const [userName, setUserName] = useState<string>('');
+  // const [passWord, setPassWord] = useState<string>('');
+  const [connexionUrl, setConnexionUrl] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const isSubmitButtonDisabled = userName === '' || passWord === '';
+  const isSubmitButtonDisabled = connexionUrl === '';
 
   return (
     <div className={styles.container}>
@@ -86,26 +66,36 @@ export default function LoginForm() {
               onChange={handleLanguageChange}
             />
           </div>
-          <div className={styles.formInput}>
+          {/* <div className={styles.formInput}>
             <GenericInput
               type="text"
               label={t('loginForm.userName')}
               value={userName}
               placeholder={t('loginForm.userName')}
               error={error}
-              onChange={handleUserNameChange}
+              onChange={(event) => setUserName(event.target.value)}
+            />
+          </div> */}
+          <div className={styles.formInput}>
+            <GenericInput
+              type="text"
+              label={t('loginForm.connexionUrl')}
+              value={connexionUrl}
+              placeholder={t('loginForm.connexionUrl')}
+              error={error}
+              onChange={(event) => setConnexionUrl(event.target.value)}
             />
           </div>
-          <div className={styles.formInput}>
+          {/* <div className={styles.formInput}>
             <GenericInput
               type="password"
               label={t('loginForm.passWord')}
               value={passWord}
               placeholder={t('loginForm.passWord')}
               error={error}
-              onChange={handlePassWordChange}
+              onChange={(event) => setPassWord(event.target.value)}
             />
-          </div>
+          </div> */}
         </div>
         <div className={styles.formButton}>
           <GenericButton center disabled={isSubmitButtonDisabled} type="submit">
