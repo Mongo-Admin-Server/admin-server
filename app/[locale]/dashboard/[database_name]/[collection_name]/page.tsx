@@ -30,26 +30,26 @@ export default function DocumentsPage({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDocumentModal, setOpenDocumentModal] = useState(false);
   const [currentDocument, setCurrentDocument] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const [pageSize, setPageSize] = useState(10);
 
   const loading = useSelector(selectLoadingDocument);
 
-  const fetchDocuments = useCallback(async (page: number = 0) => {
-    const { payload } = await dispatch(
-      fetchAllDocumentByCollection({
-        collection: params.collection_name, 
-        currentPage: page, 
-        perPage: pageSize 
-      })
-    );
-    setDocuments(payload.documents);
-    setTotalDocuments(payload.total);
-
-    if (page === 0) setCurrentPage(1);
-    else setCurrentPage(page);
-  }, [dispatch, params.collection_name, pageSize]);
+  const fetchDocuments = useCallback(
+    async (page: number = 1) => {
+      setCurrentPage(page - 1);
+      const { payload } = await dispatch(
+        fetchAllDocumentByCollection({
+          currentPage: page - 1,
+          perPage: pageSize,
+        })
+      );
+      setDocuments(payload.documents);
+      setTotalDocuments(payload.total);
+    },
+    [dispatch, pageSize]
+  );
 
   useEffect(() => {
     fetchDocuments();
@@ -97,21 +97,21 @@ export default function DocumentsPage({
 
     return (
       <>
-      <Table
-        data_header={Object.keys(documents[0])}
-        data_body={documents}
-        actions={['trash', 'edit']}
-        onClick={(action, index) => handleClick(action, index)}
-      />
+        <Table
+          data_header={Object.keys(documents[0])}
+          data_body={documents}
+          actions={['trash', 'edit']}
+          onClick={(action, index) => handleClick(action, index)}
+        />
 
-      {/* <Pagination
+        <Pagination
           total={totalDocuments}
-          currentPage={currentPage}
+          currentPage={currentPage + 1}
           pageSizes={[10, 50, 100, 200]}
           pageSize={pageSize}
           onChange={(page) => fetchDocuments(page)}
           onPageSizeChange={(size) => handlePageSizeChange(size)}
-        /> */}
+        />
       </>
     );
   };
