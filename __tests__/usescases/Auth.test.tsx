@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-
 import { authSlice, initialState, setErrorAuth, setIsLogged, setLoadingAuth, selectErrorAuth, selectIsLogged, selectLoadingAuth } from "@/domain/usecases/auth-slice";
 
 describe("Auth Reducers", () => {

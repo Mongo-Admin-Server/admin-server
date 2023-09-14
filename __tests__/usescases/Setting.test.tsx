@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-
 import { settingSlice, initialState, setTheme, setLanguage, selectLanguage, selectTheme } from "@/domain/usecases/setting-slice";
 
 describe("Setting Reducers", () => {
