@@ -98,7 +98,7 @@ const Pagination = ({ total = 10, currentPage = 1, pageSizes = [10, 50, 100, 200
   };
 
   return (
-    <section id='pagination' className={styles['pagination']}>
+    <section className={styles['pagination']}>
       <SelectInput
         options={formattedPageSizes}
         value={pageSize.toString()}
