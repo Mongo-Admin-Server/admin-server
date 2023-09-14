@@ -55,7 +55,6 @@ const SideMenu = () => {
   const handleDatabaseChange = (database: string) => {
     router.push(`/dashboard/${database}`);
     dispatch(setDatabaseSelected(database));
-    dispatch(setCollectionSelected(''));
   };
 
   const handleCollectionChange = (collection: string) => {
