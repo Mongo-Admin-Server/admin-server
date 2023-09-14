@@ -3,7 +3,7 @@
 exports[`GenericInput renders 1`] = `
 <div>
   <div
-    class="container"
+    class="input-container"
   >
     <label
       class="label"
