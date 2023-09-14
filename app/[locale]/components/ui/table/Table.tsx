@@ -29,26 +29,26 @@ const Table = ({
 
   const [scrollYActive, setScrollYActive] = useState(false);
   const [scrollXActive, setScrollXActive] = useState(false);
-
   const divRef = useRef<HTMLDivElement | null>(null);
+  const tableRef = useRef<HTMLTableElement | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
-      const pagination = document.querySelector('section#pagination')
-      const maxWidth = window.innerWidth - 210;
-      const maxHeight = !pagination ? window.innerHeight - 120 : window.innerHeight - 190;
-
-      console.log(pagination, window.innerHeight, maxHeight);
+      
       if (divRef.current) {
-        if(divRef.current.offsetWidth > maxWidth) {
-          setScrollYActive(true);
-        } else {
-          setScrollYActive(false);
-        }
-        if (divRef.current.offsetHeight >= maxHeight) {
-          setScrollXActive(true);
-        } else {
-          setScrollXActive(false);
+        if(tableRef.current){
+          const maxWidth = divRef.current.offsetWidth;
+          const maxHeight = divRef.current.offsetHeight
+          if(tableRef.current.offsetWidth > maxWidth) {
+            setScrollYActive(true);
+          } else {
+            setScrollYActive(false);
+          }
+          if (tableRef.current.offsetHeight > maxHeight) {
+            setScrollXActive(true);
+          } else {
+            setScrollXActive(false);
+          }
         }
       }
     };
@@ -68,11 +68,11 @@ const Table = ({
 
 
   return (
-    <div id="oui" ref={divRef} className={`${styles.tableContainer} scrollable ${scrollYActive ? styles.scroll_y_active : ''} ${scrollXActive ? styles.scroll_x_active : ''}`}>
+    <div ref={divRef} className={`${styles.tableContainer} scrollable ${scrollYActive ? styles.scroll_y_active : ''} ${scrollXActive ? styles.scroll_x_active : ''}`}>
       {no_data ? (
         <div className={styles['no-data']}>{t('document.noDocument')}</div>
       ) : (
-        <table className={styles.table} style={{ display }}>
+        <table ref={tableRef} className={styles.table} style={{ display }}>
           <thead className={styles.header}>
             <tr>
               {data_header &&
