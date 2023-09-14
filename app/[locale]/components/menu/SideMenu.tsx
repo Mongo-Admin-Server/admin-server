@@ -4,6 +4,7 @@ import { useI18n } from '@/shared/locales/clients';
 import { useRouter } from 'next/navigation';
 
 import styles from './menu.module.scss';
+import '@/shared/styles/main.scss';
 
 import GenericButton from '@components/ui/button/GenericButton';
 import SelectInput from '@components/ui/inputs/select/SelectInput';
@@ -82,9 +83,9 @@ const SideMenu = () => {
           />
 
           {(databaseSelected && !loadingCollection) &&  (
-            <section>
+            <section className={styles.contents}>
               <h5>{t('menuSideBar.collection')}</h5>
-              <div className={styles.collections}>
+              <div className={`${styles.collections} scrollable`}>
                 <CollectionList
                   collections={collections}
                   collectionSelected={collectionSelected}

@@ -54,40 +54,55 @@ path {
 
 .scrollable {
   overflow-y: auto;
-  overflow-x: hidden;
-
+  overflow-x: auto;
+  
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: #c1c1c1 #ffffff;
-
+  scrollbar-color: var(--color-text-contrast) var(--color-text-base);
+  
   /* Chrome, Edge and Safari */
   &::-webkit-scrollbar {
     width: 10px;
-    width: 10px;
+    height: 10px;
   }
   &::-webkit-scrollbar-track {
-    background-color: #ffffff;
+    background-color: var(--color-text-base);
   }
-
+  
   &::-webkit-scrollbar-track:hover {
-    background-color: #ffffff;
+    background-color: var(--color-text-base);
   }
-
+  
   &::-webkit-scrollbar-track:active {
-    background-color: #ffffff;
+    background-color: var(--color-text-base);
   }
-
+  
   &::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: #c1c1c1;
-    border: 2px solid #fff;
+    background-color: var(--color-text-contrast);
+    border: 3px solid var(--color-text-base);
   }
-
+  
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #c1c1c1;
+    background-color: var(--color-text-contrast);
   }
-
+  
   &::-webkit-scrollbar-thumb:active {
-    background-color: #c1c1c1;
+    background-color: var(--color-text-contrast);
+  }
+  
+  &::-webkit-scrollbar-corner{
+    background-color: var(--color-text-base);
+    border-bottom-right-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-track:vertical {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-track:horizontal {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 }

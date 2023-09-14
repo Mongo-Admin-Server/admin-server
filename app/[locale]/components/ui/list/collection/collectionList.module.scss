@@ -1,8 +1,7 @@
 .collection_list {
   list-style: none;
   border-left: 2px solid var(--color-background-accent);
-  height: 100%;
-  overflow: scroll;
+  height: auto;
 
   .item {
     transition: background-color 0.2s ease-in-out;

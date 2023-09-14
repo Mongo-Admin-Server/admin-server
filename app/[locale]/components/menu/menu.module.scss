@@ -1,5 +1,6 @@
 .aside {
   width: 100%;
+  min-width: 180px;
   max-width: 180px;
   display: flex;
   flex-direction: column;
@@ -14,8 +15,8 @@
     overflow: hidden;
   }
 
-  .collections {
-    overflow: scroll;
+  .contents {
+    display: contents;
   }
 
   .footer {

@@ -1,8 +1,11 @@
 import { useI18n } from '@/shared/locales/clients';
 
 import styles from './table.module.scss';
+import '@/shared/styles/main.scss';
 
 import SvgIcon from '@/app/[locale]/components/ui/icon/SvgIcon';
+import { useEffect, useRef, useState } from 'react';
+import ResizeObserver from 'resize-observer-polyfill';
 
 interface TableProps {
   data_header?: string[];
@@ -24,8 +27,48 @@ const Table = ({
 }: TableProps) => {
   const t = useI18n();
 
+  const [scrollYActive, setScrollYActive] = useState(false);
+  const [scrollXActive, setScrollXActive] = useState(false);
+
+  const divRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const pagination = document.querySelector('section#pagination')
+      const maxWidth = window.innerWidth - 210;
+      const maxHeight = !pagination ? window.innerHeight - 120 : window.innerHeight - 190;
+
+      console.log(pagination, window.innerHeight, maxHeight);
+      if (divRef.current) {
+        if(divRef.current.offsetWidth > maxWidth) {
+          setScrollYActive(true);
+        } else {
+          setScrollYActive(false);
+        }
+        if (divRef.current.offsetHeight >= maxHeight) {
+          setScrollXActive(true);
+        } else {
+          setScrollXActive(false);
+        }
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(handleResize);
+
+    if (divRef.current) {
+      resizeObserver.observe(divRef.current);
+    }
+
+    handleResize();
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+
   return (
-    <div className={styles['table-container']}>
+    <div id="oui" ref={divRef} className={`${styles.tableContainer} scrollable ${scrollYActive ? styles.scroll_y_active : ''} ${scrollXActive ? styles.scroll_x_active : ''}`}>
       {no_data ? (
         <div className={styles['no-data']}>{t('document.noDocument')}</div>
       ) : (
