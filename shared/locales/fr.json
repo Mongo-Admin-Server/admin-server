@@ -56,7 +56,11 @@
     "totalDocumentSize": "Taille Totale Document",
     "indexes": "Numero Index",
     "totalIndexSize": "Taille Totale Index",
-    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette collection ?"
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette collection ?",
+    "deleteSuccess": "Collection supprimée avec succès",
+    "deleteError": "Erreur lors de la suppression de la collection",
+    "createSuccess": "Collection créée avec succès",
+    "createError": "Erreur lors de la création de la collection"
   },
   "formCreateCollection": {
     "title": "Créer une collection",

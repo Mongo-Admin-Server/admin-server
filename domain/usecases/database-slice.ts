@@ -72,7 +72,6 @@ export const databaseSlice = createSlice({
     builder.addCase(postDatabase.rejected, (state, action: any) => {
       state.loading = false;
       state.error = action.payload;
-      eventEmitter.dispatch('alert', { type: 'error', message: 'database.createError' });
     });
   }
 });

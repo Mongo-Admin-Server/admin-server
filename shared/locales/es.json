@@ -56,7 +56,11 @@
     "totalDocumentSize": "Tamaño total del documento",
     "indexes": "Número índices",
     "totalIndexSize": "Tamaño total del índice",
-    "deleteConfirm": "¿Estás seguro de que quieres eliminar esta colección?"
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar esta colección?",
+    "deleteSuccess": "Colección eliminada con éxito",
+    "deleteError": "Error al eliminar la colección",
+    "createSuccess": "Colección creada con éxito",
+    "createError": "Error al crear la colección"
   },
   "formCreateCollection": {
     "title": "Crear Colección",

@@ -57,7 +57,11 @@
     "totalDocumentSize": "Total Document Size",
     "indexes": "Num. Indexes",
     "totalIndexSize": "Total Index Size",
-    "deleteConfirm": "Are you sure you want to delete this collection?"
+    "deleteConfirm": "Are you sure you want to delete this collection?",
+    "deleteSuccess": "Collection deleted successfully",
+    "deleteError": "Error deleting collection",
+    "createSuccess": "Collection created successfully",
+    "createError": "Error creating collection"
   },
   "formCreateCollection": {
     "title": "Create Collection",

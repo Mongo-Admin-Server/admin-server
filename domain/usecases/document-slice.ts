@@ -9,6 +9,7 @@ import {
 import * as Api from "@/infrastructure";
 
 import { DocumentState } from "@/domain/entities/document-types";
+import eventEmitter from '@/shared/emitter/events';
 
 import { selectCollectionSelected } from "./collection-slice";
 import { selectDatabaseSelected } from "./database-slice";
@@ -61,6 +62,7 @@ export const documentSlice = createSlice({
     builder.addCase(postDocument.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'document.createSuccess' });
     });
     builder.addCase(postDocument.rejected, (state, action: PayloadAction<any>) => {
       state.loading = false;
@@ -73,10 +75,11 @@ export const documentSlice = createSlice({
     builder.addCase(deleteDocument.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'document.deleteSuccess' });
     });
-    builder.addCase(deleteDocument.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(deleteDocument.rejected, (state) => {
       state.loading = false;
-      state.error = action.payload;
+      eventEmitter.dispatch('alert', { type: 'error', message: 'document.deleteError' });
     });
     builder.addCase(updateDocument.pending, (state) => {
       state.loading = true;
@@ -85,6 +88,7 @@ export const documentSlice = createSlice({
     builder.addCase(updateDocument.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'document.updateSuccess' });
     });
     builder.addCase(updateDocument.rejected, (state, action: PayloadAction<any>) => {
       state.loading = false;
