@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import { useDispatch } from '@/store/store';
 import { setTheme } from '@/domain/usecases/setting-slice';
 
-export default function RootPage({ children }: { children: React.ReactNode }) {
+export default function RootPage({ children }: { children: ReactNode }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
