@@ -1,11 +1,11 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { useDispatch } from '@/store/store';
 import { setTheme } from '@/domain/usecases/setting-slice';
 
-export default function RootPage({ children }: { children: ReactNode }) {
+export default function RootPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,10 +17,4 @@ export default function RootPage({ children }: { children: ReactNode }) {
     const colorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     dispatch(setTheme(colorScheme));
   }, [dispatch]);
-
-  return (
-    <>
-      {children}
-    </>
-  );
 }
