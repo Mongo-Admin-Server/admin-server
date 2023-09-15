@@ -12,6 +12,82 @@
     font-size: 16px;
     cursor: pointer;
     color: var(--color-background-accent);
+
+    &.switch {
+      display: inline-block;
+      height: 24px;
+      position: relative;
+      width: 70px;
+      transition: all .3s ease-in-out;
+
+      &.checked{
+        width: 50px;
+      }
+
+      .input {
+        display:none;
+      }
+      
+      .slider {
+        background-color: #ccc;
+        bottom: 0;
+        cursor: pointer;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: .5s ease-in-out;
+      }
+      
+      .slider:before {
+        background-color: #fff;
+        bottom: 2px;
+        content: "";
+        height: 20px;
+        left: 4px;
+        position: absolute;
+        transition: .5s ease-in-out;
+        width: 20px;
+      }
+      
+      .input{
+        &:checked + .slider {
+          background-color: $baseGreen;
+          z-index: 10;
+          &.round{
+            label {
+              visibility: hidden;
+              transition: all .2s ease-in-out;
+            }
+          }
+        }
+      }
+      
+      .input{
+        &:checked + .slider:before {
+          transform: translateX(23px);
+        }
+      }
+      
+      .slider{
+        &.round {
+          border-radius: 24px;
+          text-align: right;
+          padding-right: 12px;
+          label{
+            font-size: 10px;
+          }
+        }
+      }
+      
+      .slider {
+        &.round{
+          &:before {
+            border-radius: 50%;
+          }
+        }
+      }
+    }
   }
 
   .input {

@@ -103,7 +103,7 @@ export default function DocumentsPage({
       {
         showJson ? (
           <div className="scrollable">
-            {documents.map((doc, index) => (
+            {documents?.map((doc, index) => (
               <DocumentJson
                 key={index}
                 dataJson={doc}

@@ -78,6 +78,7 @@ const Title = ({ title, actions, onClick, showJson, setShowJson, withJsonSwitch 
             value={showJson ? showJson : false}
             onChange={handleJsonToggle}
             color={themeFront}
+            switchCheckbox={true}
           />
         }
       </div>
