@@ -1,6 +1,8 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
 
+import styles from './document.module.scss';
+
 import Title from '@components/title/Title';
 import Table from '@components/ui/table/Table';
 import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
@@ -100,7 +102,7 @@ export default function DocumentsPage({
     return (
       <>
         {viewFormat === 'json' && (
-          <div className="scrollable">
+          <div className={`${styles['container-json']} scrollable`}>
             {documents.map((doc, index) => (
               <JsonView key={index} json={doc} />
             ))}
