@@ -7,6 +7,7 @@ import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 import DocumentModal from '@components/modal/document/DocumentModal';
 import Pagination from '@components/ui/pagination/Pagination';
+import JsonView from '@components/json/JsonView';
 
 import { useDispatch, useSelector } from '@/store/store';
 import {
@@ -16,7 +17,6 @@ import {
 } from '@/domain/usecases/document-slice';
 
 import { useTranslations } from 'next-intl';
-import DocumentJson from '@components/modal/document-json/DocumentJson';
 
 export default function DocumentsPage({
   params,
@@ -30,8 +30,7 @@ export default function DocumentsPage({
   const [totalDocuments, setTotalDocuments] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDocumentModal, setOpenDocumentModal] = useState(false);
-  const [viewFormat, setViewFormat] = useState<'table' | 'json'>('table'); // ['table', 'json']
-  // const [showJson, setShowJson] = useState(false);
+  const [viewFormat, setViewFormat] = useState<'table' | 'json'>('table');
   const [currentDocument, setCurrentDocument] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -102,8 +101,8 @@ export default function DocumentsPage({
       <>
         {viewFormat === 'json' && (
           <div className="scrollable">
-            {documents?.map((doc, index) => (
-              <DocumentJson key={index} dataJson={doc} />
+            {documents.map((doc, index) => (
+              <JsonView key={index} json={doc} />
             ))}
           </div>
         )}
