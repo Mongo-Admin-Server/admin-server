@@ -1,42 +1,51 @@
-'use client';
-import { useEffect } from 'react';
 import { Inter } from 'next/font/google';
-
-import { I18nProviderClient } from '@/shared/locales/clients';
-import fr from '@/shared/locales/fr';
-
-import { useDispatch } from '@/store/store';
-import { setTheme } from '@/domain/usecases/setting-slice';
+import { notFound } from 'next/navigation';
+import { createTranslator, NextIntlClientProvider } from 'next-intl';
+import { ReactNode } from 'react';
 
 import ToastList from '@components/ui/list/toast/ToastList';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({subsets: ['latin']});
 
-export default function RootLayout({
+type Props = {
+  children: ReactNode;
+  params: {locale: string};
+};
+
+async function getMessages(locale: string) {
+  try {
+    return (await import(`../../shared/locales/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+}
+
+export async function generateStaticParams() {
+  return ['en', 'fr', 'es'].map((locale) => ({locale}));
+}
+
+export async function generateMetadata({params: {locale}}: Props) {
+  const messages = await getMessages(locale);
+  const t = createTranslator({locale, messages});
+
+  return {
+    title: t('metadata.title')
+  };
+}
+
+export default async function LocaleLayout({
   children,
-  params: { locale }
-}: {
-  children: React.ReactNode;
-  params: { locale: string }
-}) {
-  const dispatch = useDispatch();
+  params: {locale}
+}: Props) {
+  const messages = await getMessages(locale);
 
-  useEffect(() => {
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-      const newColorScheme = e.matches ? "dark" : "light";
-      dispatch(setTheme(newColorScheme));
-    });
-
-    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    dispatch(setTheme(colorScheme));
-  }, [dispatch]);
   return (
     <html lang={locale}>
       <body className={inter.className} cz-shortcut-listen="true">
-        <I18nProviderClient locale={locale} fallback={<p> Loading...</p>} fallbackLocale={fr}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
-        <ToastList />
-        </I18nProviderClient>
+          <ToastList />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

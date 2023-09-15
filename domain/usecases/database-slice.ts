@@ -50,7 +50,7 @@ export const databaseSlice = createSlice({
     builder.addCase(deleteDatabase.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'success', message: 'Base de données supprimée !' });
+      eventEmitter.dispatch('alert', { type: 'success', message: 'database.deleteSuccess' });
     });
     builder.addCase(deleteDatabase.pending, (state) => {
       state.loading = true;
@@ -59,7 +59,7 @@ export const databaseSlice = createSlice({
     builder.addCase(deleteDatabase.rejected, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'error', message: 'Un probleme est survenu lors de la suppresion !' });
+      eventEmitter.dispatch('alert', { type: 'error', message: 'database.deleteError' });
     });
     builder.addCase(postDatabase.pending, (state) => {
       state.loading = true;
@@ -67,10 +67,12 @@ export const databaseSlice = createSlice({
     });
     builder.addCase(postDatabase.fulfilled, (state) => {
       state.loading = false;
+      eventEmitter.dispatch('alert', { type: 'success', message: 'database.createSuccess' });
     });
     builder.addCase(postDatabase.rejected, (state, action: any) => {
       state.loading = false;
       state.error = action.payload;
+      eventEmitter.dispatch('alert', { type: 'error', message: 'database.createError' });
     });
   }
 });

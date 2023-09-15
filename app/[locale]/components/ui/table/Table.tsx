@@ -1,4 +1,4 @@
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 import styles from './table.module.scss';
 import '@/shared/styles/main.scss';
@@ -25,7 +25,7 @@ const Table = ({
   no_data = false,
   onClick,
 }: TableProps) => {
-  const t = useI18n();
+  const t = useTranslations();
 
   const [scrollYActive, setScrollYActive] = useState(false);
   const [scrollXActive, setScrollXActive] = useState(false);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 import GenericInput from '@components/ui/inputs/generic/GenericInput';
 import GenericModal from '@components/modal/generic/GenericModal';
@@ -18,7 +18,7 @@ interface CreateDBModalProps {
 
 export default function FormCreateDB({ open, onClose }: CreateDBModalProps) {
   /* Static Data */
-  const t = useI18n();
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   const error = useSelector(selectError);

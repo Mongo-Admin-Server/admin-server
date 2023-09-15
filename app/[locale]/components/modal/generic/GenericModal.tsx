@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 import SvgIcon from '@components/ui/icon/SvgIcon';
 import GenericButton from '@components/ui/button/GenericButton';
@@ -20,7 +20,7 @@ interface GenericModalProps {
 }
 
 const GenericModal = ({ open, title, confirmLabelTrad, cancelLabelTrad, typeButton = 'button', disabledButton = false, withButton = true, children, onClose, onValidate }: GenericModalProps) => {
-  const t = useI18n();
+  const t = useTranslations();
   const modalRef = useRef(null);
 
   const confirmText = useMemo(() => {

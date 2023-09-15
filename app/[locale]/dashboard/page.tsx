@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import Table from '@components/ui/table/Table';
@@ -22,7 +22,7 @@ import { setCollectionSelected, setCollections } from '@/domain/usecases/collect
 import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
 
 export default function DashboardPage() {
-  const t = useI18n();
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   useEffect(() => {
