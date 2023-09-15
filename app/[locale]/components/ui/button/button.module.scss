@@ -37,6 +37,11 @@
     color: var(--color-red) !important;
   }
 
+  &.info {
+    background-color: var(--color-text-base) !important;
+    border-color: var(--color-text-base) !important;
+  }
+
   &.outline {
     background-color: transparent;
     color: var(--color-background-accent);

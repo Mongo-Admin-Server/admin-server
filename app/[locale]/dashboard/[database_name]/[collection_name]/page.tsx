@@ -1,12 +1,15 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
 
+import styles from './document.module.scss';
+
 import Title from '@components/title/Title';
 import Table from '@components/ui/table/Table';
 import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 import DocumentModal from '@components/modal/document/DocumentModal';
 import Pagination from '@components/ui/pagination/Pagination';
+import JsonView from '@components/json/JsonView';
 
 import { useDispatch, useSelector } from '@/store/store';
 import {
@@ -29,6 +32,7 @@ export default function DocumentsPage({
   const [totalDocuments, setTotalDocuments] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDocumentModal, setOpenDocumentModal] = useState(false);
+  const [viewFormat, setViewFormat] = useState<'table' | 'json'>('table');
   const [currentDocument, setCurrentDocument] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -97,12 +101,22 @@ export default function DocumentsPage({
 
     return (
       <>
-        <Table
-          data_header={Object.keys(documents[0])}
-          data_body={documents}
-          actions={['trash', 'edit']}
-          onClick={(action, index) => handleClick(action, index)}
-        />
+        {viewFormat === 'json' && (
+          <div className={`${styles['container-json']} scrollable`}>
+            {documents.map((doc, index) => (
+              <JsonView key={index} json={doc} />
+            ))}
+          </div>
+        )}
+
+        {viewFormat === 'table' && (
+          <Table
+            data_header={Object.keys(documents[0])}
+            data_body={documents}
+            actions={['trash', 'edit']}
+            onClick={(action, index) => handleClick(action, index)}
+          />
+        )}
 
         <Pagination
           total={totalDocuments}
@@ -122,6 +136,9 @@ export default function DocumentsPage({
         title={params.collection_name}
         actions={['refresh', 'search', 'add']}
         onClick={(action) => handleClick(action)}
+        isViewFromat
+        viewFormat={viewFormat}
+        changeViewFormat={(format: any) => setViewFormat(format)}
       />
 
       {renderTable()}

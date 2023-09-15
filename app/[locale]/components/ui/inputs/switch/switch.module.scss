@@ -1,0 +1,12 @@
+.switch-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--color-text-accent);
+  border-radius: 10px;
+  padding: 3px;
+
+  button {
+    height: 30px;
+  }
+}

@@ -7,6 +7,12 @@
   border-radius: 10px;
   color: var(--color-background-accent);
 
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
   &__title {
     font-size: 18px;
     margin: 0;
