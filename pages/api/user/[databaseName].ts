@@ -1,7 +1,8 @@
 import { UserController } from "@/api/src/Controller/UserController";
+import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default function handler(req:NextApiRequest, res: NextApiResponse){
+export default function handler(req:RequestCustomHeaders, res: NextApiResponse){
     switch(req.method){
         case 'GET':
             new UserController().getUsers(req, res, 'admin');

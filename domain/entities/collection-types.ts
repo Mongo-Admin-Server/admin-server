@@ -1,4 +1,5 @@
 import { NextApiRequest } from "next";
+import { RequestCustomHeaders } from "./headers-types";
 
 export type CollectionType = {
   collectionName: string;
@@ -17,10 +18,8 @@ export type CollectionState = {
   error: string;
 };
 
-export interface RequestCustomCollection extends NextApiRequest {
+export interface RequestCustomCollection extends RequestCustomHeaders {
   query: {
-      databaseName: string,
-      perPage: string,
-      page: string,
+    databaseName: string,
   },
 }

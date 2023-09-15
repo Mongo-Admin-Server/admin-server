@@ -14,12 +14,7 @@ export type DatabaseState = {
   error: string;
 };
 
-export interface RequestCustomDatabase extends NextApiRequest {
-  query: {
-      perPage: string,
-      page: string,
-  },
-}
+
 
 export type IDatabaseUpdate = Partial<DatabaseType>;
 export type IDatabaseRO = Readonly<DatabaseType>;
