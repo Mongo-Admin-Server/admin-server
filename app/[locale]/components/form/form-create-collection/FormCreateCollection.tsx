@@ -6,7 +6,7 @@ import GenericInput from '@components/ui/inputs/generic/GenericInput';
 import GenericModal from '@components/modal/generic/GenericModal';
 
 import { useDispatch, useSelector } from '@/store/store';
-import { postCollectionByName, selectError, setError } from '@/domain/usecases/collection-slice';
+import { postCollectionByName, selectErrorCollection, setErrorCollection } from '@/domain/usecases/collection-slice';
 
 interface CreateCollectionModalProps {
   open: boolean;
@@ -20,7 +20,7 @@ export default function FormCreateCollection({
   /* Static Data */
   const dispatch = useDispatch();
   const t = useI18n();
-  const errorSelector = useSelector(selectError);
+  const errorSelector = useSelector(selectErrorCollection);
 
   /* Methods */
   const handleSubmit = async () => {
@@ -39,7 +39,7 @@ export default function FormCreateCollection({
       setErrorInput(t('formCreateCollection.spacesNotAllowedErrorMessage'))
     } else {
       setErrorInput('')
-      dispatch(setError(''));
+      dispatch(setErrorCollection(''));
     }
   };
 
@@ -50,7 +50,7 @@ export default function FormCreateCollection({
   const errors = errorInput || errorSelector;
 
   useEffect(() => {
-    dispatch(setError(''));
+    dispatch(setErrorCollection(''));
     setCollectionName('');
   }, [open, dispatch])
 

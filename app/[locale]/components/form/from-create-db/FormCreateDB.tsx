@@ -8,7 +8,7 @@ import GenericModal from '@components/modal/generic/GenericModal';
 
 import styles from './form-create-db.module.scss';
 
-import { postDatabase, selectError, setError } from '@/domain/usecases/database-slice';
+import { postDatabase, selectError, setErrorDatabase } from '@/domain/usecases/database-slice';
 import { useDispatch, useSelector } from '@/store/store';
 
 interface CreateDBModalProps {
@@ -24,7 +24,7 @@ export default function FormCreateDB({ open, onClose }: CreateDBModalProps) {
   const error = useSelector(selectError);
 
   useEffect(() => {
-    dispatch(setError(''));
+    dispatch(setErrorDatabase(''));
     setDatabaseName('');
     setCollectionName('');
   }, [open, dispatch]);

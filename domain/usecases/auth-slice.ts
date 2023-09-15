@@ -3,13 +3,14 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
+  createAction,
 } from "@reduxjs/toolkit";
 
 import { AuthState } from "../entities/auth-types";
 
 import * as Api from "@/infrastructure";
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   isLogged: false,
   loading: false,
   error: "",
@@ -21,6 +22,12 @@ export const authSlice = createSlice({
   reducers: {
     setIsLogged: (state, action: PayloadAction<boolean>) => {
       state.isLogged = action.payload;
+    },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     }
   },
   extraReducers(builder) {
@@ -64,6 +71,11 @@ export const authSlice = createSlice({
   }
 });
 
+/************   ACTIONS FOR COLLECTION  ************/
+export const setErrorAuth = createAction<string>("auth/setError");
+export const setLoadingAuth = createAction<boolean>("auth/setLoading");
+export const setIsLogged = createAction<boolean>("auth/setIsLogged");
+
 /************   USECASES FUNCTIONS FOR AUTH  ************/
 // export const login = createAsyncThunk(
 //   "auth/login",
@@ -102,13 +114,21 @@ export const postUser = createAsyncThunk(
   }
 )
 
-export const { setIsLogged } = authSlice.actions;
-
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
 
 export const selectIsLogged = createSelector(
   selectAuth,
   (auth) => auth.isLogged
+);
+
+export const selectLoadingAuth = createSelector(
+  selectAuth,
+  (auth) => auth.loading
+);
+
+export const selectErrorAuth = createSelector(
+  selectAuth,
+  (auth) => auth.error
 );
 
 export default authSlice.reducer;
