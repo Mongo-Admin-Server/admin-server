@@ -2,6 +2,7 @@ import axiosLibrary, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from '
 
 class Axios {
   private instance: AxiosInstance;
+  private accessToken: string|null = null;
 
   constructor() {
     this.instance = axiosLibrary.create({
@@ -17,12 +18,10 @@ class Axios {
     this.instance.defaults.baseURL = baseURL;
   }
 
-  setHeader(name: string, value: string) {
-    this.instance.defaults.headers.common[name] = value;
-  }
-
-  removeHeader(name: string) {
-    delete this.instance.defaults.headers.common[name];
+  setAuthorization = (accessToken: string|null) => {
+    if (accessToken) this.instance.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+    else delete this.instance.defaults.headers.common.Authorization
+    this.accessToken = accessToken
   }
 
   async get<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
