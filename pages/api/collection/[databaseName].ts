@@ -7,7 +7,7 @@ export default function handler(req: RequestCustomCollection, res: NextApiRespon
         case 'GET':
             try {
                 const collectionController = new CollectionController();
-                collectionController.getOneCollection(res, req.query.databaseName);
+                collectionController.getOneCollection(res, req);
             } catch (error) {
                 res.status(500).json('error');
             }
