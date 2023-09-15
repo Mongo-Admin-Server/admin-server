@@ -8,6 +8,7 @@ interface CheckboxProps {
   // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
+  color?: string;
 }
 
 const Checkbox = ({
@@ -17,13 +18,15 @@ const Checkbox = ({
   disabled,
   onChange,
   error,
+  color
 }: CheckboxProps) => {
+  
   return (
     <div className={styles.container}>
-      <label htmlFor={id} className={styles.label}>
+      <label htmlFor={id} className={`${styles.label} ${color && styles[color]}`}>
         <input
           id={id}
-          className={`${styles.input} ${error ? styles.inputError : ''}`}
+          className={`${styles.input} ${error ? styles.inputError : ''} ${color && styles[color]}`}
           type="checkbox"
           disabled={disabled}
           checked={value}

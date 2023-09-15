@@ -16,6 +16,8 @@ import {
 } from '@/domain/usecases/document-slice';
 
 import { useI18n } from '@/shared/locales/clients';
+import DocumentJson from '@/app/[locale]/components/modal/document-json/DocumentJson';
+
 
 export default function DocumentsPage({
   params,
@@ -29,6 +31,7 @@ export default function DocumentsPage({
   const [totalDocuments, setTotalDocuments] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDocumentModal, setOpenDocumentModal] = useState(false);
+  const [showJson, setShowJson] = useState(false);
   const [currentDocument, setCurrentDocument] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -97,12 +100,25 @@ export default function DocumentsPage({
 
     return (
       <>
-        <Table
-          data_header={Object.keys(documents[0])}
-          data_body={documents}
-          actions={['trash', 'edit']}
-          onClick={(action, index) => handleClick(action, index)}
-        />
+      {
+        showJson ? (
+          <div className="scrollable">
+            {documents.map((i, doc) => (
+              <DocumentJson
+                key={i}
+                dataJson={doc}
+              />
+            ))}
+          </div>
+        ) : (
+          <Table
+            data_header={Object.keys(documents[0])}
+            data_body={documents}
+            actions={['trash', 'edit']}
+            onClick={(action, index) => handleClick(action, index)}
+          />
+        )
+      }
 
         <Pagination
           total={totalDocuments}
@@ -122,6 +138,9 @@ export default function DocumentsPage({
         title={params.collection_name}
         actions={['refresh', 'search', 'add']}
         onClick={(action) => handleClick(action)}
+        showJson={showJson}
+        setShowJson={setShowJson}
+        withJsonSwitch={true}
       />
 
       {renderTable()}

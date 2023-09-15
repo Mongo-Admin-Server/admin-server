@@ -1,0 +1,11 @@
+.container {
+  padding: 10px 0;
+  border-bottom: 0.8px solid var(--color-background-accent);
+  &:first-child{
+    padding-top: 0;
+  }
+  &:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}

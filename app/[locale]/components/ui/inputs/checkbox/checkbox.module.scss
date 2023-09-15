@@ -10,8 +10,8 @@
     align-items: center;
     gap: 8px;
     font-size: 16px;
-    color: $darkAccent;
     cursor: pointer;
+    color: var(--color-background-accent);
   }
 
   .input {
@@ -29,16 +29,27 @@
     }
 
     &:checked {
-      background-color: $darkAccent;
       border: 1px solid $darkAccent;
       position: relative;
 
       &::before {
-        content: '✓';
-        font-size: 1.5em;
-        color: var(--color-background-accent);
         position: absolute;
-        right: 1px;
+        left: calc(50% - (16px/2));
+        top: calc(50% - (18.5px/2));
+      }
+    }
+    &.light{
+      &:checked {
+        &::before {
+          content: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg width='16px' height='16px' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='8 29.312 21.921 41.348 42 10.652' fill='none' stroke='%232f2f2f' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' stroke-width='4'/%3E%3C/svg%3E%0A");
+        }
+      }
+    }
+    &.dark{
+      &:checked{
+        &::before{
+          content: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg width='16px' height='16px' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='8 29.312 21.921 41.348 42 10.652' fill='none' stroke='%23e6e9ed' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' stroke-width='4'/%3E%3C/svg%3E%0A");
+        }
       }
     }
   }
