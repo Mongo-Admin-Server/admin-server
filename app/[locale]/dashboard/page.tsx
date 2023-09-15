@@ -18,7 +18,7 @@ import {
   deleteDatabase
  } from '@/domain/usecases/database-slice';
 
-import { setCollectionSelected } from '@/domain/usecases/collection-slice';
+import { setCollectionSelected, setCollections } from '@/domain/usecases/collection-slice';
 import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
 
 export default function DashboardPage() {
@@ -28,6 +28,7 @@ export default function DashboardPage() {
   useEffect(() => {
     dispatch(setDatabaseSelected(''));
     dispatch(setCollectionSelected(''));
+    dispatch(setCollections([]));
   }, [dispatch]);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -74,6 +75,12 @@ export default function DashboardPage() {
       case 'refresh':
         dispatch(fetchAllDatabase());
         break;
+      case 'import':
+        console.log('Import');
+        break;
+      case 'export':
+        console.log('Export');
+        break;
       default:
         break;
     }
@@ -90,7 +97,7 @@ export default function DashboardPage() {
     <>
       <Title
         title={t('database.title')}
-        actions={['refresh', 'search', 'add']}
+        actions={['refresh', 'search', 'import', 'export', 'add']}
         onClick={(action) => handleClick(action)}
       />
 

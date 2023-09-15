@@ -7,7 +7,7 @@ import {
   createAction,
 } from "@reduxjs/toolkit";
 
-import { CollectionState } from "../entities/collection-types";
+import { CollectionState, CollectionType } from "../entities/collection-types";
 import eventEmitter from '@/shared/emitter/events';
 
 import * as Api from "@/infrastructure";
@@ -39,6 +39,9 @@ export const collectionSlice = createSlice({
   name: "collection",
   initialState,
   reducers: {
+    setCollections: (state, action: PayloadAction<CollectionType[]>) => {
+      state.collections = action.payload;
+    },
     setCollectionSelected: (state, action: PayloadAction<string>) => {
       state.collectionSelected = action.payload;
     },
@@ -94,6 +97,7 @@ export const collectionSlice = createSlice({
 });
 
 /************   ACTIONS FOR COLLECTION  ************/
+export const setCollections = createAction<CollectionType[]>("collection/setCollections");
 export const setCollectionSelected = createAction<string>("collection/setCollectionSelected");
 export const setErrorCollection = createAction<string>("collection/setError");
 export const setLoadingCollection = createAction<boolean>("collection/setLoading");

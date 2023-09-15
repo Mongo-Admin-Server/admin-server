@@ -22,6 +22,8 @@ import ChevronRight from '@/shared/icons/chevronRight.svg';
 import ChevronsLeft from '@/shared/icons/chevronsLeft.svg';
 import ChevronsRight from '@/shared/icons/chevronsRight.svg';
 import Elipsis from '@/shared/icons/elipsis.svg';
+import Import from '@/shared/icons/import.svg';
+import Export from '@/shared/icons/export.svg';
 
 interface IconTypes {
   [key: string]: React.ComponentType<{
@@ -62,6 +64,8 @@ const iconTypes: IconTypes = {
   chevronsLeft: ChevronsLeft,
   chevronsRight: ChevronsRight,
   elipsis: Elipsis,
+  import: Import,
+  export: Export
 };
 
 const SvgIcon = ({ icon_name, className, onClick }: SvgIconProps) => {
