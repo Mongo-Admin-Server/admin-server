@@ -30,4 +30,18 @@ export class DatabaseController{
         else
             response.status(status.code).json(status.json)
     }
+
+    public async exportDatabase(request:NextApiRequest, response: NextApiResponse){
+        const { databaseName } = request.body;
+        const { fileName } = request.body;
+        const { extension } = request.body;
+        const res = await new Database().exportDatabaseToJson(databaseName, fileName, extension);
+        
+        if(res === true)
+        try {
+            response.status(200).json(res);
+        } catch (error) {
+            response.status(500).json('error');
+        }
+    }
 }

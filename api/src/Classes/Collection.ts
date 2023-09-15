@@ -2,6 +2,10 @@ import { Instance } from "./Instance";
 import { IResult} from '../../../domain/entities/api/IResult';
 import { ApiError } from "./Errors/ApiError";
 import { CollectionType } from "@/domain/entities/collection-types";
+import fs from "fs";
+import os from 'os';
+import path from 'path';
+import json2csv from 'json2csv';
 
 export class Collection {
 
@@ -77,6 +81,31 @@ export class Collection {
         
             await db.dropCollection(collectionName);
             return 'collection_deleted'
+        }catch(error){
+            throw(error);
+        }
+    }
+
+    public async exportCollectionDataToJson(databaseName:string, fileName:string, extension: string,collectionName: string): Promise<true>{
+        try{
+            const instance = await Instance.Client.connect();
+            const db = instance.db(databaseName);
+            const collection = db.collection(collectionName);
+            const data = await collection.find({}).toArray();
+
+            await instance.close();
+
+            if (fileName == ""){
+                fileName = collectionName
+            }
+
+            let downloadPath = path.join(os.homedir(),'Downloads',`${fileName}.${extension}`);
+            if (extension === 'json'){
+                fs.writeFileSync(downloadPath, JSON.stringify(data, null, 2));
+            }else if(extension === 'csv'){
+                fs.writeFileSync(downloadPath, json2csv.parse(data, {header: true}));
+            }
+            return true;
         }catch(error){
             throw(error);
         }

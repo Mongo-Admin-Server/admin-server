@@ -43,4 +43,19 @@ export class CollectionController {
         }
     }
 
+    public async exportCollectionData(request:NextApiRequest, response: NextApiResponse){
+        const { databaseName } = request.body;
+        const { fileName } = request.body;
+        const { extension } = request.body;
+        const { collectionName } = request.body;
+        const res = await new Collection().exportCollectionDataToJson(databaseName, fileName, extension, collectionName);
+        
+        if(res === true)
+        try {
+            response.status(200).json(res);
+        } catch (error) {
+            response.status(500).json('error');
+        }
+    }
+
 }
