@@ -9,11 +9,9 @@ import { useDispatch } from '@/store/store';
 import { fetchAllDatabase } from '@/domain/usecases/database-slice';
 
 export default function DashboardLayout({
-  children,
-  params: { locale },
+  children
 }: {
   children: React.ReactNode;
-  params: { locale: string };
 }) {
   const dispatch = useDispatch();
 
