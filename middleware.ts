@@ -1,12 +1,15 @@
-import { createI18nMiddleware } from 'next-international/middleware';
-import { NextRequest } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+// import { NextRequest } from 'next/server';
 
-const I18nMiddleware = createI18nMiddleware(['fr', 'en', 'es'] as const, 'fr');
+export default createMiddleware({
+  locales: ['en', 'fr', 'es'],
+  defaultLocale: 'en',
+});
 
-export function middleware(request: NextRequest) {
-  return I18nMiddleware(request);
-}
+// export function middleware(request: NextRequest) {
+//   return I18nMiddleware(request);
+// }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!api|_next|.*\\..*).*)']
 };

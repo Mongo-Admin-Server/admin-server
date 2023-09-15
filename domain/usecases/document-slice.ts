@@ -3,15 +3,18 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
+  createAction,
 } from "@reduxjs/toolkit";
 
 import * as Api from "@/infrastructure";
 
 import { DocumentState } from "@/domain/entities/document-types";
+import eventEmitter from '@/shared/emitter/events';
 
-import { store } from "@/store/store";
+import { selectCollectionSelected } from "./collection-slice";
+import { selectDatabaseSelected } from "./database-slice";
 
-const initialState: DocumentState = {
+export const initialState: DocumentState = {
   loading: false,
   error: "",
 };
@@ -19,7 +22,14 @@ const initialState: DocumentState = {
 export const documentSlice = createSlice({
   name: "document",
   initialState,
-  reducers: {},
+  reducers: {
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchAllDocumentByCollection.pending, (state) => {
       state.loading = true;
@@ -52,6 +62,7 @@ export const documentSlice = createSlice({
     builder.addCase(postDocument.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'document.createSuccess' });
     });
     builder.addCase(postDocument.rejected, (state, action: PayloadAction<any>) => {
       state.loading = false;
@@ -64,10 +75,11 @@ export const documentSlice = createSlice({
     builder.addCase(deleteDocument.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'document.deleteSuccess' });
     });
-    builder.addCase(deleteDocument.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(deleteDocument.rejected, (state) => {
       state.loading = false;
-      state.error = action.payload;
+      eventEmitter.dispatch('alert', { type: 'error', message: 'document.deleteError' });
     });
     builder.addCase(updateDocument.pending, (state) => {
       state.loading = true;
@@ -76,6 +88,7 @@ export const documentSlice = createSlice({
     builder.addCase(updateDocument.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'document.updateSuccess' });
     });
     builder.addCase(updateDocument.rejected, (state, action: PayloadAction<any>) => {
       state.loading = false;
@@ -84,14 +97,18 @@ export const documentSlice = createSlice({
   }
 });
 
+/************   ACTIONS FOR DOCUMENT  ************/
+export const setErrorDocument = createAction<string>("document/setError");
+export const setLoadingDocument = createAction<boolean>("document/setLoading");
+
 /************   USECASES FUNCTIONS FOR DOCUMENT  ************/
 export const fetchAllDocumentByCollection = createAsyncThunk(
   "document/fetchAllDocumentByCollection",
-  async ({ currentPage, perPage }: {currentPage: number, perPage: number}, { rejectWithValue }: { rejectWithValue: any }) => {
+  async ({ currentPage, perPage }: {currentPage: number, perPage: number}, { rejectWithValue, getState }: { rejectWithValue: any, getState: any }) => {
     try {
-      const reduxStore = store.getState()
-      const databaseName = reduxStore.database.databaseSelected;
-      const collectionName = reduxStore.collection.collectionSelected;
+      const state = getState();
+      const databaseName = selectDatabaseSelected({ database: state.database });
+      const collectionName = selectCollectionSelected({ collection: state.collection });
 
       const { documents, total } = await Api.document.getAllDocumentByCollection(databaseName, collectionName, currentPage, perPage);
       return { documents, total };
@@ -106,12 +123,12 @@ export const fetchOneDocument = createAsyncThunk(
   "document/fetchOneDocument",
   async (
     id: string,
-    { rejectWithValue }: { rejectWithValue: any }
+    { rejectWithValue, getState }: { rejectWithValue: any, getState: any }
   ) => {
     try {
-      const reduxStore = store.getState()
-      const databaseName = reduxStore.database.databaseSelected;
-      const collectionName = reduxStore.collection.collectionSelected;
+      const state = getState();
+      const databaseName = selectDatabaseSelected({ database: state.database });
+      const collectionName = selectCollectionSelected({ collection: state.collection });
 
       const response = await Api.document.getDocument(databaseName, collectionName, id);
       return response;
@@ -126,12 +143,12 @@ export const postDocument = createAsyncThunk(
   "document/postDocument",
   async (
     query: JSON,
-    { rejectWithValue }: { rejectWithValue: any }
+    { rejectWithValue, getState }: { rejectWithValue: any, getState: any }
   ) => {
     try {
-      const reduxStore = store.getState()
-      const databaseName = reduxStore.database.databaseSelected;
-      const collectionName = reduxStore.collection.collectionSelected;
+      const state = getState();
+      const databaseName = selectDatabaseSelected({ database: state.database });
+      const collectionName = selectCollectionSelected({ collection: state.collection });
 
       await Api.document.postDocument(databaseName, collectionName, query);
     } catch (error) {
@@ -145,12 +162,12 @@ export const deleteDocument = createAsyncThunk(
   "document/deleteDocument",
   async (
     id: string,
-    { rejectWithValue }: { rejectWithValue: any }
+    { rejectWithValue, getState }: { rejectWithValue: any, getState: any }
   ) => {
     try {
-      const reduxStore = store.getState()
-      const databaseName = reduxStore.database.databaseSelected;
-      const collectionName = reduxStore.collection.collectionSelected;
+      const state = getState();
+      const databaseName = selectDatabaseSelected({ database: state.database });
+      const collectionName = selectCollectionSelected({ collection: state.collection });
 
       await Api.document.deleteDocument(databaseName, collectionName, id);
     } catch (error) {
@@ -164,12 +181,12 @@ export const updateDocument = createAsyncThunk(
   "document/updateDocument",
   async (
     { id, query }: { id: string; query: JSON },
-    { rejectWithValue }: { rejectWithValue: any }
+    { rejectWithValue, getState }: { rejectWithValue: any, getState: any }
   ) => {
     try {
-      const reduxStore = store.getState()
-      const databaseName = reduxStore.database.databaseSelected;
-      const collectionName = reduxStore.collection.collectionSelected;
+      const state = getState();
+      const databaseName = selectDatabaseSelected({ database: state.database });
+      const collectionName = selectCollectionSelected({ collection: state.collection });
 
       await Api.document.updateDocument(databaseName, collectionName, id, query);
     } catch (error) {

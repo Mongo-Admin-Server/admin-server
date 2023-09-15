@@ -1,10 +1,13 @@
-import { useChangeLocale, useCurrentLocale, useI18n } from "@/shared/locales/clients";
+import { useTransition } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
+import { usePathname, useRouter } from 'next-intl/client';
 
 import GenericModal from "@components/modal/generic/GenericModal";
 
-import { LanguageType, Language } from "@/domain/entities/setting-types";
+import { Language } from "@/domain/entities/setting-types";
 
 import styles from "./languageModal.module.scss";
+
 import { useDispatch } from "@/store/store";
 import { setLanguage } from "@/domain/usecases/setting-slice";
 
@@ -14,9 +17,11 @@ interface LanguageModalProps {
 }
 
 const LanguageModal = ({ open, onClose }: LanguageModalProps) => {
-  const t = useI18n();
-  const locale = useCurrentLocale();
-  const changeLocale = useChangeLocale();
+  const router = useRouter();
+  const t = useTranslations();
+  const locale = useLocale();
+  const [isPending, startTransition] = useTransition();
+  const pathname = usePathname();
   const dispatch = useDispatch();
 
   const languages: Language[] = [
@@ -25,9 +30,11 @@ const LanguageModal = ({ open, onClose }: LanguageModalProps) => {
     { value: 'es', label: t('language.es'), },
   ];
 
-  const handleLanguageChange = (value: LanguageType) => {
-    changeLocale(value);
-    dispatch(setLanguage(value))
+  const handleLanguageChange = (language: string) => {
+    startTransition(() => {
+      router.replace(pathname, {locale: language});
+    });
+    dispatch(setLanguage(language))
     onClose();
   };
   

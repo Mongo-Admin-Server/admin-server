@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 import GenericInput from '@components/ui/inputs/generic/GenericInput';
 import GenericModal from '@components/modal/generic/GenericModal';
 
 import styles from './form-create-db.module.scss';
 
-import { postDatabase, selectError, setError } from '@/domain/usecases/database-slice';
+import { postDatabase, selectError, setErrorDatabase } from '@/domain/usecases/database-slice';
 import { useDispatch, useSelector } from '@/store/store';
 
 interface CreateDBModalProps {
@@ -18,13 +18,13 @@ interface CreateDBModalProps {
 
 export default function FormCreateDB({ open, onClose }: CreateDBModalProps) {
   /* Static Data */
-  const t = useI18n();
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   const error = useSelector(selectError);
 
   useEffect(() => {
-    dispatch(setError(''));
+    dispatch(setErrorDatabase(''));
     setDatabaseName('');
     setCollectionName('');
   }, [open, dispatch]);

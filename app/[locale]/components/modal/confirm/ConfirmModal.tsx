@@ -1,4 +1,4 @@
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 import GenericModal from '@components/modal/generic/GenericModal';
 
@@ -17,7 +17,7 @@ const ConfirmModal = ({
   onConfirm,
   onClose,
 }: ConfirmModalProps) => {
-  const t = useI18n();
+  const t = useTranslations();
 
   return (
     <GenericModal

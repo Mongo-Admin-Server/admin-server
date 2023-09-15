@@ -4,44 +4,39 @@ import {
   PayloadAction,
   createAsyncThunk,
   Dispatch,
+  createAction,
 } from "@reduxjs/toolkit";
-import { CollectionState } from "../entities/collection-types";
+
+import { CollectionState, CollectionType } from "../entities/collection-types";
 import eventEmitter from '@/shared/emitter/events';
 
 import * as Api from "@/infrastructure";
-import { store } from "@/store/store";
 
-const initialState: CollectionState = {
+import { selectDatabaseSelected } from "./database-slice";
+
+export const initialState: CollectionState = {
   collections: [],
   collectionSelected: "",
   loading: false,
   error: "",
 };
 
-interface ILanguageTrad {
-  [key: string]: string
-}
-const createSuccess: ILanguageTrad = {
-  fr: 'Collection créée avec succès.',
-  en: 'Collection created successfully.',
-  es: 'Colección creada exitosamente.',
-}
-const createError: ILanguageTrad = {
-  fr: 'Erreur lors de la création de la collection.',
-  en: 'Error while creating the collection',
-  es: 'Error al crear la colección.',
-}
 export const collectionSlice = createSlice({
   name: "collection",
   initialState,
   reducers: {
+    setCollections: (state, action: PayloadAction<CollectionType[]>) => {
+      state.collections = action.payload;
+    },
     setCollectionSelected: (state, action: PayloadAction<string>) => {
       state.collectionSelected = action.payload;
-      fetchCollectionByDatabase(action.payload);
     },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
-    }
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchCollectionByDatabase.pending, (state) => {
@@ -59,7 +54,7 @@ export const collectionSlice = createSlice({
     builder.addCase(deleteCollectionByName.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'success', message: 'Collection supprimée !' });
+      eventEmitter.dispatch('alert', { type: 'success', message: 'collection.deleteSuccess' });
     });
     builder.addCase(deleteCollectionByName.pending, (state) => {
       state.loading = true;
@@ -67,25 +62,30 @@ export const collectionSlice = createSlice({
     });
     builder.addCase(deleteCollectionByName.rejected, (state) => {
       state.loading = false;
-      eventEmitter.dispatch('alert', { type: 'error', message: 'Un probleme est survenu lors de la suppresion !' });
+      eventEmitter.dispatch('alert', { type: 'error', message: 'collection.deleteError' });
       state.error = "";
     });
     builder.addCase(postCollectionByName.pending, (state) => {
       state.loading = true;
       state.error = "";
     });
-    builder.addCase(postCollectionByName.fulfilled, (state, action) => {
+    builder.addCase(postCollectionByName.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch("alert", {type: "success", message: createSuccess[action.payload]}) 
+      eventEmitter.dispatch('alert', { type: 'error', message: 'collection.createError' });
     })
     builder.addCase(postCollectionByName.rejected, (state, action: any) => {
       state.loading = false;
       state.error = action.payload;
-      //eventEmitter.dispatch("alert", {type: "error", message: "Collection already exists"})
     });
   },
 });
+
+/************   ACTIONS FOR COLLECTION  ************/
+export const setCollections = createAction<CollectionType[]>("collection/setCollections");
+export const setCollectionSelected = createAction<string>("collection/setCollectionSelected");
+export const setErrorCollection = createAction<string>("collection/setError");
+export const setLoadingCollection = createAction<boolean>("collection/setLoading");
 
 /************   USECASES FUNCTIONS FOR COLLECTION  ************/
 export const fetchCollectionByDatabase = createAsyncThunk(
@@ -100,7 +100,8 @@ export const fetchCollectionByDatabase = createAsyncThunk(
     }
   }
 );
-  export const deleteCollectionByName = createAsyncThunk(
+
+export const deleteCollectionByName = createAsyncThunk(
   "collection/deleteCollectionByName",
   async (params: {databaseName: string; collectionName: string}, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
     try {
@@ -117,15 +118,13 @@ export const fetchCollectionByDatabase = createAsyncThunk(
 export const postCollectionByName = createAsyncThunk(
   "collection/postCollectionByName",
   async (collectionName: string, 
-    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) => {
+    { rejectWithValue, dispatch, getState }: { rejectWithValue: any, dispatch: Dispatch<any>, getState: any }) => {
     try {
-      const reduxStore = store.getState()
-      const language = reduxStore.setting.language
-      const databaseName: string = reduxStore.database.databaseSelected;
-      await Api.collection.postCollectionByName(databaseName, collectionName);
-      dispatch(fetchCollectionByDatabase(databaseName))
+      const state = getState();
+      const databaseName = selectDatabaseSelected({ database: state.database });
 
-      return language
+      await Api.collection.postCollectionByName(databaseName, collectionName);
+      dispatch(fetchCollectionByDatabase(databaseName));
     } catch (error: any) {
       if (error.response.status === 409) {
         return rejectWithValue("Collection already exists");
@@ -134,7 +133,6 @@ export const postCollectionByName = createAsyncThunk(
     }
   }
 );
-export const { setCollectionSelected, setError } = collectionSlice.actions;
 
 const selectCollection = (state: { collection: CollectionState }) => state.collection;
 
@@ -153,7 +151,7 @@ export const selectLoadingCollection = createSelector(
   (collection) => collection.loading
 );
 
-export const selectError = createSelector(
+export const selectErrorCollection = createSelector(
   selectCollection,
   (collection) => collection.error
 )

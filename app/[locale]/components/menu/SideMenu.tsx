@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import styles from './menu.module.scss';
@@ -30,7 +30,7 @@ import { setIsLogged } from '@/domain/usecases/auth-slice';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
-  const t = useI18n();
+  const t = useTranslations();
   const router = useRouter();
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
@@ -56,7 +56,6 @@ const SideMenu = () => {
   const handleDatabaseChange = (database: string) => {
     router.push(`/dashboard/${database}`);
     dispatch(setDatabaseSelected(database));
-    dispatch(setCollectionSelected(''));
   };
 
   const handleCollectionChange = (collection: string) => {

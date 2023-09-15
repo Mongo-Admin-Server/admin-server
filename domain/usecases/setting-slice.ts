@@ -13,7 +13,7 @@ if (typeof window !== "undefined") {
   localStorage.setItem("theme", defaultTheme);
 }
 
-const initialState: SettingState = {
+export const initialState: SettingState = {
   theme: defaultTheme,
   language: "en",
 };

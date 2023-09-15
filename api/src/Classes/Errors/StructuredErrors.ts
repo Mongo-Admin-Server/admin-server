@@ -29,5 +29,9 @@ export type StructuredErrors =
   'query/not-found' |
   'query/invalid' |
   // Default
-  'internal/unknown'
+  'internal/unknown' |
+  
+  //User
+  'user/exists'
   ;
+

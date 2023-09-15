@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "title": "Mongo Admin Server"
+  },
+  "loginForm": {
+    "login": "Iniciar sesión",
+    "selected": "Idioma",
+    "userName": "Nombre de usuario",
+    "connexionUrl": "Connexion Url",
+    "passWord": "Contraseña"
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
+  "menuSideBar": {
+    "database": "Base de datos",
+    "collection": "Colecciones",
+    "language": "Idioma",
+    "setting": "Configuración",
+    "logout": "Cerrar sesión"
+  },
+  "modal": {
+    "language": {
+      "title": "Idioma"
+    },
+    "confirm": {
+      "title": "Confirmación"
+    },
+    "button": {
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "create": "Crear"
+    }
+  },
+  "database": {
+    "title": "Base de datos",
+    "create": "Crear base de datos",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar esta base de datos?",
+    "deleteSuccess": "Base de datos eliminada con éxito",
+    "deleteError": "Error al eliminar la base de datos",
+    "createSuccess": "Base de datos creada con éxito",
+    "createError": "Error al crear la base de datos",
+    "createTitle": "Crear base de datos",
+    "name": "Base de datos",
+    "storage": "Almacenamiento",
+    "collection": "Colecciones",
+    "indexes": "Índice"
+  },
+  "collection": {
+    "title": "Colecciones",
+    "create": "Crear Colección",
+    "collectionName": "Nombre de la colección",
+    "count": "Documento",
+    "avgDocumentSize": "Tamaño medio del documento",
+    "totalDocumentSize": "Tamaño total del documento",
+    "indexes": "Número índices",
+    "totalIndexSize": "Tamaño total del índice",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar esta colección?",
+    "deleteSuccess": "Colección eliminada con éxito",
+    "deleteError": "Error al eliminar la colección",
+    "createSuccess": "Colección creada con éxito",
+    "createError": "Error al crear la colección"
+  },
+  "formCreateCollection": {
+    "title": "Crear Colección",
+    "collectionName": "Nombre de la Colección",
+    "spacesNotAllowedErrorMessage":  "No se permiten espacios en el nombre."
+  },
+  "document": {
+    "noDocument": "Ningún documento",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar este documento?",
+    "deleteSuccess": "Documento eliminado con éxito",
+    "deleteError": "Error al eliminar el documento",
+    "updateSuccess": "Documento actualizado con éxito",
+    "updateError": "Error al actualizar el documento",
+    "createSuccess": "Documento creado con éxito",
+    "createError": "Error al crear el documento",
+    "createTitle": "Crear documento",
+    "updateTitle": "Actualizar documento"
+  },
+  "pagination": {
+    "jumpTo": "Ir a la página"
+  },
+  "language": {
+    "en": "🇬🇧 Inglés",
+    "fr": "🇫🇷 Francés",
+    "es": "🇪🇸 Español"
+  }
+}

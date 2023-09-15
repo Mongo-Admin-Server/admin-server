@@ -15,16 +15,15 @@ import {
   selectLoadingDocument,
 } from '@/domain/usecases/document-slice';
 
-import { useI18n } from '@/shared/locales/clients';
-import DocumentJson from '@/app/[locale]/components/modal/document-json/DocumentJson';
-
+import { useTranslations } from 'next-intl';
+import DocumentJson from '@components/modal/document-json/DocumentJson';
 
 export default function DocumentsPage({
   params,
 }: {
   params: { collection_name: string };
 }) {
-  const t = useI18n();
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   const [documents, setDocuments] = useState([]);

@@ -2,6 +2,11 @@ import { Db } from "mongodb";
 import { Instance } from "./Instance";
 import { ApiError } from "./Errors/ApiError";
 import { IDatabaseRO } from "@/domain/entities/database-types";
+import fs from "fs";
+import os from 'os';
+import path from 'path';
+import json2csv from 'json2csv';
+
 
 export class Database{
     
@@ -86,4 +91,35 @@ export class Database{
             throw(error);
         }
     }
+
+
+    public async exportDatabaseToJson(databaseName:string, fileName:string, extension: string): Promise<true>{
+        try{
+            const instance = await Instance.Client.connect();
+            const db = instance.db(databaseName);
+            const collectionNames = await db.listCollections().toArray();
+            const databaseData: {[key: string]: any[]} = {};
+
+            for (const collectionName  of collectionNames) {
+                 const colName = collectionName.name;
+                 const collection = db.collection(colName);
+                 const data = await collection.find({}).toArray();
+                 databaseData[colName] = data;
+            }
+            await instance.close();
+            if (fileName == ""){
+                fileName = databaseName
+            }
+            let downloadPath = path.join(os.homedir(),'Downloads',`${fileName}.${extension}`);
+            if (extension === 'json'){
+                fs.writeFileSync(downloadPath, JSON.stringify(databaseData, null, 2));
+            }else if(extension === 'csv'){
+                fs.writeFileSync(downloadPath, json2csv.parse({ data: databaseData, fields: Object.keys(databaseData)}));
+            }
+            return true;
+        }catch(error){
+            throw(error);
+        }
+    }
+
 }

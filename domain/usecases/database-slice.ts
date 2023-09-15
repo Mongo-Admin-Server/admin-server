@@ -3,7 +3,8 @@ import {
   createSlice,
   PayloadAction,
   createAsyncThunk,
-  Dispatch
+  Dispatch,
+  createAction
   
 } from "@reduxjs/toolkit";
 
@@ -12,9 +13,7 @@ import eventEmitter from '@/shared/emitter/events';
 
 import * as Api from "@/infrastructure";
 
-import { fetchCollectionByDatabase } from "./collection-slice";
-
-const initialState: DatabaseState = {
+export const initialState: DatabaseState = {
   databases: [],
   databaseSelected: "",
   loading: false,
@@ -27,10 +26,12 @@ export const databaseSlice = createSlice({
   reducers: {
     setDatabaseSelected: (state, action: PayloadAction<string>) => {
       state.databaseSelected = action.payload;
-      fetchCollectionByDatabase(action.payload);
     },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
   },
   extraReducers(builder) {
@@ -49,7 +50,7 @@ export const databaseSlice = createSlice({
     builder.addCase(deleteDatabase.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'success', message: 'Base de données supprimée !' });
+      eventEmitter.dispatch('alert', { type: 'success', message: 'database.deleteSuccess' });
     });
     builder.addCase(deleteDatabase.pending, (state) => {
       state.loading = true;
@@ -58,7 +59,7 @@ export const databaseSlice = createSlice({
     builder.addCase(deleteDatabase.rejected, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'error', message: 'Un probleme est survenu lors de la suppresion !' });
+      eventEmitter.dispatch('alert', { type: 'error', message: 'database.deleteError' });
     });
     builder.addCase(postDatabase.pending, (state) => {
       state.loading = true;
@@ -66,6 +67,7 @@ export const databaseSlice = createSlice({
     });
     builder.addCase(postDatabase.fulfilled, (state) => {
       state.loading = false;
+      eventEmitter.dispatch('alert', { type: 'success', message: 'database.createSuccess' });
     });
     builder.addCase(postDatabase.rejected, (state, action: any) => {
       state.loading = false;
@@ -73,6 +75,11 @@ export const databaseSlice = createSlice({
     });
   }
 });
+
+/************   ACTIONS FOR DATABASE  ************/
+export const setDatabaseSelected = createAction<string>('database/setDatabaseSelected');
+export const setErrorDatabase = createAction<string>('database/setError');
+export const setLoadingDatabase = createAction<boolean>('database/setLoading');
 
 /************   USECASES FUNCTIONS FOR DATABASE  ************/
 
@@ -121,8 +128,6 @@ export const postDatabase = createAsyncThunk(
     }
   }
 );
-
-export const { setDatabaseSelected, setError } = databaseSlice.actions;
 
 const selectDatabase = (state: { database: DatabaseState }) => state.database;
 

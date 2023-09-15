@@ -6,6 +6,8 @@ import styles from './toast.module.scss';
 
 import SvgIcon from '@components/ui/icon/SvgIcon';
 
+import { useTranslations } from 'next-intl';
+
 interface ToastProps {
   type: 'success' | 'error' | 'warning' | 'info';
   message: string;
@@ -13,6 +15,7 @@ interface ToastProps {
 }
 
 const Toast = ({ type, message, onClose }: ToastProps) => {
+  const t = useTranslations();
   const [visible, setVisible] = useState<boolean>(false);
   
   useEffect(() => {
@@ -51,7 +54,7 @@ const Toast = ({ type, message, onClose }: ToastProps) => {
     <div className={toastClasses} role="alert">
       <div className={styles['toast--message']}>
         {toastIcon}
-        <h3>{message}</h3>
+        <h3>{t(message)}</h3>
       </div>
       <SvgIcon className={styles['toast--close']} icon_name="close" onClick={handleClose} />
     </div>
