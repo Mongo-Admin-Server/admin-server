@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import Title from '@components/title/Title';
@@ -24,7 +24,7 @@ export default function CollectionsPage({
 }: {
   params: { database_name: string };
 }) {
-  const t = useI18n();
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   useEffect(() => {

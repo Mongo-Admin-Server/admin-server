@@ -15,14 +15,14 @@ import {
   selectLoadingDocument,
 } from '@/domain/usecases/document-slice';
 
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 export default function DocumentsPage({
   params,
 }: {
   params: { collection_name: string };
 }) {
-  const t = useI18n();
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   const [documents, setDocuments] = useState([]);

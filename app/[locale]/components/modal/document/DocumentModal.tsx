@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from '@/store/store';
 import { fetchOneDocument, postDocument, updateDocument, selectLoadingDocument } from '@/domain/usecases/document-slice';
 import { selectLanguage } from '@/domain/usecases/setting-slice';
 
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 import JSONInput from 'react-json-ide';
 import localEn from 'react-json-ide/locale/en';
@@ -27,7 +27,7 @@ interface LocaleType {
 }
 
 const DocumentModal = ({ idDocument, open, onClose, onValidate }: DocumentModalProps) => {
-  const t = useI18n();
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   const language = useSelector(selectLanguage);

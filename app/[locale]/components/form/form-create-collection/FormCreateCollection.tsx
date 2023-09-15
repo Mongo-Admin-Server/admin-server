@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 import GenericInput from '@components/ui/inputs/generic/GenericInput';
 import GenericModal from '@components/modal/generic/GenericModal';
@@ -19,7 +19,7 @@ export default function FormCreateCollection({
 }: CreateCollectionModalProps) {
   /* Static Data */
   const dispatch = useDispatch();
-  const t = useI18n();
+  const t = useTranslations();
   const errorSelector = useSelector(selectErrorCollection);
 
   /* Methods */

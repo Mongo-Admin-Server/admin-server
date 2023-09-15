@@ -21,20 +21,6 @@ export const initialState: CollectionState = {
   error: "",
 };
 
-// interface ILanguageTrad {
-//   [key: string]: string
-// }
-// const createSuccess: ILanguageTrad = {
-//   fr: 'Collection créée avec succès.',
-//   en: 'Collection created successfully.',
-//   es: 'Colección creada exitosamente.',
-// }
-// const createError: ILanguageTrad = {
-//   fr: 'Erreur lors de la création de la collection.',
-//   en: 'Error while creating the collection',
-//   es: 'Error al crear la colección.',
-// }
-
 export const collectionSlice = createSlice({
   name: "collection",
   initialState,
@@ -68,7 +54,7 @@ export const collectionSlice = createSlice({
     builder.addCase(deleteCollectionByName.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'success', message: 'Collection successfully !' });
+      eventEmitter.dispatch('alert', { type: 'success', message: 'collection.deleteSuccess' });
     });
     builder.addCase(deleteCollectionByName.pending, (state) => {
       state.loading = true;
@@ -76,7 +62,7 @@ export const collectionSlice = createSlice({
     });
     builder.addCase(deleteCollectionByName.rejected, (state) => {
       state.loading = false;
-      eventEmitter.dispatch('alert', { type: 'error', message: 'An error has occurred !' });
+      eventEmitter.dispatch('alert', { type: 'error', message: 'collection.deleteError' });
       state.error = "";
     });
     builder.addCase(postCollectionByName.pending, (state) => {
@@ -86,12 +72,11 @@ export const collectionSlice = createSlice({
     builder.addCase(postCollectionByName.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch("alert", {type: "success", message: "Collection created successfully !" }) 
+      eventEmitter.dispatch('alert', { type: 'error', message: 'collection.createError' });
     })
     builder.addCase(postCollectionByName.rejected, (state, action: any) => {
       state.loading = false;
       state.error = action.payload;
-      eventEmitter.dispatch("alert", {type: "error", message: "An error has occurred." })
     });
   },
 });

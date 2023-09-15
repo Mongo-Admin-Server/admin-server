@@ -24,7 +24,7 @@
     "json2csv": "^6.0.0-alpha.2",
     "mongodb": "^5.7.0",
     "next": "13.4.9",
-    "next-international": "^0.9.1",
+    "next-intl": "^2.20.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-json-ide": "^2.6.0",

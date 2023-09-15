@@ -1,13 +1,14 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useI18n, useChangeLocale, useCurrentLocale } from '@/shared/locales/clients';
+import { ChangeEvent, useTransition } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
+import { usePathname, useRouter } from 'next-intl/client';
 
 import GenericInput from '@components/ui/inputs/generic/GenericInput';
 import GenericButton from '@components/ui/button/GenericButton';
 import SelectInput from '@components/ui/inputs/select/SelectInput';
 
-import { LanguageType, Language } from "@/domain/entities/setting-types";
+import { Language } from "@/domain/entities/setting-types";
 import { postUser } from '@/domain/usecases/auth-slice';
 import { useDispatch } from '@/store/store';
 
@@ -16,18 +17,20 @@ import styles from './login-form.module.scss';
 export default function LoginForm() {
   /* Static Data */
   const router = useRouter();
-  const locale = useCurrentLocale();
-  const changeLocale = useChangeLocale();
-  const t = useI18n();
+  const locale = useLocale();
+  const [isPending, startTransition] = useTransition();
+  const t = useTranslations();
+  const pathname = usePathname();
+  const dispatch = useDispatch();
+
   const optionsLanguages: Language[] = [
     { value: 'fr', label: t('language.fr'), },
     { value: 'en', label: t('language.en'), },
     { value: 'es', label: t('language.es'), },
   ];
-  const dispatch = useDispatch();
 
   /* Methods */
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     await dispatch(postUser(connexionUrl)).then((result) => {
@@ -40,17 +43,18 @@ export default function LoginForm() {
   const handleLanguageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const language = event.target.value as LanguageType;
+    const language = event.target.value;
+    startTransition(() => {
+      router.replace(pathname, {locale: language});
+    });
     setLanguage(language);
-    changeLocale(language);
   };
 
   /* Local Data */
-  const [language, setLanguage] = useState<LanguageType>(locale);
+  const [language, setLanguage] = useState<string>(locale);
   // const [userName, setUserName] = useState<string>('');
   // const [passWord, setPassWord] = useState<string>('');
   const [connexionUrl, setConnexionUrl] = useState<string>('');
-  const [error, setError] = useState<string>('');
   const isSubmitButtonDisabled = connexionUrl === '';
 
   return (
@@ -82,7 +86,6 @@ export default function LoginForm() {
               label={t('loginForm.connexionUrl')}
               value={connexionUrl}
               placeholder={t('loginForm.connexionUrl')}
-              error={error}
               onChange={(event) => setConnexionUrl(event.target.value)}
             />
           </div>

@@ -8,7 +8,7 @@ import GenericInput from '@components/ui/inputs/generic/GenericInput';
 import GenericButton from '@components/ui/button/GenericButton';
 import SvgIcon from '@components/ui/icon/SvgIcon';
 
-import { useI18n } from '@/shared/locales/clients';
+import { useTranslations } from 'next-intl';
 
 interface PaginationProps {
   total: number;
@@ -20,7 +20,7 @@ interface PaginationProps {
 }
 
 const Pagination = ({ total = 10, currentPage = 1, pageSizes = [10, 50, 100, 200], pageSize = 10, onChange, onPageSizeChange }: PaginationProps) => {
-  const t = useI18n();
+  const t = useTranslations();
   
   const [showPrevMore, setShowPrevMore] = useState(false);
   const [showNextMore, setShowNextMore] = useState(false);
