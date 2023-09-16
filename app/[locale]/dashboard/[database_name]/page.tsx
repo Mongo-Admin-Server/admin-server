@@ -17,6 +17,8 @@ import {
   setCollectionSelected,
   deleteCollectionByName
 } from '@/domain/usecases/collection-slice';
+import { selectLanguage } from '@/domain/usecases/setting-slice';
+
 import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
 
 export default function CollectionsPage({
@@ -38,6 +40,7 @@ export default function CollectionsPage({
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
+  const language = useSelector(selectLanguage);
 
   const dataHeader = [
     t('collection.collectionName'),
@@ -53,7 +56,7 @@ export default function CollectionsPage({
 
     mappedData[t('collection.collectionName')] = (
       <Link
-        href={`/dashboard/${params.database_name}/${collection.collectionName}`}
+        href={`/${language}/dashboard/${params.database_name}/${collection.collectionName}`}
         onClick={() =>
           dispatch(setCollectionSelected(collection.collectionName))
         }

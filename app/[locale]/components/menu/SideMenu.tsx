@@ -26,7 +26,7 @@ import {
   setCollectionSelected,
   selectLoadingCollection,
 } from '@/domain/usecases/collection-slice';
-import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
+import { setTheme, selectTheme, selectLanguage } from '@/domain/usecases/setting-slice';
 import { setIsLogged } from '@/domain/usecases/auth-slice';
 
 const SideMenu = () => {
@@ -35,6 +35,7 @@ const SideMenu = () => {
   const router = useRouter();
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
+  const language = useSelector(selectLanguage);
   const databaseSelected = useSelector(selectDatabaseSelected);
   const databases = useSelector(selectDatabases).map(
     (database: DatabaseType) => {
@@ -55,13 +56,13 @@ const SideMenu = () => {
   };
 
   const handleDatabaseChange = (database: string) => {
-    router.push(`/dashboard/${database}`);
+    router.push(`/${language}/dashboard/${database}`);
     dispatch(setDatabaseSelected(database));
   };
 
   const handleCollectionChange = (collection: string) => {
     dispatch(setCollectionSelected(collection));
-    router.push(`/dashboard/${databaseSelected}/${collection}`);
+    router.push(`/${language}/dashboard/${databaseSelected}/${collection}`);
   };
 
   const handleLogout = () => {
