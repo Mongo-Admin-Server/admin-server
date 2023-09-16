@@ -2,12 +2,14 @@
   "metadata": {
     "title": "Mongo Admin Server"
   },
-  "loginForm": {
+  "login": {
     "login": "Iniciar sesión",
     "selected": "Idioma",
     "userName": "Nombre de usuario",
     "connexionUrl": "Connexion Url",
-    "passWord": "Contraseña"
+    "passWord": "Contraseña",
+    "loading": "Cargando...",
+    "error": "Error al iniciar sesión"
   },
   "theme": {
     "light": "Claro",

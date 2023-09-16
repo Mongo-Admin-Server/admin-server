@@ -12,6 +12,7 @@ import CollectionList from '@components/ui/list/collection/CollectionList';
 import LanguageModal from '@components/modal/language/LanguageModal';
 
 import { DatabaseType } from '@/domain/entities/database-types';
+import { logout } from '@/domain/usecases/auth-slice';
 
 import { useSelector, useDispatch } from '@/store/store';
 import {
@@ -64,6 +65,7 @@ const SideMenu = () => {
   };
 
   const handleLogout = () => {
+    dispatch(logout());
     dispatch(setIsLogged(false));
     router.push(`/`);
   };

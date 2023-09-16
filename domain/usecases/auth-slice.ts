@@ -7,6 +7,7 @@ import {
 } from "@reduxjs/toolkit";
 
 import { AuthState } from "../entities/auth-types";
+import eventEmitter from "@/shared/emitter/events";
 
 import * as Api from "@/infrastructure";
 
@@ -31,43 +32,31 @@ export const authSlice = createSlice({
     }
   },
   extraReducers(builder) {
-    // builder.addCase(login.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = "";
-    // });
-    // builder.addCase(login.fulfilled, (state) => {
-    //   state.loading = false;
-    //   state.isLogged = true;
-    // });
-    // builder.addCase(login.rejected, (state) => {
-    //   state.loading = false;
-    //   state.error = "";
-    // });
-    // builder.addCase(logout.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = "";
-    // });
-    // builder.addCase(logout.fulfilled, (state) => {
-    //   state.loading = false;
-    //   state.isLogged = false;
-    // });
-    // builder.addCase(logout.rejected, (state) => {
-    //   state.loading = false;
-    //   state.error = "";
-    // });
-    builder.addCase(postUser.pending, (state) => {
+    builder.addCase(login.pending, (state) => {
       state.loading = true;
       state.error = "";
     });
-    builder.addCase(postUser.fulfilled, (state) => {
+    builder.addCase(login.fulfilled, (state) => {
+      state.loading = false;
       state.isLogged = true;
-      state.loading = false;
-      state.error = ""
     });
-    builder.addCase(postUser.rejected, (state, action: any) => {
+    builder.addCase(login.rejected, (state) => {
       state.loading = false;
-      state.error = action.payload;
-    })
+      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'error', message: 'login.error' });
+    });
+    builder.addCase(logout.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.loading = false;
+      state.isLogged = false;
+    });
+    builder.addCase(logout.rejected, (state) => {
+      state.loading = false;
+      state.error = "";
+    });
   }
 });
 
@@ -77,42 +66,29 @@ export const setLoadingAuth = createAction<boolean>("auth/setLoading");
 export const setIsLogged = createAction<boolean>("auth/setIsLogged");
 
 /************   USECASES FUNCTIONS FOR AUTH  ************/
-// export const login = createAsyncThunk(
-//   "auth/login",
-//   async (data: { email: string; password: string }, { rejectWithValue }: { rejectWithValue: any }) => {
-//     try {
-//       const response = await Api.auth.login(data.email, data.password);
-//       return response.data;
-//     } catch (error) {
-//       console.error("Erreur lors du login : ", error);
-//       return rejectWithValue("Couldn't login");
-//     }
-//   }
-// );
-
-// export const logout = createAsyncThunk(
-//   "auth/logout",
-//   async (_, { rejectWithValue }: { rejectWithValue: any }) => {
-//     try {
-//       await Api.auth.logout();
-//     } catch (error) {
-//       console.error("Erreur lors du logout : ", error);
-//       return rejectWithValue("Couldn't logout");
-//     }
-//   }
-// );
-
-export const postUser = createAsyncThunk(
-  "auth/postUser",
-  async(connection_url: string, { rejectWithValue }: { rejectWithValue: any }) => {
+export const login = createAsyncThunk(
+  "auth/login",
+  async (uri: string, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
-      await Api.auth.postUser(connection_url);
+      await Api.auth.login(uri);
     } catch (error) {
       console.error("Erreur lors du login : ", error);
       return rejectWithValue("Couldn't login");
     }
   }
-)
+);
+
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }: { rejectWithValue: any }) => {
+    try {
+      await Api.auth.logout();
+    } catch (error) {
+      console.error("Erreur lors du logout : ", error);
+      return rejectWithValue("Couldn't logout");
+    }
+  }
+);
 
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
 

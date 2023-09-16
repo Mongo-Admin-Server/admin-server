@@ -2,10 +2,13 @@ import axiosLibrary, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from '
 
 class Axios {
   private instance: AxiosInstance;
+  private accessToken: string|null = null;
 
   constructor() {
+    const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "http://localhost:3000";
+
     this.instance = axiosLibrary.create({
-      baseURL: '/api/',
+      baseURL: `${SERVER_ENDPOINT}/api`,
       //timeout: 10000,
       headers: {
         "X-Timezone-Offset": String( new Date().getTimezoneOffset() )
@@ -17,12 +20,10 @@ class Axios {
     this.instance.defaults.baseURL = baseURL;
   }
 
-  setHeader(name: string, value: string) {
-    this.instance.defaults.headers.common[name] = value;
-  }
-
-  removeHeader(name: string) {
-    delete this.instance.defaults.headers.common[name];
+  setAuthorization = (accessToken: string|null) => {
+    if (accessToken) this.instance.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+    else delete this.instance.defaults.headers.common.Authorization
+    this.accessToken = accessToken
   }
 
   async get<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {

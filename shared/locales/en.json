@@ -2,13 +2,15 @@
   "metadata": {
     "title": "Mongo Admin Server"
   },
-  "loginForm": {
+  "login": {
     "title": "Sign in",
     "selected": "Language",
     "userName": "Username",
     "passWord": "Password",
     "connexionUrl": "Connexion Url",
-    "login": "Sign in"
+    "login": "Sign in",
+    "loading": "Loading...",
+    "error": "Error"
   },
   "theme": {
     "light": "Light",

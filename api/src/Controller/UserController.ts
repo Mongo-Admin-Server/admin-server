@@ -4,24 +4,7 @@ import { GrantRole, RevokeRole, UserType } from "@/domain/entities/user-types";
 import { ApiError } from "../Classes/Errors/ApiError";
 import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 
-
 export class UserController{
-    
-    public async login(request: NextApiRequest, response: NextApiResponse){
-        try{
-            const { connection_url } = request.body
-            const urlRegex = /mongodb\+srv:\/\/(?:(?:[^:]+):(?:[^@]+)?@)?(?:(?:(?:[^\/]+)|(?:\/.+.sock?),?)+)(?:\/([^\/\.\ "*<>:\|\?]*))?(?:\?(?:(.+=.+)&?)+)*/
-            if(!urlRegex){
-                const error = new ApiError(400, 'auth/missing-url', 'Incorrect or missing url');
-                response.status(error.code).json(error.json);
-            }
-            response.status(200).json(await new User().login(connection_url));
-        }catch(error){
-            throw error
-        }
-        
-    }
-
     public async getUsers(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined){
         const { connection_url } = request.headers
         const users = await new User().getUsers(databaseName, connection_url);

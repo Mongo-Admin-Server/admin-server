@@ -47,7 +47,7 @@ export class Collection {
 
     public async addNewCollection(databaseName: string, collectionName: string, connection_url: string): Promise<true | ApiError> {
         try{   
-            const instance = await Instance.connection(connection_url);;
+            const instance = await Instance.connection(connection_url);
             const db = instance.db(databaseName);
 
             if(!collectionName)
@@ -71,16 +71,16 @@ export class Collection {
     }
 
 
-    public async deleteCollection(databaseName: string, collectionName: string, connection_url:string): Promise<String | ApiError>{
+    public async deleteCollection(databaseName: string, collectionName: string, connection_url:string): Promise<true | ApiError>{
         try{
-            const instance = await Instance.connection(connection_url);;
+            const instance = await Instance.connection(connection_url);
             const db = instance.db(databaseName);
 
             if(!collectionName)
             return new ApiError(400, 'query/invalid', 'invalid_collection_name')
         
             await db.dropCollection(collectionName);
-            return 'collection_deleted'
+            return true;
         }catch(error){
             throw(error);
         }
@@ -88,7 +88,7 @@ export class Collection {
 
     public async exportCollectionDataToJson(databaseName:string, fileName:string, extension: string,collectionName: string, connection_url: string): Promise<true>{
         try{
-            const instance = await Instance.connection(connection_url);;
+            const instance = await Instance.connection(connection_url);
             const db = instance.db(databaseName);
             const collection = db.collection(collectionName);
             const data = await collection.find({}).toArray();

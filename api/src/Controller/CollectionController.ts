@@ -2,49 +2,44 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Collection } from "../Classes/Collection";
 import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 import { RequestCustomCollection } from "@/domain/entities/collection-types";
+import { ApiError } from "next/dist/server/api-utils";
 
 export class CollectionController {
     
-    public async getOneCollection(response: NextApiResponse, request: RequestCustomCollection): Promise<any>{
+    public async getOneCollection(connection_url: string, databaseName: string) {
         try {
-            const { databaseName } = request.query;
-            const { connection_url } = request.headers;
             const collectionNames = await new Collection().getOneCollectionDocumentsCount(databaseName, connection_url);
             if (!collectionNames)
-                response.status(404).json('error');
-            response.status(200).json(collectionNames);
+                throw new ApiError(404, 'Collection not found');
+            
+            return collectionNames;
         } catch (error) {
-            response.status(500).json('error');
+            throw error;
         }
         
     }
 
-    public async addOneCollection(request:RequestCustomHeaders, response: NextApiResponse){
+    public async addOneCollection(connection_url: string, databaseName: string, collectionName: string) {
         try{
-            const { databaseName, collectionName } = request.body;
-            const { connection_url } = request.headers
             const added = await new Collection().addNewCollection(databaseName, collectionName, connection_url);
 
             if(added === true)
-                response.status(200).json(added);
+                return true;
             else
-                response.status(added.code).json(added.json)
+                return added;
         }catch(error){
-            response.status(500).json('error');
+            throw error;
         }
 
     }
 
-    public async deleteOneCollection(request:RequestCustomHeaders, response: NextApiResponse) {
+    public async deleteOneCollection(connection_url: string, databaseName: string, collectionName: string) {
         try {
-            const { databaseName, collectionName } = request.body;
-            const { connection_url } = request.headers;
             const deleted = await new Collection().deleteCollection(databaseName, collectionName, connection_url);
-            if (!deleted) 
-                response.status(400).json('error');
-            response.status(200).json(deleted);
+            if(deleted === true) return true;
+            else return deleted;
         } catch (error) {
-            response.status(500).json('error');
+            throw error;
         }
     }
 
