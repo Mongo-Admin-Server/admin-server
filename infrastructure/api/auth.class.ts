@@ -4,12 +4,12 @@ class Auth {
   private accessToken: string | null = null;
 
   public async login(uri: string) {
-    const response = await axios.post('/auth/login', { connextion_url: uri });
+    const response = await axios.post('/auth/login', { connection_url: uri });
     return this.processToken(response.data);
   }
 
   public async logout() {
-    await axios.post('/auth/logout');
+    await axios.get('/auth/logout');
   }
 
   private processToken(data: { token: string }) {

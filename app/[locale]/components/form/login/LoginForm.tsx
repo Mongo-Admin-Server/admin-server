@@ -9,8 +9,8 @@ import GenericButton from '@components/ui/button/GenericButton';
 import SelectInput from '@components/ui/inputs/select/SelectInput';
 
 import { Language } from "@/domain/entities/setting-types";
-import { login } from '@/domain/usecases/auth-slice';
-import { useDispatch } from '@/store/store';
+import { login, selectLoadingAuth } from '@/domain/usecases/auth-slice';
+import { useDispatch, useSelector } from '@/store/store';
 
 import styles from './login-form.module.scss';
 
@@ -28,6 +28,8 @@ export default function LoginForm() {
     { value: 'en', label: t('language.en'), },
     { value: 'es', label: t('language.es'), },
   ];
+
+  const loadingAuth = useSelector(selectLoadingAuth);
 
   /* Methods */
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
@@ -57,12 +59,12 @@ export default function LoginForm() {
 
   return (
     <div className={styles.container}>
-      <h2>{t('loginForm.login')}</h2>
+      <h2>{t('login.login')}</h2>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <div className={styles.formInput}>
             <SelectInput
-              label={t('loginForm.selected')}
+              label={t('login.selected')}
               value={language}
               options={optionsLanguages}
               onChange={handleLanguageChange}
@@ -71,16 +73,16 @@ export default function LoginForm() {
           <div className={styles.formInput}>
             <GenericInput
               type="text"
-              label={t('loginForm.connexionUrl')}
+              label={t('login.connexionUrl')}
               value={connexionUrl}
-              placeholder={t('loginForm.connexionUrl')}
+              placeholder={t('login.connexionUrl')}
               onChange={(event) => setConnexionUrl(event.target.value)}
             />
           </div>
         </div>
         <div className={styles.formButton}>
           <GenericButton center disabled={isSubmitButtonDisabled} type="submit">
-            {t('loginForm.login')}
+            {loadingAuth ? t('login.loading') : t('login.login')}
           </GenericButton>
         </div>
       </form>

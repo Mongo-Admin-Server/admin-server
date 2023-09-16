@@ -7,6 +7,7 @@ import {
 } from "@reduxjs/toolkit";
 
 import { AuthState } from "../entities/auth-types";
+import eventEmitter from "@/shared/emitter/events";
 
 import * as Api from "@/infrastructure";
 
@@ -42,6 +43,7 @@ export const authSlice = createSlice({
     builder.addCase(login.rejected, (state) => {
       state.loading = false;
       state.error = "";
+      eventEmitter.dispatch('alert', { type: 'error', message: 'login.error' });
     });
     builder.addCase(logout.pending, (state) => {
       state.loading = true;

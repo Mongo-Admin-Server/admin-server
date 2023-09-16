@@ -33,13 +33,14 @@ let redirectToLogin = false;
 export async function middleware(req: NextRequest) {
     let token: string | undefined;
 
+    if (req.nextUrl.pathname.startsWith("/api/auth/login") && (!token || redirectToLogin))
+      return;
+
     if (req.cookies.has("token")) {
       token = req.cookies.get("token")?.value;
     } else if (req.headers.get("Authorization")?.startsWith("Bearer ")) {
       token = req.headers.get("Authorization")?.substring(7);
     }
-    if (req.nextUrl.pathname.startsWith("/api/auth/login") && (!token || redirectToLogin))
-      return;
 
     if (
       !token &&
@@ -74,6 +75,9 @@ export async function middleware(req: NextRequest) {
     const authUser = (req as AuthenticatedRequest).user;
 
     if (!authUser) {
+      // return NextResponse.redirect(
+      //   new URL('/fr/login', req.nextUrl.host)
+      // );
       return NextResponse.json({
         error: 'user not connected'
       },{
