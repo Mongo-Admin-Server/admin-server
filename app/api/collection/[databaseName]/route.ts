@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { CollectionController } from "@/api/src/Controller/CollectionController";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, { params }: { params: { databaseName: string } }) {
   const connection_url = req.headers.get('connection_url');
   if (!connection_url) {
     return new NextResponse(
@@ -13,9 +13,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const body = await req.json();
-  const { databaseName } = body;
-  const collections = await new CollectionController().getOneCollection(connection_url, databaseName);
+  const collections = await new CollectionController().getOneCollection(connection_url, params.databaseName);
   return new NextResponse(JSON.stringify(collections), {
     status: 200,
     headers: {

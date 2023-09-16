@@ -19,6 +19,7 @@ import {
  } from '@/domain/usecases/database-slice';
 
 import { setCollectionSelected, setCollections } from '@/domain/usecases/collection-slice';
+import { selectLanguage } from '@/domain/usecases/setting-slice';
 import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
 
 export default function DashboardPage() {
@@ -37,6 +38,7 @@ export default function DashboardPage() {
 
   const databases = useSelector(selectDatabases);
   const loading = useSelector(selectLoading);
+  const language = useSelector(selectLanguage);
 
   const dataHeader = [
     t('database.name'),
@@ -49,7 +51,7 @@ export default function DashboardPage() {
     const mappedData: Record<string, React.ReactNode> = {};
 
     mappedData[t('database.name')] = (
-      <Link href={`/dashboard/${database.name}`} onClick={() => dispatch(setDatabaseSelected(database.name))}>
+      <Link href={`/${language}/dashboard/${database.name}`} onClick={() => dispatch(setDatabaseSelected(database.name))}>
         {database.name}
       </Link>
     );
