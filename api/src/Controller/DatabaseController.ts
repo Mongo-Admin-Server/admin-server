@@ -4,41 +4,37 @@ import { NextApiResponse, NextApiRequest } from "next";
 
 
 export class DatabaseController{
-    public async getDatabases(request: RequestCustomHeaders,response: NextApiResponse){
+    public async getDatabases(connection_url: string){
         try{
-            const { connection_url } = request.headers
-            const databases = await new Database().listDatabase(connection_url);
-            response.status(200).json(databases)
+            const { rows } = await new Database().listDatabase(connection_url);
+            return rows;
         }catch(error){
-            response.status(500).json('error');
+            throw error;
         }
     }
 
-    public async createDatabase(request:RequestCustomHeaders, response: NextApiResponse){
+    public async createDatabase(connection_url: string, databaseName: string, collectionName: string){
         try{
-            const { databaseName, collectionName } = request.body;
-            const { connection_url } = request.headers;
-
             const created = await new Database().createDatabase(databaseName, collectionName, connection_url);
             if(created === true)
-                response.status(200).json(created);
+                return true;
             else
-                response.status(created.code).json(created.json)
+                return created;
         }catch(error){
-            response.status(500).json('error');
+            throw error;
         }
     }
 
-    public async deleteDatabase(request: RequestCustomHeaders, response: NextApiResponse){
-        const { databaseName } = request.query
-        const { connection_url } = request.headers
-        const status = await new Database().dropDatabase(databaseName, connection_url);
-        if(status === true)
-            response.status(200).json(status);
-        else if(status === false)
-            response.status(500);
-        else
-            response.status(status.code).json(status.json)
+    public async deleteDatabase(connection_url: string, databaseName: string){
+        try {
+            const deleted = await new Database().dropDatabase(databaseName, connection_url);
+            if(deleted === true)
+                return true;
+            else
+                return deleted;
+        } catch (error) {
+            throw error;
+        }
     }
 
     public async exportDatabase(request:RequestCustomHeaders, response: NextApiResponse){
