@@ -1,28 +1,38 @@
+import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 import { Database } from "../Classes/Database";
 import { NextApiResponse, NextApiRequest } from "next";
-import { ApiError } from "../Classes/Errors/ApiError";
 
 
 export class DatabaseController{
-    public async getDatabases(response: NextApiResponse){
-        const databases = await new Database().listDatabase();
-        response.status(200).json(databases)
+    public async getDatabases(request: RequestCustomHeaders,response: NextApiResponse){
+        try{
+            const { connection_url } = request.headers
+            const databases = await new Database().listDatabase(connection_url);
+            response.status(200).json(databases)
+        }catch(error){
+            response.status(500).json('error');
+        }
     }
 
-    public async createDatabase(request:NextApiRequest, response: NextApiResponse){
-        const { databaseName } = request.body;
-        const { collectionName } = request.body;
-        const res = await new Database().createDatabase(databaseName, collectionName);
-        
-        if(res === true)
-            response.status(200).json(res);
-        else
-            response.status(res.code).json(res.json)
+    public async createDatabase(request:RequestCustomHeaders, response: NextApiResponse){
+        try{
+            const { databaseName, collectionName } = request.body;
+            const { connection_url } = request.headers;
+
+            const created = await new Database().createDatabase(databaseName, collectionName, connection_url);
+            if(created === true)
+                response.status(200).json(created);
+            else
+                response.status(created.code).json(created.json)
+        }catch(error){
+            response.status(500).json('error');
+        }
     }
 
-    public async deleteDatabase(request: NextApiRequest, response: NextApiResponse){
+    public async deleteDatabase(request: RequestCustomHeaders, response: NextApiResponse){
         const { databaseName } = request.query
-        const status = await new Database().dropDatabase(databaseName);
+        const { connection_url } = request.headers
+        const status = await new Database().dropDatabase(databaseName, connection_url);
         if(status === true)
             response.status(200).json(status);
         else if(status === false)
@@ -31,15 +41,14 @@ export class DatabaseController{
             response.status(status.code).json(status.json)
     }
 
-    public async exportDatabase(request:NextApiRequest, response: NextApiResponse){
-        const { databaseName } = request.body;
-        const { fileName } = request.body;
-        const { extension } = request.body;
-        const res = await new Database().exportDatabaseToJson(databaseName, fileName, extension);
-        
-        if(res === true)
+    public async exportDatabase(request:RequestCustomHeaders, response: NextApiResponse){
+    
         try {
-            response.status(200).json(res);
+            const { databaseName, fileName, extension } = request.body;
+            const { connection_url } = request.headers;
+    
+            const exported = await new Database().exportDatabaseToJson(databaseName, fileName, extension, connection_url);
+            response.status(200).json(exported);
         } catch (error) {
             response.status(500).json('error');
         }
