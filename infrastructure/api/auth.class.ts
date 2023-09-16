@@ -4,7 +4,7 @@ class Auth {
   private accessToken: string | null = null;
 
   public async login(uri: string) {
-    const response = await axios.post('/login', { uri });
+    const response = await axios.post('/auth/login', { connextion_url: uri });
     return this.processToken(response.data);
   }
 

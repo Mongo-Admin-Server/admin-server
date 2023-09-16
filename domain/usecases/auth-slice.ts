@@ -43,18 +43,18 @@ export const authSlice = createSlice({
       state.loading = false;
       state.error = "";
     });
-    // builder.addCase(logout.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = "";
-    // });
-    // builder.addCase(logout.fulfilled, (state) => {
-    //   state.loading = false;
-    //   state.isLogged = false;
-    // });
-    // builder.addCase(logout.rejected, (state) => {
-    //   state.loading = false;
-    //   state.error = "";
-    // });
+    builder.addCase(logout.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.loading = false;
+      state.isLogged = false;
+    });
+    builder.addCase(logout.rejected, (state) => {
+      state.loading = false;
+      state.error = "";
+    });
   }
 });
 
@@ -76,17 +76,17 @@ export const login = createAsyncThunk(
   }
 );
 
-// export const logout = createAsyncThunk(
-//   "auth/logout",
-//   async (_, { rejectWithValue }: { rejectWithValue: any }) => {
-//     try {
-//       await Api.auth.logout();
-//     } catch (error) {
-//       console.error("Erreur lors du logout : ", error);
-//       return rejectWithValue("Couldn't logout");
-//     }
-//   }
-// );
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }: { rejectWithValue: any }) => {
+    try {
+      await Api.auth.logout();
+    } catch (error) {
+      console.error("Erreur lors du logout : ", error);
+      return rejectWithValue("Couldn't logout");
+    }
+  }
+);
 
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
 

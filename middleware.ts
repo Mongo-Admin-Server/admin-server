@@ -1,9 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose'; 
 import { ApiError } from '@/api/src/Classes/Errors/ApiError';
-import collectionSlice from './domain/usecases/collection-slice';
 import createMiddleware from 'next-intl/middleware';
-// import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export default createMiddleware({
   locales: ['en', 'fr', 'es'],
@@ -21,7 +19,7 @@ export const verifyJWT = async <T>(token: string): Promise<T> => {
       return (
         await jwtVerify(
           token,
-          new TextEncoder().encode('test')
+          new TextEncoder().encode(process.env.JWT_SECRET_KEY),
         )
       ).payload as T;
     } catch (error) {
@@ -30,9 +28,8 @@ export const verifyJWT = async <T>(token: string): Promise<T> => {
     }
   };
 
-
-
 let redirectToLogin = false;
+
 export async function middleware(req: NextRequest) {
     let token: string | undefined;
 
@@ -41,7 +38,7 @@ export async function middleware(req: NextRequest) {
     } else if (req.headers.get("Authorization")?.startsWith("Bearer ")) {
       token = req.headers.get("Authorization")?.substring(7);
     }
-    if (req.nextUrl.pathname.startsWith("/api/login") && (!token || redirectToLogin))
+    if (req.nextUrl.pathname.startsWith("/api/auth/login") && (!token || redirectToLogin))
       return;
 
     if (
