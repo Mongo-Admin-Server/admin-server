@@ -114,7 +114,7 @@ export const fetchAllDocumentByCollection = createAsyncThunk(
       return { documents, total };
     } catch (error) {
       console.error("Erreur lors du fetch document : ", error);
-      return rejectWithValue("error");
+      return rejectWithValue(error);
     }
   }
 );

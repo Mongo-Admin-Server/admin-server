@@ -55,7 +55,7 @@ export default function DocumentsPage({
           filter: searchValue,
         })
       );
-      if (payload === 'error') {
+      if (payload?.response?.data === 'Invalid filter') {
         eventEmitter.dispatch('alert', { type: 'error', message: t('document.searchError') });
         setIsFetching(false);
         return;
