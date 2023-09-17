@@ -81,8 +81,7 @@
     "createSuccess": "Documento creado con éxito",
     "createError": "Error al crear el documento",
     "createTitle": "Crear documento",
-    "updateTitle": "Actualizar documento",
-    "searchPlaceholder": "{ key: value }"
+    "updateTitle": "Actualizar documento"
   },
   "pagination": {
     "jumpTo": "Ir a la página"

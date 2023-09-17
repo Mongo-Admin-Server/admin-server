@@ -82,8 +82,7 @@
     "createSuccess": "Document created successfully",
     "createError": "Error creating document",
     "createTitle": "Create document",
-    "updateTitle": "Update document",
-    "searchPlaceholder": "{ key: value }"
+    "updateTitle": "Update document"
   },
   "pagination": {
     "jumpTo": "Go to page"

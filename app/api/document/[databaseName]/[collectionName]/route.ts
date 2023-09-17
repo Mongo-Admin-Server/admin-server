@@ -12,9 +12,10 @@ export async function GET(req: NextRequest, { params }: { params: { databaseName
       }
     );
   }
-
+  
+  const filter = JSON.parse(req.headers.get('filter') || "{}");
   const { perPage, currentPage } = Object.fromEntries(req.nextUrl.searchParams);
-  const { documents, total } = await new DocumentController().getAllDocumentsByCollection(connection_url, params.databaseName, params.collectionName, perPage, currentPage);
+  const { documents, total } = await new DocumentController().getAllDocumentsByCollection(connection_url, params.databaseName, params.collectionName, perPage, currentPage, filter);
   return new Response(JSON.stringify({ documents, total }), {
     status: 200,
   });

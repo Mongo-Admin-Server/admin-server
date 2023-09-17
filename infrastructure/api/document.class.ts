@@ -1,8 +1,10 @@
 import { axios } from "./axios.class";
 
 class Document {
-  public async getAllDocumentByCollection(database: string, collection: string, page: number, perPage: number) {
+  public async getAllDocumentByCollection(database: string, collection: string, page: number, perPage: number, filter: any) {
+    axios.setFilter(filter);
     const response = await axios.get(`/document/${database}/${collection}?page=${page}&perPage=${perPage}`);
+    axios.deleteFilter();
     return response.data;
   }
 

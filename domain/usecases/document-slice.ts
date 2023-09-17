@@ -104,13 +104,13 @@ export const setLoadingDocument = createAction<boolean>("document/setLoading");
 /************   USECASES FUNCTIONS FOR DOCUMENT  ************/
 export const fetchAllDocumentByCollection = createAsyncThunk(
   "document/fetchAllDocumentByCollection",
-  async ({ currentPage, perPage }: {currentPage: number, perPage: number}, { rejectWithValue, getState }: { rejectWithValue: any, getState: any }) => {
+  async ({ currentPage, perPage, filter }: {currentPage: number, perPage: number, filter: string}, { rejectWithValue, getState }: { rejectWithValue: any, getState: any }) => {
     try {
       const state = getState();
       const databaseName = selectDatabaseSelected({ database: state.database });
       const collectionName = selectCollectionSelected({ collection: state.collection });
 
-      const { documents, total } = await Api.document.getAllDocumentByCollection(databaseName, collectionName, currentPage, perPage);
+      const { documents, total } = await Api.document.getAllDocumentByCollection(databaseName, collectionName, currentPage, perPage, filter);
       return { documents, total };
     } catch (error) {
       console.error("Erreur lors du fetch document : ", error);
