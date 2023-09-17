@@ -15,10 +15,11 @@ interface TitleProps {
   viewFormat?: string;
   changeSearchValue?: (searchValue: string) => void;
   changeViewFormat?: (viewFormat: string) => void;
+  enterSearchValue?: () => void;
   onClick?: (action: string) => void;
 }
 
-const Title = ({ title, actions, isViewFromat = false, viewFormat = 'table', isViewSearch, searchValue = "", searchPlaceholder, changeSearchValue, changeViewFormat, onClick }: TitleProps) => {
+const Title = ({ title, actions, isViewFromat = false, viewFormat = 'table', isViewSearch, searchValue = "", searchPlaceholder, changeSearchValue, changeViewFormat, enterSearchValue, onClick }: TitleProps) => {
   return (
     <section className={styles['title-container']}>
       <div className={styles['title-container__header']}>
@@ -40,6 +41,7 @@ const Title = ({ title, actions, isViewFromat = false, viewFormat = 'table', isV
             placeholder={searchPlaceholder}
             value={searchValue}
             onChange={(e) => changeSearchValue && changeSearchValue(e.target.value)}
+            onKeyDownEnter={() => enterSearchValue && enterSearchValue()}
           />
         )}
         {actions?.map((action, index) => (

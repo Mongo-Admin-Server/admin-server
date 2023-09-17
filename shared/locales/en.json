@@ -82,7 +82,8 @@
     "createSuccess": "Document created successfully",
     "createError": "Error creating document",
     "createTitle": "Create document",
-    "updateTitle": "Update document"
+    "updateTitle": "Update document",
+    "searchError": "The format of the search is incorrect"
   },
   "pagination": {
     "jumpTo": "Go to page"

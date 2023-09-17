@@ -9,6 +9,7 @@ interface GenericInputProps {
   value: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDownEnter?: () => void;
   type: 'text' | 'password' | 'email' | 'number';
   placeholder?: string;
   error?: string;
@@ -19,6 +20,7 @@ const GenericInput = ({
   label,
   value,
   onChange,
+  onKeyDownEnter,
   type,
   placeholder,
   error,
@@ -33,6 +35,10 @@ const GenericInput = ({
     return _arr.join(' ');
   }, [className]);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && onKeyDownEnter) onKeyDownEnter();
+  };
+
   return (
     <div className={inputClass}>
       {label && <label className={styles.label}>{label}</label>}
@@ -41,6 +47,7 @@ const GenericInput = ({
         type={type === 'password' && showPassword ? 'text' : type}
         value={value}
         onChange={onChange}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
       />
 
