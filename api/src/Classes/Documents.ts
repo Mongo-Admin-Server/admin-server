@@ -5,15 +5,15 @@ import { type WithId, type Document, ObjectId, InsertOneResult, DeleteResult, Up
 
 export class Documents {
 
-    public async getAllDocumentsByCollection(connection_url: string, databaseName: string, collectionName: string, perPage: string, page: string): Promise<{ documents: WithId<Document>[], total: number }>{
+    public async getAllDocumentsByCollection(connection_url: string, databaseName: string, collectionName: string, perPage: string, page: string, filter: any): Promise<{ documents: WithId<Document>[], total: number }>{
         const _perPage = parseInt(perPage) || 10;
         const _currentPage = parseInt(page) || 0;
 
         const client = await Instance.connection(connection_url);
 
         try {
-            const documents = await client.db(databaseName).collection(collectionName).find().skip(_currentPage * _perPage).limit(_perPage).toArray();
-            const total = await client.db(databaseName).collection(collectionName).countDocuments();
+            const documents = await client.db(databaseName).collection(collectionName).find(filter).skip(_currentPage * _perPage).limit(_perPage).toArray();
+            const total = await client.db(databaseName).collection(collectionName).countDocuments(filter);
 
             return { documents, total };
         } catch (error) {

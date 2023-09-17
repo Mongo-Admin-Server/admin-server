@@ -3,9 +3,9 @@ import { UpdateFilter } from "mongodb";
 
 export class DocumentController {
     
-    public async getAllDocumentsByCollection(connection_url: string, databaseName: string, collectionName: string, perPage: string, page: string) {
+    public async getAllDocumentsByCollection(connection_url: string, databaseName: string, collectionName: string, perPage: string, page: string, filter: any) {
         try {
-            const { documents, total } = await new Documents().getAllDocumentsByCollection(connection_url, databaseName, collectionName, perPage, page);
+            const { documents, total } = await new Documents().getAllDocumentsByCollection(connection_url, databaseName, collectionName, perPage, page, filter);
             return { documents, total }
         } catch (error) {
             throw error;
