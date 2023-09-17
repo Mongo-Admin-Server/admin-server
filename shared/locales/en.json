@@ -35,7 +35,8 @@
     "name": "Database",
     "storage": "Storage",
     "collection": "Collections",
-    "indexes": "Indexes"
+    "indexes": "Indexes",
+    "searchPlaceholder": "Search database"
   },
   "modal": {
     "language": {
@@ -63,7 +64,8 @@
     "deleteSuccess": "Collection deleted successfully",
     "deleteError": "Error deleting collection",
     "createSuccess": "Collection created successfully",
-    "createError": "Error creating collection"
+    "createError": "Error creating collection",
+    "searchPlaceholder": "Search collection"
   },
   "formCreateCollection": {
     "title": "Create Collection",
@@ -80,7 +82,8 @@
     "createSuccess": "Document created successfully",
     "createError": "Error creating document",
     "createTitle": "Create document",
-    "updateTitle": "Update document"
+    "updateTitle": "Update document",
+    "searchPlaceholder": "{ key: value }"
   },
   "pagination": {
     "jumpTo": "Go to page"

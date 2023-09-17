@@ -47,7 +47,8 @@
     "name": "Base de données",
     "storage": "Stockage",
     "collection": "Collections",
-    "indexes": "Index"
+    "indexes": "Index",
+    "searchPlaceholder": "Rechercher une base de données"
   },
   "collection": {
     "title": "Collections",
@@ -62,7 +63,8 @@
     "deleteSuccess": "Collection supprimée avec succès",
     "deleteError": "Erreur lors de la suppression de la collection",
     "createSuccess": "Collection créée avec succès",
-    "createError": "Erreur lors de la création de la collection"
+    "createError": "Erreur lors de la création de la collection",
+    "searchPlaceholder": "Rechercher une collection"
   },
   "formCreateCollection": {
     "title": "Créer une collection",
@@ -79,7 +81,8 @@
     "createSuccess": "Document créé avec succès",
     "createError": "Erreur lors de la création du document",
     "createTitle": "Créer un document",
-    "updateTitle": "Mettre à jour le document"
+    "updateTitle": "Mettre à jour le document",
+    "searchPlaceholder": "{ key: value }"
   },
   "pagination": {
     "jumpTo": "Aller à la page"

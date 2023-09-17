@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import styles from './input.module.scss';
 
@@ -12,6 +12,7 @@ interface GenericInputProps {
   type: 'text' | 'password' | 'email' | 'number';
   placeholder?: string;
   error?: string;
+  className?: string;
 }
 
 const GenericInput = ({
@@ -21,12 +22,20 @@ const GenericInput = ({
   type,
   placeholder,
   error,
+  className,
 }: GenericInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const inputClass = useMemo(() => {
+    const _arr = [styles['input-container']];
+    if (className) _arr.push(className);
+
+    return _arr.join(' ');
+  }, [className]);
+
   return (
-    <div className={styles.container}>
-      <label className={styles.label}>{label}</label>
+    <div className={inputClass}>
+      {label && <label className={styles.label}>{label}</label>}
       <input
         className={`${styles.input} ${error ? styles.inputError : ''}`}
         type={type === 'password' && showPassword ? 'text' : type}

@@ -1,21 +1,24 @@
-import { useState } from "react";
-
 import GenericButton from "@components/ui/button/GenericButton";
 import SvgIcon from "@components/ui/icon/SvgIcon";
 import Switch from "@components/ui/inputs/switch/Switch";
+import GenericInput from "@components/ui/inputs/generic/GenericInput";
 
 import styles from './title.module.scss';
 
 interface TitleProps {
   title: string;
-  actions?: string[]; // search, refresh, add
+  actions?: string[]; // refresh, add
+  isViewSearch?: boolean;
+  searchValue?: string;
+  searchPlaceholder?: string;
   isViewFromat?: boolean;
   viewFormat?: string;
+  changeSearchValue?: (searchValue: string) => void;
   changeViewFormat?: (viewFormat: string) => void;
   onClick?: (action: string) => void;
 }
 
-const Title = ({ title, actions, isViewFromat = false, viewFormat = 'table', changeViewFormat, onClick }: TitleProps) => {
+const Title = ({ title, actions, isViewFromat = false, viewFormat = 'table', isViewSearch, searchValue = "", searchPlaceholder, changeSearchValue, changeViewFormat, onClick }: TitleProps) => {
   return (
     <section className={styles['title-container']}>
       <div className={styles['title-container__header']}>
@@ -30,6 +33,15 @@ const Title = ({ title, actions, isViewFromat = false, viewFormat = 'table', cha
       </div>
 
       <div className={styles['title-container__buttons']}>
+        {isViewSearch && (
+          <GenericInput
+            className={styles['search-input']}
+            type="text"
+            placeholder={searchPlaceholder}
+            value={searchValue}
+            onChange={(e) => changeSearchValue && changeSearchValue(e.target.value)}
+          />
+        )}
         {actions?.map((action, index) => (
           <GenericButton
             key={index}

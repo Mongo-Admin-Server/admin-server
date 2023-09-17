@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
     const urlRegex =
       // eslint-disable-next-line no-useless-escape
       /mongodb\+srv:\/\/(?:(?:[^:]+):(?:[^@]+)?@)?(?:(?:(?:[^\/]+)|(?:\/.+.sock?),?)+)(?:\/([^\/\.\ "*<>:\|\?]*))?(?:\?(?:(.+=.+)&?)+)*/;
-    console.log(body.connection_url, urlRegex.test(body.connection_url));
     if (!urlRegex.test(body.connection_url))
       return new NextResponse(
         JSON.stringify({ error: 'Invalid connection url' }),

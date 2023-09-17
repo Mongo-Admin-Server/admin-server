@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
@@ -37,6 +37,7 @@ export default function CollectionsPage({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [collectionNameToDelete, setCollectionNameToDelete] = useState('');
   const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
@@ -51,28 +52,37 @@ export default function CollectionsPage({
     t('collection.totalIndexSize'),
   ];
 
-  const dataBody = collections.map((collection) => {
-    const mappedData: Record<string, React.ReactNode> = {};
-
-    mappedData[t('collection.collectionName')] = (
-      <Link
-        href={`/${language}/dashboard/${params.database_name}/${collection.collectionName}`}
-        onClick={() =>
-          dispatch(setCollectionSelected(collection.collectionName))
-        }
-      >
-        {collection.collectionName}
-      </Link>
+  const collectionsFiltered = useMemo(() => {
+    if (!searchValue) return collections;
+    return collections.filter((collection) =>
+      collection.collectionName.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
     );
-    mappedData[t('collection.count')] = collection.count;
-    mappedData[t('collection.avgDocumentSize')] = collection.avgDocumentSize;
-    mappedData[t('collection.totalDocumentSize')] =
-      collection.totalDocumentSize;
-    mappedData[t('collection.indexes')] = collection.indexes[0].key;
-    mappedData[t('collection.totalIndexSize')] = collection.totalIndexSize;
+  }, [collections, searchValue]);
 
-    return mappedData;
-  });
+  const dataBody = useMemo(() => {
+    return collectionsFiltered.map((collection) => {
+      const mappedData: Record<string, React.ReactNode> = {};
+
+      mappedData[t('collection.collectionName')] = (
+        <Link
+          href={`/${language}/dashboard/${params.database_name}/${collection.collectionName}`}
+          onClick={() =>
+            dispatch(setCollectionSelected(collection.collectionName))
+          }
+        >
+          {collection.collectionName}
+        </Link>
+      );
+      mappedData[t('collection.count')] = collection.count;
+      mappedData[t('collection.avgDocumentSize')] = collection.avgDocumentSize;
+      mappedData[t('collection.totalDocumentSize')] =
+        collection.totalDocumentSize;
+      mappedData[t('collection.indexes')] = collection.indexes[0].key;
+      mappedData[t('collection.totalIndexSize')] = collection.totalIndexSize;
+
+      return mappedData;
+    });
+  }, [collectionsFiltered, dispatch, language, params.database_name, t]);
 
   const handleClick = (action: string, index?: number) => {
     let collectionToDelete;
@@ -84,9 +94,6 @@ export default function CollectionsPage({
           collectionToDelete = collections[index!];
           setCollectionNameToDelete(collectionToDelete.collectionName)
           setOpenDeleteModal(true);
-          break;
-        case 'search':
-          console.log('Search');
           break;
         case 'refresh':
           dispatch(fetchCollectionByDatabase(params.database_name));
@@ -112,7 +119,11 @@ export default function CollectionsPage({
     <>
       <Title
         title={t('collection.title')}
-        actions={['refresh', 'search', 'add']}
+        actions={['refresh', 'add']}
+        isViewSearch
+        searchValue={searchValue}
+        searchPlaceholder={t('collection.searchPlaceholder')}
+        changeSearchValue={(value: string) => setSearchValue(value)}
         onClick={(action) => handleClick(action)}
       />
 
