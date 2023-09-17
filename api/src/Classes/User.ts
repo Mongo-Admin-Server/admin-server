@@ -1,6 +1,6 @@
 import { Admin, Db, MongoClient, MongoServerError } from "mongodb";
 import { Instance } from "./Instance";
-import { GrantRole, RevokeRole, UserType } from '@/domain/entities/user-types';
+import { GrantRole, RevokeRole, UserInterface } from '@/domain/entities/user-types';
 import { ApiError } from "./Errors/ApiError";
 
 export default class User{
@@ -18,7 +18,7 @@ export default class User{
         }
     }
 
-    public async createUser(databaseName: string | string[] | undefined, user: UserType, connection_url:string) {
+    public async createUser(databaseName: string | string[] | undefined, user: UserInterface, connection_url:string) {
         const client = await Instance.connection(connection_url);
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');

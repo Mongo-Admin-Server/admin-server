@@ -20,6 +20,7 @@
     "collection": "Colecciones",
     "language": "Idioma",
     "setting": "Configuración",
+    "user": "Usuarios",
     "logout": "Cerrar sesión"
   },
   "modal": {
@@ -49,6 +50,20 @@
     "collection": "Colecciones",
     "indexes": "Índice",
     "searchPlaceholder": "Buscar base de datos"
+  },
+  "user": {
+    "title": "Usuarios",
+    "create": "Crear usuario",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar esta usuario?",
+    "deleteSuccess": "Usuario eliminada con éxito",
+    "deleteError": "Error al eliminar la usuario",
+    "createSuccess": "Usuario creada con éxito",
+    "createError": "Error al crear Usuario",
+    "createTitle": "Crear usuario",
+    "name": "Nombre Usuarios",
+    "database": "Base de datos",
+    "role": "Roles",
+    "searchPlaceholder": "Buscar usuario"
   },
   "collection": {
     "title": "Colecciones",

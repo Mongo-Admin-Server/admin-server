@@ -20,6 +20,7 @@
     "collection": "Collections",
     "language": "Langue",
     "setting": "Paramètres",
+    "user": "Utilisateurs",
     "logout": "Déconnexion"
   },
   "modal": {
@@ -49,6 +50,20 @@
     "collection": "Collections",
     "indexes": "Index",
     "searchPlaceholder": "Rechercher une base de données"
+  },
+  "user": {
+    "title": "Utilisateurs",
+    "create": "Créer un utilisateur",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+    "deleteSuccess": "Utilisateur supprimée avec succès",
+    "deleteError": "Erreur lors de la suppression de l'utilisateur",
+    "createSuccess": "Utilisateur créée avec succès",
+    "createError": "Erreur lors de la création de l'utilisateurs",
+    "createTitle": "Créer un utilisateur",
+    "name": "Nom d'utilisateurs",
+    "dababase": "Base de données",
+    "role": "Rôles",
+    "searchPlaceholder": "Rechercher un utilisateur"
   },
   "collection": {
     "title": "Collections",

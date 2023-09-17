@@ -1,6 +1,6 @@
 import { NextApiResponse, NextApiRequest } from "next";
 import User from "../Classes/User";
-import { GrantRole, RevokeRole, UserType } from "@/domain/entities/user-types";
+import { GrantRole, RevokeRole, UserInterface } from "@/domain/entities/user-types";
 import { ApiError } from "../Classes/Errors/ApiError";
 import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 
@@ -14,7 +14,7 @@ export class UserController{
             response.status(200).json(users);
     }
 
-    public async createUser(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, newUser: UserType){
+    public async createUser(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, newUser: UserInterface){
         const { connection_url } = request.headers
         const user = await new User().createUser(databaseName, newUser, connection_url);
         if(!user)

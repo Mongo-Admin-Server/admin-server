@@ -60,7 +60,7 @@ export const authSlice = createSlice({
   }
 });
 
-/************   ACTIONS FOR COLLECTION  ************/
+/************   ACTIONS FOR AUTH  ************/
 export const setErrorAuth = createAction<string>("auth/setError");
 export const setLoadingAuth = createAction<boolean>("auth/setLoading");
 export const setIsLogged = createAction<boolean>("auth/setIsLogged");

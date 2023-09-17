@@ -28,6 +28,7 @@ import {
 } from '@/domain/usecases/collection-slice';
 import { setTheme, selectTheme, selectLanguage } from '@/domain/usecases/setting-slice';
 import { setIsLogged } from '@/domain/usecases/auth-slice';
+import { database } from '@/infrastructure';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
@@ -65,6 +66,10 @@ const SideMenu = () => {
     router.push(`/${language}/dashboard/${databaseSelected}/${collection}`);
   };
 
+  const handleShowListUsers = () => {
+    router.push(`/${language}/dashboard/admin/user`)
+    console.log("user");
+  }
   const handleLogout = () => {
     dispatch(logout());
     dispatch(setIsLogged(false));
@@ -127,6 +132,14 @@ const SideMenu = () => {
             onClick={() => console.log('Click settings')}
           >
             {t('menuSideBar.setting')}
+          </GenericButton>
+          <GenericButton
+            icon_name="gear"
+            padding="0 20px"
+            transparent
+            onClick={handleShowListUsers}
+          >
+            {t('menuSideBar.user')}
           </GenericButton>
 
           <GenericButton
