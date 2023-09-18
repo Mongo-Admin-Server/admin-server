@@ -11,6 +11,8 @@ import DocumentModal from '@components/modal/document/DocumentModal';
 import Pagination from '@components/ui/pagination/Pagination';
 import JsonView from '@components/json/JsonView';
 
+import eventEmitter from '@/shared/emitter/events';
+
 import { useDispatch, useSelector } from '@/store/store';
 import {
   fetchAllDocumentByCollection,
@@ -35,6 +37,8 @@ export default function DocumentsPage({
   const [viewFormat, setViewFormat] = useState<'table' | 'json'>('table');
   const [currentDocument, setCurrentDocument] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchValue, setSearchValue] = useState('');
+  const [isFetching, setIsFetching] = useState(true);
 
   const [pageSize, setPageSize] = useState(10);
 
@@ -42,17 +46,25 @@ export default function DocumentsPage({
 
   const fetchDocuments = useCallback(
     async (page: number = 1) => {
+      if (!isFetching) return;
       setCurrentPage(page - 1);
       const { payload } = await dispatch(
         fetchAllDocumentByCollection({
           currentPage: page - 1,
           perPage: pageSize,
+          filter: searchValue,
         })
       );
-      setDocuments(payload.documents);
-      setTotalDocuments(payload.total);
+      if (payload?.response?.data === 'Invalid filter') {
+        eventEmitter.dispatch('alert', { type: 'error', message: t('document.searchError') });
+        setIsFetching(false);
+        return;
+      }
+      setDocuments(payload.documents || []);
+      setTotalDocuments(payload?.total || 0);
+      setIsFetching(false);
     },
-    [dispatch, pageSize]
+    [dispatch, pageSize, searchValue ,isFetching, t]
   );
 
   useEffect(() => {
@@ -68,9 +80,6 @@ export default function DocumentsPage({
       case 'trash':
         setCurrentDocument((documents[index!] as any)._id);
         setOpenDeleteModal(true);
-        break;
-      case 'search':
-        console.log('Search');
         break;
       case 'refresh':
         fetchDocuments();
@@ -92,6 +101,17 @@ export default function DocumentsPage({
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
+    setIsFetching(true);
+    fetchDocuments();
+  };
+
+  const handleSearch = () => {
+    setIsFetching(true);
+    fetchDocuments();
+  };
+
+  const handleValidate = () => {
+    setIsFetching(true);
     fetchDocuments();
   };
 
@@ -134,11 +154,16 @@ export default function DocumentsPage({
     <>
       <Title
         title={params.collection_name}
-        actions={['refresh', 'search', 'add']}
+        actions={['refresh', 'add']}
         onClick={(action) => handleClick(action)}
         isViewFromat
         viewFormat={viewFormat}
+        isViewSearch
+        searchValue={searchValue}
+        searchPlaceholder='{ "field": "value" }'
+        changeSearchValue={(value) => setSearchValue(value)}
         changeViewFormat={(format: any) => setViewFormat(format)}
+        enterSearchValue={handleSearch}
       />
 
       {renderTable()}
@@ -154,7 +179,7 @@ export default function DocumentsPage({
         open={openDocumentModal}
         idDocument={currentDocument}
         onClose={() => setOpenDocumentModal(false)}
-        onValidate={() => fetchDocuments()}
+        onValidate={() => handleValidate()}
       />
     </>
   );

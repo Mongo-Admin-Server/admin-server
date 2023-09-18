@@ -26,6 +26,14 @@ class Axios {
     this.accessToken = accessToken
   }
 
+  setFilter = (filter: any) => {
+    this.instance.defaults.headers.common.Filter = filter
+  }
+
+  deleteFilter = () => {
+    delete this.instance.defaults.headers.common.Filter
+  }
+
   async get<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
     return this.instance.get(url, config);
   }

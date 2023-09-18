@@ -47,7 +47,8 @@
     "name": "Base de datos",
     "storage": "Almacenamiento",
     "collection": "Colecciones",
-    "indexes": "Índice"
+    "indexes": "Índice",
+    "searchPlaceholder": "Buscar base de datos"
   },
   "collection": {
     "title": "Colecciones",
@@ -62,7 +63,8 @@
     "deleteSuccess": "Colección eliminada con éxito",
     "deleteError": "Error al eliminar la colección",
     "createSuccess": "Colección creada con éxito",
-    "createError": "Error al crear la colección"
+    "createError": "Error al crear la colección",
+    "searchPlaceholder": "Buscar colección"
   },
   "formCreateCollection": {
     "title": "Crear Colección",
@@ -79,7 +81,8 @@
     "createSuccess": "Documento creado con éxito",
     "createError": "Error al crear el documento",
     "createTitle": "Crear documento",
-    "updateTitle": "Actualizar documento"
+    "updateTitle": "Actualizar documento",
+    "searchError": "El formato de búsqueda no es correcto"
   },
   "pagination": {
     "jumpTo": "Ir a la página"

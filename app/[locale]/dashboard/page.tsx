@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
@@ -35,6 +35,7 @@ export default function DashboardPage() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [databaseNameToDelete, setDatabaseNameToDelete] = useState('');
   const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   const databases = useSelector(selectDatabases);
   const loading = useSelector(selectLoading);
@@ -47,20 +48,27 @@ export default function DashboardPage() {
     t('database.indexes'),
   ];
 
-  const dataBody = databases.map((database) => {
-    const mappedData: Record<string, React.ReactNode> = {};
+  const databasesFiltered = useMemo(() => {
+    if (!searchValue) return databases;
+    return databases.filter((database) => database.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
+  }, [databases, searchValue]);
 
-    mappedData[t('database.name')] = (
-      <Link href={`/${language}/dashboard/${database.name}`} onClick={() => dispatch(setDatabaseSelected(database.name))}>
-        {database.name}
-      </Link>
-    );
-    mappedData[t('database.storage')] = database.sizeOnDisk;
-    mappedData[t('database.collection')] = database.collections;
-    mappedData[t('database.indexes')] = database.empty;
+  const dataBody = useMemo(() => {
+    return databasesFiltered.map((database) => {
+      const mappedData: Record<string, React.ReactNode> = {};
 
-    return mappedData;
-  });
+      mappedData[t('database.name')] = (
+        <Link href={`/${language}/dashboard/${database.name}`} onClick={() => dispatch(setDatabaseSelected(database.name))}>
+          {database.name}
+        </Link>
+      );
+      mappedData[t('database.storage')] = database.sizeOnDisk;
+      mappedData[t('database.collection')] = database.collections;
+      mappedData[t('database.indexes')] = database.empty;
+      
+      return mappedData;
+    });
+  }, [databasesFiltered, dispatch, language, t]);
 
   const handleClick = (action: string, index?: number) => {
     switch (action) {
@@ -70,9 +78,6 @@ export default function DashboardPage() {
       case 'trash':
         setDatabaseNameToDelete(databases[index!].name)
         setOpenDeleteModal(true);
-        break;
-      case 'search':
-        console.log('Search');
         break;
       case 'refresh':
         dispatch(fetchAllDatabase());
@@ -99,8 +104,12 @@ export default function DashboardPage() {
     <>
       <Title
         title={t('database.title')}
-        actions={['refresh', 'search', 'import', 'export', 'add']}
+        actions={['refresh', 'import', 'export', 'add']}
+        isViewSearch
+        searchValue={searchValue}
+        searchPlaceholder={t('database.searchPlaceholder')}
         onClick={(action) => handleClick(action)}
+        changeSearchValue={(value: string) => setSearchValue(value)}
       />
 
       {loading ? (
