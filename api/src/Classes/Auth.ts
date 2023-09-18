@@ -1,4 +1,5 @@
 import { SignJWT } from "jose";
+import { Instance } from "./Instance";
 
 export default class Auth {
   public async login(connection_url: string) {
@@ -6,6 +7,11 @@ export default class Auth {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
       // const expired = process.env.JWT_EXPIRES_IN || '2h';
       const alg = 'HS256';
+      // const client = await Instance.connection(connection_url);
+      // const users = await client.db('marketplace').command({
+      //   usersInfo:1
+      // })
+      // console.log(users);
       return {
         token: await new SignJWT({
           connection_url: connection_url,
