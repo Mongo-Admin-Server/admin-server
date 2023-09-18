@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 
 export class Instance{
+    
     private static client: MongoClient | null = null;
     
     static async connection(connection_url: string): Promise<MongoClient>{
