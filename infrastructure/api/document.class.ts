@@ -27,6 +27,12 @@ class Document {
     const response = await axios.delete(`/document/${database}/${collection}/${id}`);
     return response;
   }
+
+  public async exportDocuments(databaseName: string, collectionName: string, fileName: string = collectionName, extension: string = 'json') {
+    const response = await axios.post(`/collection/export/`,{databaseName, collectionName, fileName, extension});
+    return response.data;
+  }
+
 }
 
 export const document = new Document()

@@ -65,7 +65,9 @@
     "deleteError": "Error deleting collection",
     "createSuccess": "Collection created successfully",
     "createError": "Error creating collection",
-    "searchPlaceholder": "Search collection"
+    "searchPlaceholder": "Search collection",
+    "exportConfirm": "Do you want to export these collections ?",
+    "exportSuccess": "Collections exported successfully"
   },
   "formCreateCollection": {
     "title": "Create Collection",
@@ -83,7 +85,9 @@
     "createError": "Error creating document",
     "createTitle": "Create document",
     "updateTitle": "Update document",
-    "searchError": "The format of the search is incorrect"
+    "searchError": "The format of the search is incorrect",
+    "exportConfirm": "Do you want to export these documents ?",
+    "exportSuccess": "Documents exported successfully"
   },
   "pagination": {
     "jumpTo": "Go to page"

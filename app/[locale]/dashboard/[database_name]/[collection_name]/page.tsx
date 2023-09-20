@@ -18,6 +18,7 @@ import {
   fetchAllDocumentByCollection,
   deleteDocument,
   selectLoadingDocument,
+  exportDocuments,
 } from '@/domain/usecases/document-slice';
 
 import { useTranslations } from 'next-intl';
@@ -25,7 +26,7 @@ import { useTranslations } from 'next-intl';
 export default function DocumentsPage({
   params,
 }: {
-  params: { collection_name: string };
+  params: { collection_name: string, database_name: string, filename: string, extension: string};
 }) {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ export default function DocumentsPage({
   const [totalDocuments, setTotalDocuments] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDocumentModal, setOpenDocumentModal] = useState(false);
+  const [openExportModal, setOpenExportModal] = useState(false);
   const [viewFormat, setViewFormat] = useState<'table' | 'json'>('table');
   const [currentDocument, setCurrentDocument] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
@@ -88,6 +90,12 @@ export default function DocumentsPage({
         setCurrentDocument((documents[index!] as any)._id);
         setOpenDocumentModal(true);
         break;
+        case 'import':
+          console.log('Import');
+          break;
+        case 'export':
+          setOpenExportModal(true);
+          break;
       default:
         break;
     }
@@ -97,6 +105,19 @@ export default function DocumentsPage({
     await dispatch(deleteDocument(currentDocument));
     fetchDocuments();
     setOpenDeleteModal(false);
+  };
+
+  const handleExport = () => {
+    const { database_name, collection_name, filename, extension } = params;
+    dispatch(
+      exportDocuments({
+        databaseName: database_name,
+        fileName: filename,
+        extension: extension,
+        collectionName: collection_name
+      })
+    );
+    setOpenExportModal(false);
   };
 
   const handlePageSizeChange = (size: number) => {
@@ -154,7 +175,7 @@ export default function DocumentsPage({
     <>
       <Title
         title={params.collection_name}
-        actions={['refresh', 'add']}
+        actions={['refresh', 'import', 'export', 'add']}
         onClick={(action) => handleClick(action)}
         isViewFromat
         viewFormat={viewFormat}
@@ -173,6 +194,13 @@ export default function DocumentsPage({
         description={t('document.deleteConfirm')}
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
+      />
+
+      <ConfirmModal
+        open={openExportModal}
+        description={t('document.exportConfirm')}
+        onConfirm={handleExport}
+        onClose={() => setOpenExportModal(false)}
       />
 
       <DocumentModal

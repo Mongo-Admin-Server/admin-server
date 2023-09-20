@@ -15,7 +15,8 @@ import {
   selectCollectionByDatabase,
   selectLoadingCollection,
   setCollectionSelected,
-  deleteCollectionByName
+  deleteCollectionByName,
+  exportCollections
 } from '@/domain/usecases/collection-slice';
 import { selectLanguage } from '@/domain/usecases/setting-slice';
 
@@ -24,7 +25,7 @@ import FormCreateCollection from '@components/form/form-create-collection/FormCr
 export default function CollectionsPage({
   params,
 }: {
-  params: { database_name: string };
+  params: { database_name: string, fileName: string, extension: string };
 }) {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export default function CollectionsPage({
   const [collectionNameToDelete, setCollectionNameToDelete] = useState('');
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [openExportModal, setOpenExportModal] = useState(false);
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
@@ -98,6 +100,12 @@ export default function CollectionsPage({
         case 'refresh':
           dispatch(fetchCollectionByDatabase(params.database_name));
           break;
+          case 'import':
+          console.log('Import');
+          break;
+          case 'export':
+          setOpenExportModal(true);
+          break;
         default:
           break;
       }
@@ -115,11 +123,21 @@ export default function CollectionsPage({
     setOpenDeleteModal(false);
   }
 
+  const handleExport = ()=> {
+    dispatch(
+      exportCollections({
+        databaseName: params.database_name,
+        fileName: params.fileName,
+        extension: params.extension }),
+    )
+    setOpenExportModal(false);
+  }
+
   return (
     <>
       <Title
         title={t('collection.title')}
-        actions={['refresh', 'add']}
+        actions={['refresh','import','export','add']}
         isViewSearch
         searchValue={searchValue}
         searchPlaceholder={t('collection.searchPlaceholder')}
@@ -143,6 +161,13 @@ export default function CollectionsPage({
         description={t('collection.deleteConfirm')}
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
+      />
+
+      <ConfirmModal
+        open={openExportModal}
+        description={t('collection.exportConfirm')}
+        onConfirm={handleExport}
+        onClose={() => setOpenExportModal(false)}
       />
       <FormCreateCollection
         open={openCreateModal}
