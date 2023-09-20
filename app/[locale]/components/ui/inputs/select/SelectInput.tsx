@@ -4,7 +4,7 @@ import SvgIcon from '@/app/[locale]/components/ui/icon/SvgIcon';
 
 interface SelectInputProps {
   label?: string;
-  value: string;
+  value: string | string[];
   // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: { value: string; label: string}[];

@@ -2,21 +2,28 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import Table from "@components/ui/table/Table";
 import TableSkeleton from "@components/ui/skeleton/table/TableSkeleton";
 import Title from "@components/title/Title";
+import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+
 import { useSelector, useDispatch } from '@/store/store';
 import { 
   selectUsers,
-  getUsers, 
+  fetchUsers, 
   selectLoading, 
   setUserSelected,
+  deleteUser
  } from '@/domain/usecases/user-slice';
  import { selectLanguage } from '@/domain/usecases/setting-slice';
-import Link from 'next/link';
-import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+import FormCreateUser from '@/app/[locale]/components/form/form-create-user/FormCreateUser';
 
-export default function UserPage() {
+export default function UserPage({
+  params,
+}: {
+  params: { database_name: string }
+}) {
   /* Static Data */
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -27,7 +34,9 @@ export default function UserPage() {
   ];
   
   /* Local Data */
+  const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [userNameToDelete, setUserNameToDelete] = useState('');
   const [searchValue, setSearchValue] = useState('');
 
   const users = useSelector(selectUsers);
@@ -35,7 +44,7 @@ export default function UserPage() {
   const language = useSelector(selectLanguage);
   
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(fetchUsers());
   }, [dispatch]);
 
   const usersFiltered = useMemo(() => {
@@ -61,18 +70,21 @@ export default function UserPage() {
   
   /* Methods */
   const handleClick = (action: string, index?: number) => {
+    let userName;
     switch (action) {
       case 'add':
-        console.log('Created User')
+        setOpenCreateModal(true);
         break;
       case 'trash':
+        userName = users[index!].user
+        setUserNameToDelete(userName)
         setOpenDeleteModal(true);
         break;
       case 'edit':
-        console.log('Edit');
+        setOpenCreateModal(true);
         break;
       case 'refresh':
-        dispatch(getUsers());
+        dispatch(fetchUsers());
         break;
       default:
         break;
@@ -80,6 +92,14 @@ export default function UserPage() {
   };
 
   const handleDelete = ()=> {
+    if (!userNameToDelete) return;
+    dispatch(
+      deleteUser({
+        databaseName: params.database_name,
+        user: userNameToDelete,
+      })
+    );
+    setUserNameToDelete('');
     setOpenDeleteModal(false);
   }
 
@@ -110,6 +130,10 @@ export default function UserPage() {
         description={t('user.deleteConfirm')}
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
+      />
+      <FormCreateUser 
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
       />
     </>
   )

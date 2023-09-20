@@ -10,6 +10,7 @@ type RoleType = {
 };
 
 export type UserType = {
+  _id: string,
   user: string,
   db: string,
   roles: RoleType[],

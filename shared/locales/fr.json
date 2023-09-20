@@ -63,6 +63,7 @@
     "name": "Nom d'utilisateurs",
     "dababase": "Base de données",
     "role": "Rôles",
+    "password": "Mot de passe",
     "searchPlaceholder": "Rechercher un utilisateur"
   },
   "collection": {
@@ -106,5 +107,12 @@
     "en": "🇬🇧 Anglais",
     "fr": "🇫🇷 Français",
     "es": "🇪🇸 Espagnol"
+  },
+  "role": {
+    "read": "Lecture seule",
+    "readWrite": "Lecture et écriture",
+    "dbAdmin": "Admin de base de données",
+    "dbOwner": "Propriétaire de base de données",
+    "userAdmin": "Admin d'utilisateur"
   }
 }

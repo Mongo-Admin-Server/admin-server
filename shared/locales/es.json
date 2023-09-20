@@ -63,6 +63,7 @@
     "name": "Nombre Usuarios",
     "database": "Base de datos",
     "role": "Roles",
+    "password": "Contraseña",
     "searchPlaceholder": "Buscar usuario"
   },
   "collection": {
@@ -106,5 +107,12 @@
     "en": "🇬🇧 Inglés",
     "fr": "🇫🇷 Francés",
     "es": "🇪🇸 Español"
+  },
+  "role": {
+    "read": "Sólo lectura",
+    "readWrite": "Lectura y escritura",
+    "dbAdmin": "Administrador de base de datos",
+    "dbOwner": "Propietario de base de datos",
+    "userAdmin": "Administrador de usuario"
   }
 }

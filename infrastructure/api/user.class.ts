@@ -10,6 +10,13 @@ class User {
     const response = await axios.post(`/user/${databaseName}`, { createUser, pwd, roles});
     return response.data;
   }
+
+  public async deleteUser(databaseName: string, user: string) {
+    const response = await axios.delete(`/user/admin`, {
+      data: { databaseName, user}
+    });
+    return response.data;
+  }
 }
 
 export const user = new User()

@@ -51,6 +51,7 @@
     "name": "Users Name",
     "database": "Database",
     "role": "Roles",
+    "password": "Password",
     "searchPlaceholder": "Search user"
   },
   "modal": {
@@ -107,5 +108,12 @@
     "en": "🇬🇧 English",
     "fr": "🇫🇷 French",
     "es": "🇪🇸 Spanish"
+  },
+  "role": {
+    "read": "Read",
+    "readWrite": "Read and write",
+    "dbAdmin": "Database admin",
+    "dbOwner": "Database owner",
+    "userAdmin": "User admin"
   }
 }

@@ -55,7 +55,7 @@ export default class User{
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else if(Array.isArray(user) || user === undefined) {
-            throw new ApiError(400, 'query/invalid', 'the user name is incorrect');
+            throw new ApiError(400, 'query/invalid', `the user ${user} name is incorrect`);
         } else {
             try {
                 const userToDrop = client.db(databaseName).command({
