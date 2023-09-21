@@ -111,4 +111,28 @@ export class Collection {
         }
     }
 
+    public async importDataToCollection(databaseName:string, fileName:string, collectionName: string, connection_url: string): Promise<true>{
+        try{
+            const instance = await Instance.connection(connection_url);
+            const db = instance.db(databaseName);
+            const collection = db.collection(collectionName);
+            let data;
+            if(fileName.endsWith('.json')) {
+                const fileData = fs.readFileSync(fileName, 'utf8');
+                data = JSON.parse(fileData);
+            }else if (fileName.endsWith('.csv')) {
+                const fileData = fs.readFileSync(fileName, 'utf8');
+                data = json2csv.parse(fileData, {header: true, delimiter: ','});
+            }else {
+                throw new Error('unsupported file');
+            }
+            const result = await collection.insertMany(data);
+            await instance.close();
+
+            return true;
+        }catch(error){
+            throw(error);
+        }
+    }
+
 }
