@@ -15,6 +15,7 @@ export type UserType = {
   db: string,
   roles: RoleType[],
 }
+
 export type UserState = {
   users: UserType[];
   userSelected: string;

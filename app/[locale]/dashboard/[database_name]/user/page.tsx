@@ -94,10 +94,7 @@ export default function UserPage({
   const handleDelete = ()=> {
     if (!userNameToDelete) return;
     dispatch(
-      deleteUser({
-        databaseName: params.database_name,
-        user: userNameToDelete,
-      })
+      deleteUser(userNameToDelete)
     );
     setUserNameToDelete('');
     setOpenDeleteModal(false);

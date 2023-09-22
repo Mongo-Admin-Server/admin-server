@@ -117,9 +117,11 @@ export const postUser = createAsyncThunk(
 )
 export const deleteUser = createAsyncThunk(
   "user/deleteUser",
-  async(params: { databaseName: string, user: string }, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) => {
+  async( user: string , { rejectWithValue, dispatch, getState }: { rejectWithValue: any, dispatch: Dispatch<any>, getState: any }) => {
     try {
-      await Api.user.deleteUser(params.databaseName, params.user);
+      const state = getState();
+      const databaseName = selectDatabaseSelected({ database: state.database });
+      await Api.user.deleteUser(databaseName, user);
       dispatch(fetchUsers())
     } catch (error) {
       console.error('Erreur lors de la suppression', error);

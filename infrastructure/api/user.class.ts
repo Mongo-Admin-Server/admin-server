@@ -12,9 +12,8 @@ class User {
   }
 
   public async deleteUser(databaseName: string, user: string) {
-    const response = await axios.delete(`/user/admin`, {
-      data: { databaseName, user}
-    });
+    const response = await axios.delete(`/user/${databaseName}?userToDelete=${user}`);
+    console.log(response.data);
     return response.data;
   }
 }

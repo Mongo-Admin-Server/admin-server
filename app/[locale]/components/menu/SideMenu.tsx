@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 import styles from './menu.module.scss';
 import '@/shared/styles/main.scss';
@@ -34,6 +34,7 @@ const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useTranslations();
   const router = useRouter();
+  const pathname = usePathname();
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   const language = useSelector(selectLanguage);
@@ -52,6 +53,7 @@ const SideMenu = () => {
 
   const theme = useSelector(selectTheme);
 
+  const displayUser = pathname == `/${language}/dashboard/${databaseSelected}`;
   const handleChangeTheme = () => {
     theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'));
   };
@@ -67,8 +69,7 @@ const SideMenu = () => {
   };
 
   const handleShowListUsers = () => {
-    router.push(`/${language}/dashboard/admin/user`)
-    console.log("user");
+    router.push(`${pathname}/user`)
   }
   const handleLogout = () => {
     dispatch(logout());
@@ -133,14 +134,14 @@ const SideMenu = () => {
           >
             {t('menuSideBar.setting')}
           </GenericButton>
-          <GenericButton
-            icon_name="gear"
+          {displayUser && <GenericButton
+            icon_name="user"
             padding="0 20px"
             transparent
             onClick={handleShowListUsers}
           >
             {t('menuSideBar.user')}
-          </GenericButton>
+          </GenericButton>}
 
           <GenericButton
             icon_name="logout"
