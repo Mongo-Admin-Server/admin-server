@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Switch renders 1`] = `
+<div>
+  <div
+    class="switch-container"
+  >
+    <button
+      class="button full outline center info"
+      type="button"
+    >
+      table
+    </button>
+    <button
+      class="button full outline center transparent"
+      type="button"
+    >
+      json
+    </button>
+  </div>
+</div>
+`;

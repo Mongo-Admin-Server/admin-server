@@ -65,7 +65,9 @@ const GenericModal = ({ open, title, confirmLabelTrad, cancelLabelTrad, typeButt
 
   useEffect(() => {
     const { current: el }: any = modalRef;
-    if (open) el.showModal();
+    if (el && typeof el.showModal === 'function') {
+      el.showModal();
+    }
   }, [open]);
 
 

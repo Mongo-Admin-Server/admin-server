@@ -6,7 +6,7 @@ import { NextIntlClientProvider } from 'next-intl';
 
 describe('ConfirmModal', () => {
   const locale = 'fr';
-  const message = require(`../shared/locales/${locale}.json`)
+  const message = require(`../../shared/locales/${locale}.json`)
   it('renders', () => {
     const handleClose = jest.fn();
     const handleConfirm = jest.fn();

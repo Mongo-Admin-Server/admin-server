@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Document Modal renders 1`] = `
+<div>
+  <dialog
+    class="modal modal--closing"
+  >
+    <section
+      class="modal__header"
+    >
+      <div
+        class="modal__header--icon"
+      >
+        <div
+          class="undefined pointer-cursor"
+        />
+      </div>
+      <h2>
+        Créer un document
+      </h2>
+    </section>
+    <section
+      class="modal__container"
+    >
+      <div
+        style="max-width: 1400px; max-height: 100%;"
+      >
+        <div
+          name="outer-box"
+          style="display: block; overflow: none; height: auto; width: 100%; margin: 0px; box-sizing: border-box; position: relative;"
+        >
+          <div
+            name="container"
+            style="display: block; height: auto; width: 100%; margin: 0px; box-sizing: border-box; overflow: hidden; font-family: Roboto, sans-serif;"
+          >
+            <div
+              name="warning-box"
+              style="display: block; overflow: hidden; height: 0px; width: 100%; margin: 0px; background-color: rgb(254, 236, 235); transition-duration: 0.2s; transition-timing-function: cubic-bezier(0, 1, 0.5, 1);"
+            >
+              <span
+                style="display: inline-block; height: 60px; width: 60px; margin: 0px; box-sizing: border-box; overflow: hidden; vertical-align: top; pointer-events: none;"
+              >
+                <div
+                  style="position: relative; top: 0px; left: 0px; height: 60px; width: 60px; margin: 0px; pointer-events: none;"
+                >
+                  <div
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;"
+                  >
+                    <svg
+                      height="25px"
+                      viewBox="0 0 100 100"
+                      width="25px"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M73.9,5.75c0.467-0.467,1.067-0.7,1.8-0.7c0.7,0,1.283,0.233,1.75,0.7l16.8,16.8  c0.467,0.5,0.7,1.084,0.7,1.75c0,0.733-0.233,1.334-0.7,1.801L70.35,50l23.9,23.95c0.5,0.467,0.75,1.066,0.75,1.8  c0,0.667-0.25,1.25-0.75,1.75l-16.8,16.75c-0.534,0.467-1.117,0.7-1.75,0.7s-1.233-0.233-1.8-0.7L50,70.351L26.1,94.25  c-0.567,0.467-1.167,0.7-1.8,0.7c-0.667,0-1.283-0.233-1.85-0.7L5.75,77.5C5.25,77,5,76.417,5,75.75c0-0.733,0.25-1.333,0.75-1.8  L29.65,50L5.75,26.101C5.25,25.667,5,25.066,5,24.3c0-0.666,0.25-1.25,0.75-1.75l16.8-16.8c0.467-0.467,1.05-0.7,1.75-0.7  c0.733,0,1.333,0.233,1.8,0.7L50,29.65L73.9,5.75z"
+                        fill="red"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </span>
+              <span
+                style="display: inline-block; height: 60px; width: calc(100% - 60px); margin: 0px; overflow: hidden; vertical-align: top; position: absolute; pointer-events: none;"
+              />
+            </div>
+            <div
+              name="body"
+              style="display: flex; overflow: none; height: 100%; margin: 0px; resize: none; font-family: Roboto Mono, Monaco, monospace; font-size: 11px; background-color: transparent; transition-duration: 0.2s; transition-timing-function: cubic-bezier(0, 1, 0.5, 1);"
+            >
+              <span
+                name="labels"
+                style="display: inline-block; box-sizing: border-box; vertical-align: top; height: 100%; width: 44px; margin: 0px; padding: 5px 0px 5px 10px; overflow: hidden; color: rgb(212, 212, 212);"
+              >
+                <div
+                  style="color: rgb(212, 212, 212);"
+                >
+                  1
+                </div>
+                <div
+                  style="color: rgb(212, 212, 212);"
+                >
+                  2
+                </div>
+                <div
+                  style="color: rgb(212, 212, 212);"
+                >
+                  3
+                </div>
+              </span>
+              <span
+                autocapitalize="off"
+                autocomplete="off"
+                autocorrect="off"
+                contenteditable="true"
+                spellcheck="false"
+                style="display: inline-block; box-sizing: border-box; vertical-align: top; height: 100%; flex: 1; margin: 0px; padding: 5px; overflow-x: hidden; overflow-y: auto; word-wrap: break-word; white-space: pre-line; color: rgb(212, 212, 212); outline: none;"
+              >
+                <span
+                  depth="1"
+                  style="color:#D4D4D4"
+                  type="symbol"
+                  value="{"
+                >
+                  {
+                </span>
+                <br />
+                  
+                <span
+                  depth="0"
+                  style="color:#D4D4D4"
+                  type="symbol"
+                  value="}"
+                >
+                  }
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="modal__footer"
+    >
+      <button
+        class="button full outline center"
+        type="button"
+      >
+        Annuler
+      </button>
+      <button
+        class="button full center"
+        type="button"
+      >
+        Confirmer
+      </button>
+    </section>
+  </dialog>
+</div>
+`;

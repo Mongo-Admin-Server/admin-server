@@ -4,28 +4,22 @@ import { render } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
 import { store } from '@/store/store';
 import { Provider } from 'react-redux';
-import LoginForm from '@/app/[locale]/components/form/login/LoginForm';
+import DocumentModal from '@/app/[locale]/components/modal/document/DocumentModal';
 
-jest.mock('next-intl/client', () => ({
-  usePathname() {
-    return '';
-  },
-  useRouter() {
-    return {
-      push: () => jest.fn(),
-      replace: () => jest.fn(),
-    };
-  },
-}));
-
-describe("LoginForm", () => {
+describe('Document Modal', () => {
+  const locale = 'fr';
+  const message = require(`../../shared/locales/${locale}.json`)
   it('renders', () => {
-    const locale = 'fr';
-    const message = require(`../shared/locales/${locale}.json`)
+    const handleClose = jest.fn();
+    const handleValidate= jest.fn();
     const { container } = render(
       <Provider store={store}>
         <NextIntlClientProvider locale={locale} messages={message}>
-          <LoginForm />
+          <DocumentModal 
+            open={false}
+            onClose={handleClose}
+            onValidate={handleValidate}
+          />
         </NextIntlClientProvider>
       </Provider>
     );

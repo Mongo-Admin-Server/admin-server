@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LanguageModal renders 1`] = `
+<div>
+  <dialog
+    class="modal modal--closing"
+  >
+    <section
+      class="modal__header"
+    >
+      <div
+        class="modal__header--icon"
+      >
+        <div
+          class="undefined pointer-cursor"
+        />
+      </div>
+      <h2>
+        Langue
+      </h2>
+    </section>
+    <section
+      class="modal__container"
+    >
+      <ul
+        class="language-list"
+      >
+        <li
+          class="language-container selected"
+        >
+          🇫🇷 Français
+        </li>
+        <li
+          class="language-container "
+        >
+          🇬🇧 Anglais
+        </li>
+        <li
+          class="language-container "
+        >
+          🇪🇸 Espagnol
+        </li>
+      </ul>
+    </section>
+  </dialog>
+</div>
+`;

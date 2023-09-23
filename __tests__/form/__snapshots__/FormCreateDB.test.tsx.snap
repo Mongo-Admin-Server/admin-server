@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormCreateDB renders 1`] = `
+<div>
+  <dialog
+    class="modal"
+  >
+    <section
+      class="modal__header"
+    >
+      <div
+        class="modal__header--icon"
+      >
+        <div
+          class="undefined pointer-cursor"
+        />
+      </div>
+      <h2>
+        Créer une base de données
+      </h2>
+    </section>
+    <section
+      class="modal__container"
+    >
+      <form
+        class="create-database-form"
+      >
+        <div
+          class="input-container"
+        >
+          <label
+            class="label"
+          >
+            Base de données
+          </label>
+          <input
+            class="input "
+            placeholder="Base de données"
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="input-container"
+        >
+          <label
+            class="label"
+          >
+            Collections
+          </label>
+          <input
+            class="input "
+            placeholder="Collections"
+            type="text"
+            value=""
+          />
+        </div>
+      </form>
+    </section>
+    <section
+      class="modal__footer"
+    >
+      <button
+        class="button full outline center"
+        type="button"
+      >
+        Annuler
+      </button>
+      <button
+        class="button full center"
+        disabled=""
+        type="button"
+      >
+        Créer
+      </button>
+    </section>
+  </dialog>
+</div>
+`;
