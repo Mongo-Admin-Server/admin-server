@@ -33,6 +33,12 @@
       "cancel": "Annuler",
       "confirm": "Confirmer",
       "create": "Créer"
+    },
+    "export":{
+      "title": "Export",
+      "description": "Veuillez choisir le format dans lequel vous souhaitez exporter !",
+      "json": "JSON",
+      "csv": "CSV"
     }
   },
   "database": {

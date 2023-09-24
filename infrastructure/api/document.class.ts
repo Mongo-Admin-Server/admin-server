@@ -28,7 +28,7 @@ class Document {
     return response;
   }
 
-  public async exportDocuments(databaseName: string, collectionName: string, fileName: string = collectionName, extension: string = 'json') {
+  public async exportDocuments(databaseName: string, collectionName: string, fileName: string = collectionName, extension: string) {
     const response = await axios.post(`/collection/export/`,{databaseName, collectionName, fileName, extension});
     return response.data;
   }

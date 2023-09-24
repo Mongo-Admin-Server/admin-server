@@ -18,7 +18,7 @@ class Collection {
     return response.data
   }
 
-  public async exportCollections(databaseName: string, fileName: string = databaseName, extension: string = 'json') {
+  public async exportCollections(databaseName: string, fileName: string = databaseName, extension: string) {
     const response = await axios.post(`/export`,{ databaseName, fileName, extension });
     return response.data;
   }

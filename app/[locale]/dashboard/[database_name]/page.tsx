@@ -21,6 +21,7 @@ import {
 import { selectLanguage } from '@/domain/usecases/setting-slice';
 
 import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
+import ExportModal from '../../components/modal/export/ExportModal';
 
 export default function CollectionsPage({
   params,
@@ -123,13 +124,14 @@ export default function CollectionsPage({
     setOpenDeleteModal(false);
   }
 
-  const handleExport = ()=> {
+  const handleExport = (format: 'csv' | 'json') => {
     dispatch(
       exportCollections({
         databaseName: params.database_name,
         fileName: params.fileName,
-        extension: params.extension }),
-    )
+        extension: format,
+      })
+    );
     setOpenExportModal(false);
   }
 
@@ -162,13 +164,15 @@ export default function CollectionsPage({
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
       />
-
-      <ConfirmModal
+      
+      <ExportModal 
         open={openExportModal}
-        description={t('collection.exportConfirm')}
-        onConfirm={handleExport}
+        title={t('modal.export.title')}
+        description={t('modal.export.description')}
         onClose={() => setOpenExportModal(false)}
+        onExport={handleExport}
       />
+    
       <FormCreateCollection
         open={openCreateModal}
         onClose={() => setOpenCreateModal(false)} 

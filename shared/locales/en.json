@@ -49,6 +49,12 @@
       "cancel": "Cancel",
       "confirm": "Confirm",
       "create": "Create"
+    },
+    "export":{
+      "title": "Export",
+      "description": "Please choose the format you want to export !",
+      "json": "JSON",
+      "csv": "CSV"
     }
   },
   "collection": {

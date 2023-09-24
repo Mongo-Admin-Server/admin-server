@@ -22,6 +22,7 @@ import {
 } from '@/domain/usecases/document-slice';
 
 import { useTranslations } from 'next-intl';
+import ExportModal from '@/app/[locale]/components/modal/export/ExportModal';
 
 export default function DocumentsPage({
   params,
@@ -107,18 +108,18 @@ export default function DocumentsPage({
     setOpenDeleteModal(false);
   };
 
-  const handleExport = () => {
-    const { database_name, collection_name, filename, extension } = params;
+  const handleExport = (format: 'csv' | 'json') => {
+    const { database_name, collection_name, filename } = params;
     dispatch(
       exportDocuments({
         databaseName: database_name,
         fileName: filename,
-        extension: extension,
+        extension: format,
         collectionName: collection_name
       })
     );
     setOpenExportModal(false);
-  };
+  }
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
@@ -196,11 +197,12 @@ export default function DocumentsPage({
         onClose={() => setOpenDeleteModal(false)}
       />
 
-      <ConfirmModal
+      <ExportModal 
         open={openExportModal}
-        description={t('document.exportConfirm')}
-        onConfirm={handleExport}
+        title={'modal.export.title'}
+        description={t('modal.export.description')}
         onClose={() => setOpenExportModal(false)}
+        onExport={handleExport}
       />
 
       <DocumentModal

@@ -157,7 +157,6 @@ export const exportCollections = createAsyncThunk(
       console.error('Erreur lors de la suppression', error);
       return rejectWithValue('Couldn\'t export collections');
     }
-    
   }
 ); 
 
