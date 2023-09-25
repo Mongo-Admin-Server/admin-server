@@ -8,12 +8,12 @@ import {
 } 
 from "@reduxjs/toolkit";
 
-import { UserState } from "../entities/user-types";
+import { GrantRole, RoleType, UserState } from "../entities/user-types";
 import eventEmitter from '@/shared/emitter/events';
 
 import * as Api from "@/infrastructure";
 import { selectDatabaseSelected } from "./database-slice";
-import { fetchCollectionByDatabase } from "./collection-slice";
+
 export const initialState: UserState = {
   users: [],
   userSelected: "",
@@ -54,11 +54,25 @@ export const userSlice = createSlice({
     });
     builder.addCase(postUser.fulfilled, (state) => {
       state.loading = false;
-      eventEmitter.dispatch('alert', { type: 'success', message: 'user.createError' });
+      eventEmitter.dispatch('alert', { type: 'success', message: 'user.createSuccess' });
     });
     builder.addCase(postUser.rejected, (state, action: any) => {
       state.loading = false;
       state.error = action.payload;
+    });
+    builder.addCase(updateRole.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(updateRole.fulfilled, (state) => {
+      state.loading = false
+      state.error = ""
+      eventEmitter.dispatch('alert', { type: 'success', message: 'user.updateSuccess' });
+    });
+    builder.addCase(updateRole.rejected, (state) => {
+      state.loading = false;
+      state.error = ""
+      eventEmitter.dispatch('alert', { type: 'error', message: 'user.updateError' });
     });
     builder.addCase(deleteUser.pending, (state) => {
       state.loading = true;
@@ -114,10 +128,34 @@ export const postUser = createAsyncThunk(
         return rejectWithValue("Couldn't post User");
       }
   }
+);
+
+export const updateRole = createAsyncThunk(
+  "user/updateRole",
+  async( role: GrantRole, 
+    { rejectWithValue, dispatch, getState }: { rejectWithValue: any, dispatch: Dispatch<any>, getState: any }) => {
+      try {
+        const state = getState();
+        const databaseName = selectDatabaseSelected({ database: state.database });
+    
+          role.grantRolesToUser = databaseName;
+          role.roles.map((role) => {
+            role.db = databaseName, 
+            role.role
+          })
+        await Api.user.updateRole(databaseName, role)
+        dispatch(fetchUsers())
+      } catch (error) {
+        console.error('Erreur lors de la modification', error);
+        return rejectWithValue("Couldn't update role");
+      }
+    }
 )
+
 export const deleteUser = createAsyncThunk(
   "user/deleteUser",
-  async( user: string , { rejectWithValue, dispatch, getState }: { rejectWithValue: any, dispatch: Dispatch<any>, getState: any }) => {
+  async( user: string , 
+    { rejectWithValue, dispatch, getState }: { rejectWithValue: any, dispatch: Dispatch<any>, getState: any }) => {
     try {
       const state = getState();
       const databaseName = selectDatabaseSelected({ database: state.database });

@@ -18,6 +18,7 @@ import {
  } from '@/domain/usecases/user-slice';
  import { selectLanguage } from '@/domain/usecases/setting-slice';
 import FormCreateUser from '@/app/[locale]/components/form/form-create-user/FormCreateUser';
+import FormUpdateRole from '@/app/[locale]/components/form/form-update-role/FormUpdateRole';
 
 export default function UserPage({
   params,
@@ -35,7 +36,9 @@ export default function UserPage({
   
   /* Local Data */
   const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState('');
   const [userNameToDelete, setUserNameToDelete] = useState('');
   const [searchValue, setSearchValue] = useState('');
 
@@ -81,7 +84,9 @@ export default function UserPage({
         setOpenDeleteModal(true);
         break;
       case 'edit':
-        setOpenCreateModal(true);
+        userName = users[index!].user
+        setCurrentUser(userName)
+        setOpenUpdateModal(true);
         break;
       case 'refresh':
         dispatch(fetchUsers());
@@ -104,7 +109,7 @@ export default function UserPage({
     <>
       <Title
         title={t('user.title')}
-        actions={['refresh', 'add', 'edit']}
+        actions={['refresh', 'add']}
         isViewSearch
         searchValue={searchValue}
         searchPlaceholder={t('user.searchPlaceholder')}
@@ -117,7 +122,7 @@ export default function UserPage({
         <Table
           data_header={dataHeader}
           data_body={dataBody}
-          actions={['trash']}
+          actions={['edit', 'trash']}
           onClick={(action, index) => handleClick(action, index)}
         />
       )}
@@ -128,9 +133,14 @@ export default function UserPage({
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
       />
-      <FormCreateUser 
+      <FormCreateUser
         open={openCreateModal}
         onClose={() => setOpenCreateModal(false)}
+      />
+      <FormUpdateRole
+        userName={currentUser}
+        open={openUpdateModal}
+        onClose={() => setOpenUpdateModal(false)}
       />
     </>
   )

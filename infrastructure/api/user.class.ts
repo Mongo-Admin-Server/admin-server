@@ -1,3 +1,4 @@
+import { GrantRole, RoleType } from "@/domain/entities/user-types";
 import { axios } from "./axios.class";
 
 class User {
@@ -10,6 +11,12 @@ class User {
     const response = await axios.post(`/user/${databaseName}`, { createUser, pwd, roles});
     return response.data;
   }
+
+  public async updateRole(databaseName: string, role: GrantRole) {
+    const response = await axios.put(`/user/${databaseName}`, role);
+
+    return response.data;
+  } 
 
   public async deleteUser(databaseName: string, user: string) {
     const response = await axios.delete(`/user/${databaseName}?userToDelete=${user}`);

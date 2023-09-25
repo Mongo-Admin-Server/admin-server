@@ -33,7 +33,8 @@
     "button": {
       "cancel": "Annuler",
       "confirm": "Confirmer",
-      "create": "Créer"
+      "create": "Créer",
+      "update": "Modifier"
     }
   },
   "database": {
@@ -54,11 +55,14 @@
   "user": {
     "title": "Utilisateurs",
     "create": "Créer un utilisateur",
+    "update": "Modifier un rôle",
     "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
     "deleteSuccess": "Utilisateur supprimée avec succès",
     "deleteError": "Erreur lors de la suppression de l'utilisateur",
     "createSuccess": "Utilisateur créée avec succès",
     "createError": "Erreur lors de la création de l'utilisateurs",
+    "updateSuccess": "Rôle mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du rôle",
     "createTitle": "Créer un utilisateur",
     "name": "Nom d'utilisateurs",
     "dababase": "Base de données",
@@ -111,8 +115,11 @@
   "role": {
     "read": "Lecture seule",
     "readWrite": "Lecture et écriture",
-    "dbAdmin": "Admin de base de données",
-    "dbOwner": "Propriétaire de base de données",
-    "userAdmin": "Admin d'utilisateur"
+    "dbAdmin": "Administrateur de base de données",
+    "dbOwner": "Propriétaire de la base de données",
+    "userAdmin": "Administrateur d'utilisateur",
+    "clusterAdmin": "Administrateur de cluster",
+    "backup": "Sauvegarde",
+    "root": "Superutilisateur"
   }
 }

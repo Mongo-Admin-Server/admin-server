@@ -4,13 +4,13 @@ export interface UserInterface {
   roles: Array<string>,    //"role": "read", "db": "admin"
 }
 
-type RoleType = {
+export type RoleType = {
   role: string,
   db: string
 };
 
 export type UserType = {
-  _id: string,
+  userId: string,
   user: string,
   db: string,
   roles: RoleType[],
@@ -22,9 +22,10 @@ export type UserState = {
   loading: boolean;
   error: string;
 }; 
+
 export interface GrantRole {
   grantRolesToUser: string,
-  roles: Array<string>    //"role": "read", "db": "admin"
+  roles: RoleType[]    //"role": "read", "db": "admin"
 }
 
 export interface RevokeRole {

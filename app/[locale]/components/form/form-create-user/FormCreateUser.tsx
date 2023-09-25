@@ -30,6 +30,9 @@ export default function FormCreateUser({
     { value: 'dbAdmin', label: t('role.dbAdmin'), },
     { value: 'dbOwner', label: t('role.dbOwner'), },
     { value: 'userAdmin', label: t('role.userAdmin'), },
+    { value: 'clusterAdmin', label: t('role.clusterAdmn')},
+    { value: 'backup', label: t('role.backup')},
+    { value: 'root', label: t('role.root')}
   ];
   /* Methods */
   const handleSubmit = async () => {
@@ -72,7 +75,7 @@ export default function FormCreateUser({
     dispatch(setErrorUser(''));
     setUser('');
   }, [open, dispatch])
-
+  
   return (
     <GenericModal
       open={open}
