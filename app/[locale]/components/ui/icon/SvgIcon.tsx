@@ -25,7 +25,7 @@ import Elipsis from '@/public/icons/elipsis.svg';
 import Import from '@/public/icons/import.svg';
 import Export from '@/public/icons/export.svg';
 
-interface IconTypes {
+export interface IconTypes {
   [key: string]: React.ComponentType<{
     fill?: string;
     className: string;

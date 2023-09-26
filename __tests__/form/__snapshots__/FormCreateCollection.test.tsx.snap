@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormCreateCollection renders 1`] = `
+<div>
+  <dialog
+    class="modal"
+  >
+    <section
+      class="modal__header"
+    >
+      <div
+        class="modal__header--icon"
+      >
+        <div
+          class="undefined pointer-cursor"
+        />
+      </div>
+      <h2>
+        Créer une collection
+      </h2>
+    </section>
+    <section
+      class="modal__container"
+    >
+      <form>
+        <div
+          class="input-container"
+        >
+          <label
+            class="label"
+          >
+            Nom de la collection
+          </label>
+          <input
+            class="input "
+            placeholder="Nom de la collection"
+            type="text"
+            value=""
+          />
+        </div>
+      </form>
+    </section>
+    <section
+      class="modal__footer"
+    >
+      <button
+        class="button full outline center"
+        type="button"
+      >
+        Annuler
+      </button>
+      <button
+        class="button full center"
+        disabled=""
+        type="submit"
+      >
+        Créer une collection
+      </button>
+    </section>
+  </dialog>
+</div>
+`;

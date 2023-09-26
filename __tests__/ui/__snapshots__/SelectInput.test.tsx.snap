@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectInput renders 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <label>
+      form Select
+    </label>
+    <select
+      class="select "
+    >
+      <option
+        disabled=""
+        value=""
+      >
+        Choisir
+      </option>
+      <option
+        value="fr"
+      >
+        Français
+      </option>
+      <option
+        value="en"
+      >
+        Anglais
+      </option>
+      <option
+        value="es"
+      >
+        Espagnol
+      </option>
+    </select>
+    <div
+      class="iconContainer"
+    >
+      <div
+        class="undefined "
+      />
+    </div>
+  </div>
+</div>
+`;

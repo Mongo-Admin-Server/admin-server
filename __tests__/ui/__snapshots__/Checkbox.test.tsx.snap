@@ -6,11 +6,11 @@ exports[`Checkbox renders 1`] = `
     class="container"
   >
     <label
-      class="label"
+      class="label undefined undefined checked"
     >
       <input
         checked=""
-        class="input "
+        class="input  undefined"
         type="checkbox"
       />
       form checkbox

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Generic Modal renders 1`] = `
+<div>
+  <dialog
+    class="modal"
+  >
+    <section
+      class="modal__header"
+    >
+      <div
+        class="modal__header--icon"
+      >
+        <div
+          class="undefined pointer-cursor"
+        />
+      </div>
+      <h2>
+        Title Generic Modal
+      </h2>
+    </section>
+    <section
+      class="modal__container"
+    />
+    <section
+      class="modal__footer"
+    >
+      <button
+        class="button full outline center"
+        type="button"
+      >
+        Annuler
+      </button>
+      <button
+        class="button full center"
+        type="button"
+      >
+        Confirmer
+      </button>
+    </section>
+  </dialog>
+</div>
+`;
