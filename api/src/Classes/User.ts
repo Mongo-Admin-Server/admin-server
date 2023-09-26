@@ -1,71 +1,59 @@
-import { Admin, Db, MongoClient, MongoServerError } from "mongodb";
 import { Instance } from "./Instance";
-import { GrantRole, RevokeRole, UserInterface } from '@/domain/entities/user-types';
+import { GrantRole, RevokeRole, RoleType } from '@/domain/entities/user-types';
 import { ApiError } from "./Errors/ApiError";
 
 export default class User{
-    public async getUsers(databaseName: string | string[] | undefined, connection_url: string) {
+    public async getUsers(connection_url: string) {
         const client = await Instance.connection(connection_url);
-        if(Array.isArray(databaseName) || databaseName === undefined){
-            throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
-        } else {
-            try {
-                const users = await client.db(databaseName).collection('system.users').find({}).toArray();
-                return users;
-            } catch(error) {
-                throw(error);
-            } 
+        try {
+            const users = await client.db('admin').collection('system.users').find({}).toArray();
+            const total = users.length;
+            return { users, total };
+        } catch(error) {
+            throw error;
+        } finally {
+            await client.close();
         }
     }
 
-    public async createUser(databaseName: string | string[] | undefined, user: UserInterface, connection_url:string) {
+    public async createUser(connection_url: string, username: string, password: string, roles: RoleType[]) {
         const client = await Instance.connection(connection_url);
-        if(Array.isArray(databaseName) || databaseName === undefined){
-            throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
-        } else if(user === undefined) {
-            throw new ApiError(400, 'query/invalid', 'the user is incorrect');
-        } else {
-            try {
-                const newUser = await client.db(databaseName).command(user);
-                return newUser;
-            } catch(error) {
-                throw(error);
-            }
+        try {
+            await client.db('admin').addUser(username, password, { roles });
+            return true;
+        } catch(error) {
+            throw error;
+        } finally {
+            await client.close();
         }
     }
 
-    public async grantRoles(databaseName: string | string[] | undefined, role: GrantRole, connection_url:string) {
+    public async grantRoles(username: string, role: RoleType[], connection_url:string) {
         const client = await Instance.connection(connection_url);
-        if(Array.isArray(databaseName) || databaseName === undefined){
-            throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
-        } else if(role === undefined) {
-            throw new ApiError(400, 'query/invalid', 'the role is incorrect');
-        } else {
-            try {
-                const roles = client.db(databaseName).command(role)
-                return roles;
-            } catch(error){
-                throw(error);
+        try {
+            const grandRole: GrantRole = {
+                grantRolesToUser: username,
+                roles: role
             }
+            await client.db('admin').command(grandRole);
+            return true;
+        } catch(error){
+            throw(error);
+        } finally {
+            await client.close();
         }
     }
 
-    public async deleteUser(databaseName: string | string[] | undefined, user: string | string[] | undefined, connection_url:string) {
+    public async deleteUser(username: string, connection_url:string) {
         const client = await Instance.connection(connection_url);
-        if(Array.isArray(databaseName) || databaseName === undefined){
-            throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
-        } else if(Array.isArray(user) || user === undefined) {
-            throw new ApiError(400, 'query/invalid', `the user ${user} name is incorrect`);
-        } else {
-            try {
-                const userToDrop = client.db(databaseName).command({
-                    dropUser: user
-                });
-                return userToDrop;
-            } catch(error) {
-                throw(error);
-            }
-        }        
+        try {
+            await client.db('admin').removeUser(username);
+            return true;
+        } catch(error) {
+            throw error;
+        } finally {
+            await client.close();
+        }     
     }
 
     public async deleteRole(databaseName: string | string[] | undefined, role: RevokeRole, connection_url:string) {

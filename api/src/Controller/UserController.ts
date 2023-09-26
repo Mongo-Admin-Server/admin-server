@@ -1,44 +1,27 @@
-import { NextApiResponse, NextApiRequest } from "next";
+import { NextApiResponse } from "next";
 import User from "../Classes/User";
-import { GrantRole, RevokeRole, UserInterface } from "@/domain/entities/user-types";
-import { ApiError } from "../Classes/Errors/ApiError";
+import { RevokeRole, RoleType } from "@/domain/entities/user-types";
 import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 
 export class UserController{
-    public async getUsers(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined){
-        const { connection_url } = request.headers
-        const users = await new User().getUsers(databaseName, connection_url);
-        if(!users && !databaseName)
-            response.status(404).json('error');
-        else
-            response.status(200).json(users);
+    public async getUsers(connection_url: string) {
+        const { users, total } = await new User().getUsers(connection_url);
+        return { users, total };
     }
 
-    public async createUser(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, newUser: UserInterface){
-        const { connection_url } = request.headers
-        const user = await new User().createUser(databaseName, newUser, connection_url);
-        if(!user)
-            response.status(404).json('error');
-        else
-            response.status(200).json(user);
+    public async createUser(connection_url: string, username: string, password: string, roles: RoleType[]){
+        const created = await new User().createUser(connection_url, username, password, roles);
+        return created;
     }
 
-    public async grantRoles(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, role: GrantRole){
-        const { connection_url } = request.headers
-        const rolesToGrant = await new User().grantRoles(databaseName, role, connection_url);
-        if(!rolesToGrant)
-            response.status(404).json('error');
-        else
-            response.status(200).json(rolesToGrant);
+    public async grantRoles(connection_url: string, username: string, role: RoleType[]){
+        const rolesToGrant = await new User().grantRoles(username, role, connection_url);
+        return rolesToGrant;
     }
 
-    public async deleteUser(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, user: string| string[] | undefined) {
-        const { connection_url } = request.headers
-        const userToDelete = await new User().deleteUser(databaseName, user, connection_url);
-        if(!userToDelete)
-            response.status(404).json('error');
-        else
-            response.status(200).json(userToDelete);
+    public async deleteUser(connection_url: string, username: string) {
+        const deleted = await new User().deleteUser(username, connection_url);
+        return deleted;
     }
 
     public async deleteRole(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, role: RevokeRole) {
