@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import GenericModal from '@components/modal/generic/GenericModal';
-import GenericInput from '../../ui/inputs/generic/GenericInput';
-import SelectInput from '../../ui/inputs/select/SelectInput';
+import GenericInput from '@components/ui/inputs/generic/GenericInput';
+import SelectInput from '@components/ui/inputs/select/SelectInput';
 import style from "./form-update-role.module.scss";
 
 import { useDispatch, useSelector } from '@/store/store';
