@@ -1,14 +1,17 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import Table from "@components/ui/table/Table";
 import TableSkeleton from "@components/ui/skeleton/table/TableSkeleton";
 import Title from "@components/title/Title";
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+import FormCreateUser from '@/app/[locale]/components/form/form-create-user/FormCreateUser';
+import FormUpdateRole from '@/app/[locale]/components/form/form-update-role/FormUpdateRole';
 
 import { useSelector, useDispatch } from '@/store/store';
+import { selectLanguage } from '@/domain/usecases/setting-slice';
 import { 
   selectUsers,
   fetchUsers, 
@@ -16,9 +19,7 @@ import {
   setUserSelected,
   deleteUser
  } from '@/domain/usecases/user-slice';
- import { selectLanguage } from '@/domain/usecases/setting-slice';
-import FormCreateUser from '@/app/[locale]/components/form/form-create-user/FormCreateUser';
-import FormUpdateRole from '@/app/[locale]/components/form/form-update-role/FormUpdateRole';
+import { UserType } from '@/domain/entities/user-types';
 
 export default function UserPage({
   params,
@@ -38,7 +39,7 @@ export default function UserPage({
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState<UserType>();
   const [userNameToDelete, setUserNameToDelete] = useState('');
   const [searchValue, setSearchValue] = useState('');
 
@@ -60,16 +61,20 @@ export default function UserPage({
       const mappedData: Record<string, React.ReactNode> = {};
 
       mappedData[t('user.name')] = (
-        <Link href={`/${language}/dashboard/user`}>
+        <Link href={`/${language}/dashboard/${params.database_name}/${user.user}`}
+          onClick={() =>
+            dispatch(setUserSelected(user.user))
+          }
+        >
           {user.user}
         </Link>
       );
-      mappedData[t('user.database')] = user.db;
-      mappedData[t('user.role')] = user.roles.map(role => role.role);
+      mappedData[t('user.database')] = user.roles.map(role => role.db ).join(' - ');
+      mappedData[t('user.role')] = user.roles.map(role => role.role ).join(' - ');
     
       return mappedData;
     });
-  }, [usersFiltered, language, t]); 
+  }, [usersFiltered, dispatch, language, params.database_name, t]); 
   
   /* Methods */
   const handleClick = (action: string, index?: number) => {
@@ -84,7 +89,7 @@ export default function UserPage({
         setOpenDeleteModal(true);
         break;
       case 'edit':
-        userName = users[index!].user
+        userName = users[index!]
         setCurrentUser(userName)
         setOpenUpdateModal(true);
         break;
@@ -137,11 +142,13 @@ export default function UserPage({
         open={openCreateModal}
         onClose={() => setOpenCreateModal(false)}
       />
-      <FormUpdateRole
-        userName={currentUser}
-        open={openUpdateModal}
-        onClose={() => setOpenUpdateModal(false)}
-      />
+      {currentUser && (
+        <FormUpdateRole
+          userName={currentUser}
+          open={openUpdateModal}
+          onClose={() => setOpenUpdateModal(false)}
+        />
+      )}
     </>
   )
 }

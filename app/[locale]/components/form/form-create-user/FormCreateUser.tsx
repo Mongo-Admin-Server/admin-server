@@ -1,14 +1,16 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import GenericInput from '@components/ui/inputs/generic/GenericInput';
 import GenericModal from '@components/modal/generic/GenericModal';
+import SelectInput from '@components/ui/inputs/select/SelectInput';
+import style from "./form-create-user.module.scss";
 
 import { useDispatch, useSelector } from '@/store/store';
 import { postUser, setErrorUser, selectError } from '@/domain/usecases/user-slice';
-import SelectInput from '../../ui/inputs/select/SelectInput';
-import style from "./form-create-user.module.scss";
+import { RoleType } from '@/domain/entities/user-types';
 
 interface CreateUserModalProps {
   open: boolean;
@@ -30,17 +32,21 @@ export default function FormCreateUser({
     { value: 'dbAdmin', label: t('role.dbAdmin'), },
     { value: 'dbOwner', label: t('role.dbOwner'), },
     { value: 'userAdmin', label: t('role.userAdmin'), },
-    { value: 'clusterAdmin', label: t('role.clusterAdmn')},
+    { value: 'clusterAdmin', label: t('role.clusterAdmin')},
     { value: 'backup', label: t('role.backup')},
     { value: 'root', label: t('role.root')}
   ];
   /* Methods */
   const handleSubmit = async () => {
+    setRoles([{
+      role,
+      db: databaseName
+    }])
     if (!errorInput && userName.trim() !== '') {
       dispatch(postUser({
-        createUser: userName,
-        pwd: password,
-        roles: roles,
+        username: userName,
+        password: password,
+        roles: roles
       })).then((result) => {
         if (result.meta.requestStatus === 'fulfilled') onClose();
       }); 
@@ -49,7 +55,7 @@ export default function FormCreateUser({
   
   const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newUserName = event.target.value;
-    setUser(newUserName);
+    setUserName(newUserName);
 
     if (newUserName.includes(' ')) {
       setErrorInput(t('formCreateCollection.spacesNotAllowedErrorMessage'))
@@ -59,21 +65,21 @@ export default function FormCreateUser({
     }
   };
 
-  const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-    setRoles([selectedValue]); 
-  };
   /* Local Data */
-  const [userName, setUser] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [roles, setRoles] = useState<string[]>([]);
+  const [databaseName, setDatabaseName] = useState<string>('');
+  const [role, setRole] = useState<string>('');
+  const [roles, setRoles] = useState<RoleType[]>([]);
   const [errorInput, setErrorInput] = useState<string>('');
   const isSubmitButtonDisabled = errorInput !== '' || userName.trim() === '' || errorSelector !== '' ;
   const errors = errorInput || errorSelector;
 
   useEffect(() => {
     dispatch(setErrorUser(''));
-    setUser('');
+    setUserName('');
+    setPassword('');
+    setDatabaseName('')
   }, [open, dispatch])
   
   return (
@@ -102,11 +108,18 @@ export default function FormCreateUser({
           placeholder={t('user.password')}
           onChange={(event) => setPassword(event.target.value)}
         />
+        <GenericInput
+          type="text"
+          label={t('user.database')}
+          value={databaseName}
+          placeholder={t('user.database')}
+          onChange={(event) => setDatabaseName(event.target.value)}
+        />
         <SelectInput
           label={t('user.role')}
           options={optionsRoles}
-          value={roles} 
-          onChange={handleRoleChange}
+          value={role} 
+          onChange={(event) => setRole(event.target.value)}
         />
       </form>
     </GenericModal>

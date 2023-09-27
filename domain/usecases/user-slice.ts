@@ -8,7 +8,7 @@ import {
 } 
 from "@reduxjs/toolkit";
 
-import { GrantRole, RoleType, UserState } from "../entities/user-types";
+import { RoleType, UserState } from "../entities/user-types";
 import eventEmitter from '@/shared/emitter/events';
 
 import * as Api from "@/infrastructure";
@@ -58,7 +58,8 @@ export const userSlice = createSlice({
     });
     builder.addCase(postUser.rejected, (state, action: any) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'error', message: 'user.createError' });
     });
     builder.addCase(updateRole.pending, (state) => {
       state.loading = true;
@@ -102,7 +103,7 @@ export const fetchUsers = createAsyncThunk(
   async (_, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
       const response = await Api.user.getUsers();
-      return response;
+      return response.users;
     } catch (error) {
       console.error("Erreur lors du fetch user : ", error);
       return rejectWithValue("Couldn't get user");
@@ -112,13 +113,10 @@ export const fetchUsers = createAsyncThunk(
 
 export const postUser = createAsyncThunk(
   "user/postUser",
-  async(params: { createUser: string, pwd: string, roles: string[]},
-    { rejectWithValue, dispatch, getState }: { rejectWithValue: any, dispatch: Dispatch<any>, getState: any }) => {
+  async(params: { username: string, password: string, roles: RoleType[]},
+    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) => {
       try {
-        const state = getState();
-        const databaseName = selectDatabaseSelected({ database: state.database });
-
-        await Api.user.postUser(databaseName, params.createUser, params.pwd, params.roles);
+        await Api.user.postUser(params.username, params.password, params.roles);
         dispatch(fetchUsers());
       } catch (error: any) {
         if (error.response.status === 409) {
@@ -132,18 +130,10 @@ export const postUser = createAsyncThunk(
 
 export const updateRole = createAsyncThunk(
   "user/updateRole",
-  async( role: GrantRole, 
-    { rejectWithValue, dispatch, getState }: { rejectWithValue: any, dispatch: Dispatch<any>, getState: any }) => {
+  async(params: {username: string, roles: RoleType[]}, 
+    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) => {
       try {
-        const state = getState();
-        const databaseName = selectDatabaseSelected({ database: state.database });
-    
-          role.grantRolesToUser = databaseName;
-          role.roles.map((role) => {
-            role.db = databaseName, 
-            role.role
-          })
-        await Api.user.updateRole(databaseName, role)
+        await Api.user.updateRole(params.username, params.roles)
         dispatch(fetchUsers())
       } catch (error) {
         console.error('Erreur lors de la modification', error);
@@ -154,12 +144,10 @@ export const updateRole = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   "user/deleteUser",
-  async( user: string , 
-    { rejectWithValue, dispatch, getState }: { rejectWithValue: any, dispatch: Dispatch<any>, getState: any }) => {
+  async( username: string , 
+    { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) => {
     try {
-      const state = getState();
-      const databaseName = selectDatabaseSelected({ database: state.database });
-      await Api.user.deleteUser(databaseName, user);
+      await Api.user.deleteUser(username);
       dispatch(fetchUsers())
     } catch (error) {
       console.error('Erreur lors de la suppression', error);

@@ -1,16 +1,19 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import GenericModal from '@components/modal/generic/GenericModal';
+import GenericInput from '../../ui/inputs/generic/GenericInput';
+import SelectInput from '../../ui/inputs/select/SelectInput';
+import style from "./form-update-role.module.scss";
 
 import { useDispatch, useSelector } from '@/store/store';
-import { updateRole, setErrorUser, selectError, selectUserSelected} from '@/domain/usecases/user-slice';
-import SelectInput from '../../ui/inputs/select/SelectInput';
-import { RoleType } from '@/domain/entities/user-types';
+import { updateRole, setErrorUser, selectError } from '@/domain/usecases/user-slice';
+import { RoleType, UserType } from '@/domain/entities/user-types';
 
 interface UpdateRoleModalProps {
-  userName: string,
+  userName: UserType,
   open: boolean;
   onClose: () => void;
 }
@@ -31,27 +34,35 @@ export default function FormUpdateRole({
     { value: 'dbAdmin', label: t('role.dbAdmin'), },
     { value: 'dbOwner', label: t('role.dbOwner'), },
     { value: 'userAdmin', label: t('role.userAdmin'), },
-    { value: 'clusterAdmin', label: t('role.clusterAdmn')},
+    { value: 'clusterAdmin', label: t('role.clusterAdmin')},
     { value: 'backup', label: t('role.backup')},
     { value: 'root', label: t('role.root')}
   ];
   /* Methods */
-  const handleSubmit = async () => {}
-  
-  const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-    setRoles(selectedValue); 
-  };
+  const handleSubmit = async () => {
+    setUpdateRoles([{
+      role,
+      db: databaseName
+    }]);
+    if (userName.user) {
+      dispatch(updateRole({
+        username: userName.user,
+        roles: updateRoles
+      })).then((result) => {
+        if (result.meta.requestStatus === 'fulfilled') onClose();
+      }); 
+    }
+  }
   /* Local Data */
-
-  const [roles, setRoles] = useState<string>('');
-  const [errorInput, setErrorInput] = useState<string>('');
-  const errors = errorInput || errorSelector;
+  const [role, setRole] = useState<string>('');
+  const [databaseName, setDatabaseName] = useState<string>(userName.db);
+  const [updateRoles, setUpdateRoles] = useState<RoleType[]>([]);
+  const errors = errorSelector;
 
   useEffect(() => {
     dispatch(setErrorUser(''));
   }, [open, dispatch])
-  
+
   return (
     <GenericModal
       open={open}
@@ -61,12 +72,20 @@ export default function FormUpdateRole({
       typeButton='submit'
       onValidate={handleSubmit}
     >
-      <form>
+      <form className={style['form-update-role']}>
+        <GenericInput
+          type="text"
+          label={t('user.database')}
+          value={databaseName}
+          placeholder={t('user.database')}
+          error={errors}
+          onChange={(event) => setDatabaseName(event.target.value)}
+        />
         <SelectInput
           label={t('user.role')}
           options={optionsRoles}
-          value={roles} 
-          onChange={handleRoleChange}
+          value={role} 
+          onChange={(event) => setRole(event.target.value)}
         />
       </form>
     </GenericModal>
