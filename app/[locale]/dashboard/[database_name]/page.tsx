@@ -8,6 +8,8 @@ import Title from '@components/title/Title';
 import Table from '@components/ui/table/Table';
 import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
+import ExportModal from '@components/modal/export/ExportModal';
 
 import { useDispatch, useSelector } from '@/store/store';
 import {
@@ -20,8 +22,6 @@ import {
 } from '@/domain/usecases/collection-slice';
 import { selectLanguage } from '@/domain/usecases/setting-slice';
 
-import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
-import ExportModal from '../../components/modal/export/ExportModal';
 
 export default function CollectionsPage({
   params,
@@ -124,7 +124,7 @@ export default function CollectionsPage({
     setOpenDeleteModal(false);
   }
 
-  const handleExport = (format: 'csv' | 'json') => {
+  const handleExport = async (format: 'csv' | 'json') => {
     dispatch(
       exportCollections({
         databaseName: params.database_name,
@@ -133,7 +133,7 @@ export default function CollectionsPage({
       })
     );
     setOpenExportModal(false);
-  }
+  };
 
   return (
     <>
@@ -165,12 +165,11 @@ export default function CollectionsPage({
         onClose={() => setOpenDeleteModal(false)}
       />
       
-      <ExportModal 
+      <ExportModal
         open={openExportModal}
-        title={t('modal.export.title')}
         description={t('modal.export.description')}
         onClose={() => setOpenExportModal(false)}
-        onExport={handleExport}
+        onValidate={handleExport}
       />
     
       <FormCreateCollection

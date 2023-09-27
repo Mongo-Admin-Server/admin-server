@@ -108,7 +108,7 @@ export default function DocumentsPage({
     setOpenDeleteModal(false);
   };
 
-  const handleExport = (format: 'csv' | 'json') => {
+  const handleExport = async (format: 'csv' | 'json') => {
     const { database_name, collection_name, filename } = params;
     dispatch(
       exportDocuments({
@@ -197,12 +197,11 @@ export default function DocumentsPage({
         onClose={() => setOpenDeleteModal(false)}
       />
 
-      <ExportModal 
+      <ExportModal
         open={openExportModal}
-        title={'modal.export.title'}
         description={t('modal.export.description')}
         onClose={() => setOpenExportModal(false)}
-        onExport={handleExport}
+        onValidate={handleExport}
       />
 
       <DocumentModal
