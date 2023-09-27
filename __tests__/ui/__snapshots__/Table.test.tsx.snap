@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table renders 1`] = `
+<div>
+  <div
+    class="tableContainer scrollable  "
+  >
+    <table
+      class="table"
+    >
+      <thead
+        class="header"
+      >
+        <tr>
+          <th
+            class="title"
+          >
+            Mock title
+          </th>
+          <th
+            class="title"
+          >
+            Mock sub tile
+          </th>
+          <th
+            class="title"
+          />
+        </tr>
+      </thead>
+      <tbody
+        class="body"
+      >
+        <tr>
+          <td />
+          <td />
+          <td
+            class="actions"
+          >
+            <div
+              class="undefined pointer-cursor"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td />
+          <td />
+          <td
+            class="actions"
+          >
+            <div
+              class="undefined pointer-cursor"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

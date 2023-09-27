@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title renders 1`] = `
+<div>
+  <section
+    class="title-container"
+  >
+    <div
+      class="title-container__header"
+    >
+      <h1
+        class="title-container__title"
+      >
+        Mock Title
+      </h1>
+    </div>
+    <div
+      class="title-container__buttons"
+    >
+      <div
+        class="input-container search-input"
+      >
+        <input
+          class="input "
+          placeholder="Mock placeholder"
+          type="text"
+          value="Rearch value"
+        />
+      </div>
+      <button
+        class="button small outline center"
+        type="button"
+      >
+        <div
+          class="undefined "
+        />
+      </button>
+      <button
+        class="button small outline center"
+        type="button"
+      >
+        <div
+          class="undefined "
+        />
+      </button>
+    </div>
+  </section>
+</div>
+`;
