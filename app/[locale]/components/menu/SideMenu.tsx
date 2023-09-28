@@ -28,7 +28,6 @@ import {
 } from '@/domain/usecases/collection-slice';
 import { setTheme, selectTheme, selectLanguage } from '@/domain/usecases/setting-slice';
 import { setIsLogged } from '@/domain/usecases/auth-slice';
-import { database } from '@/infrastructure';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
@@ -134,14 +133,14 @@ const SideMenu = () => {
           >
             {t('menuSideBar.setting')}
           </GenericButton>
-          {displayUser && <GenericButton
+          <GenericButton
             icon_name="user"
             padding="0 20px"
             transparent
             onClick={handleShowListUsers}
           >
             {t('menuSideBar.user')}
-          </GenericButton>}
+          </GenericButton>
 
           <GenericButton
             icon_name="logout"

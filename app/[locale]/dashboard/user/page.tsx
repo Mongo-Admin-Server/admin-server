@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import Table from "@components/ui/table/Table";
 import TableSkeleton from "@components/ui/skeleton/table/TableSkeleton";
@@ -11,21 +10,15 @@ import FormCreateUser from '@/app/[locale]/components/form/form-create-user/Form
 import FormUpdateRole from '@/app/[locale]/components/form/form-update-role/FormUpdateRole';
 
 import { useSelector, useDispatch } from '@/store/store';
-import { selectLanguage } from '@/domain/usecases/setting-slice';
 import { 
   selectUsers,
   fetchUsers, 
   selectLoading, 
-  setUserSelected,
   deleteUser
  } from '@/domain/usecases/user-slice';
 import { UserType } from '@/domain/entities/user-types';
 
-export default function UserPage({
-  params,
-}: {
-  params: { database_name: string }
-}) {
+export default function UserPage() {
   /* Static Data */
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -45,7 +38,6 @@ export default function UserPage({
 
   const users = useSelector(selectUsers);
   const loading = useSelector(selectLoading);
-  const language = useSelector(selectLanguage);
   
   useEffect(() => {
     dispatch(fetchUsers());
@@ -60,37 +52,29 @@ export default function UserPage({
     return usersFiltered.map((user) => {
       const mappedData: Record<string, React.ReactNode> = {};
 
-      mappedData[t('user.name')] = (
-        <Link href={`/${language}/dashboard/${params.database_name}/${user.user}`}
-          onClick={() =>
-            dispatch(setUserSelected(user.user))
-          }
-        >
-          {user.user}
-        </Link>
-      );
-      mappedData[t('user.database')] = user.roles.map(role => role.db ).join(' - ');
+      mappedData[t('user.name')] = user.user
+      mappedData[t('user.database')] = user.db
       mappedData[t('user.role')] = user.roles.map(role => role.role ).join(' - ');
     
       return mappedData;
     });
-  }, [usersFiltered, dispatch, language, params.database_name, t]); 
+  }, [usersFiltered, t]); 
   
   /* Methods */
   const handleClick = (action: string, index?: number) => {
-    let userName;
+    let userData;
     switch (action) {
       case 'add':
         setOpenCreateModal(true);
         break;
       case 'trash':
-        userName = users[index!].user
-        setUserNameToDelete(userName)
+        userData = users[index!].user
+        setUserNameToDelete(userData)
         setOpenDeleteModal(true);
         break;
       case 'edit':
-        userName = users[index!]
-        setCurrentUser(userName)
+        userData = users[index!]
+        setCurrentUser(userData)
         setOpenUpdateModal(true);
         break;
       case 'refresh':
@@ -144,7 +128,7 @@ export default function UserPage({
       />
       {currentUser && (
         <FormUpdateRole
-          userName={currentUser}
+          userData={currentUser}
           open={openUpdateModal}
           onClose={() => setOpenUpdateModal(false)}
         />

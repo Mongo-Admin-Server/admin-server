@@ -43,7 +43,7 @@ export default function FormCreateUser({
       db: databaseName
     }])
     if (!errorInput && userName.trim() !== '') {
-      dispatch(postUser({
+      await dispatch(postUser({
         username: userName,
         password: password,
         roles: roles

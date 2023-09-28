@@ -13,13 +13,13 @@ import { updateRole, setErrorUser, selectError } from '@/domain/usecases/user-sl
 import { RoleType, UserType } from '@/domain/entities/user-types';
 
 interface UpdateRoleModalProps {
-  userName: UserType,
+  userData: UserType,
   open: boolean;
   onClose: () => void;
 }
 
 export default function FormUpdateRole({
-  userName,
+  userData,
   open,
   onClose,
 }: UpdateRoleModalProps) {
@@ -44,9 +44,9 @@ export default function FormUpdateRole({
       role,
       db: databaseName
     }]);
-    if (userName.user) {
-      dispatch(updateRole({
-        username: userName.user,
+    if (userData.user) {
+      await dispatch(updateRole({
+        username: userData.user,
         roles: updateRoles
       })).then((result) => {
         if (result.meta.requestStatus === 'fulfilled') onClose();
@@ -55,12 +55,14 @@ export default function FormUpdateRole({
   }
   /* Local Data */
   const [role, setRole] = useState<string>('');
-  const [databaseName, setDatabaseName] = useState<string>(userName.db);
+  const [databaseName, setDatabaseName] = useState<string>('');
   const [updateRoles, setUpdateRoles] = useState<RoleType[]>([]);
   const errors = errorSelector;
 
   useEffect(() => {
     dispatch(setErrorUser(''));
+    setRole('')
+    setDatabaseName('')
   }, [open, dispatch])
 
   return (

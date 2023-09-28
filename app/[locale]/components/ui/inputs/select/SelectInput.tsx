@@ -1,5 +1,4 @@
 import styles from './select.module.scss';
-import { RoleType } from '@/domain/entities/user-types';
 import SvgIcon from '@/app/[locale]/components/ui/icon/SvgIcon';
 
 interface SelectInputProps {
