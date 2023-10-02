@@ -35,6 +35,12 @@
       "confirm": "Confirmer",
       "create": "Créer",
       "update": "Modifier"
+    },
+    "export":{
+      "title": "Export",
+      "description": "Veuillez choisir le format dans lequel vous souhaitez exporter !",
+      "json": "JSON",
+      "csv": "CSV"
     }
   },
   "database": {
@@ -84,7 +90,9 @@
     "deleteError": "Erreur lors de la suppression de la collection",
     "createSuccess": "Collection créée avec succès",
     "createError": "Erreur lors de la création de la collection",
-    "searchPlaceholder": "Rechercher une collection"
+    "searchPlaceholder": "Rechercher une collection",
+    "exportConfirm": "Voulez vous exporter ces collections ?",
+    "exportSuccess": "Collections exportées avec succès"
   },
   "formCreateCollection": {
     "title": "Créer une collection",
@@ -102,7 +110,9 @@
     "createError": "Erreur lors de la création du document",
     "createTitle": "Créer un document",
     "updateTitle": "Mettre à jour le document",
-    "searchError": "Le format de recherche n'est pas correct"
+    "searchError": "Le format de recherche n'est pas correct",
+    "exportConfirm": "Voulez vous exporter ces documents ?",
+    "exportSuccess": "Documents exportée avec succès"
   },
   "pagination": {
     "jumpTo": "Aller à la page"

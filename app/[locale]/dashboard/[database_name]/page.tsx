@@ -8,6 +8,8 @@ import Title from '@components/title/Title';
 import Table from '@components/ui/table/Table';
 import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
+import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
+import ExportModal from '@components/modal/export/ExportModal';
 
 import { useDispatch, useSelector } from '@/store/store';
 import {
@@ -15,16 +17,16 @@ import {
   selectCollectionByDatabase,
   selectLoadingCollection,
   setCollectionSelected,
-  deleteCollectionByName
+  deleteCollectionByName,
+  exportCollections
 } from '@/domain/usecases/collection-slice';
 import { selectLanguage } from '@/domain/usecases/setting-slice';
 
-import FormCreateCollection from '@components/form/form-create-collection/FormCreateCollection';
 
 export default function CollectionsPage({
   params,
 }: {
-  params: { database_name: string };
+  params: { database_name: string, fileName: string, extension: string };
 }) {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -38,6 +40,7 @@ export default function CollectionsPage({
   const [collectionNameToDelete, setCollectionNameToDelete] = useState('');
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [openExportModal, setOpenExportModal] = useState(false);
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
@@ -98,6 +101,12 @@ export default function CollectionsPage({
         case 'refresh':
           dispatch(fetchCollectionByDatabase(params.database_name));
           break;
+          case 'import':
+          console.log('Import');
+          break;
+          case 'export':
+          setOpenExportModal(true);
+          break;
         default:
           break;
       }
@@ -115,11 +124,22 @@ export default function CollectionsPage({
     setOpenDeleteModal(false);
   }
 
+  const handleExport = async (format: 'csv' | 'json') => {
+    dispatch(
+      exportCollections({
+        databaseName: params.database_name,
+        fileName: params.fileName,
+        extension: format,
+      })
+    );
+    setOpenExportModal(false);
+  };
+
   return (
     <>
       <Title
         title={t('collection.title')}
-        actions={['refresh', 'add']}
+        actions={['refresh','import','export','add']}
         isViewSearch
         searchValue={searchValue}
         searchPlaceholder={t('collection.searchPlaceholder')}
@@ -144,6 +164,14 @@ export default function CollectionsPage({
         onConfirm={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
       />
+      
+      <ExportModal
+        open={openExportModal}
+        description={t('modal.export.description')}
+        onClose={() => setOpenExportModal(false)}
+        onValidate={handleExport}
+      />
+    
       <FormCreateCollection
         open={openCreateModal}
         onClose={() => setOpenCreateModal(false)} 
