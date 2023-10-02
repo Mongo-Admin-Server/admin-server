@@ -94,6 +94,19 @@ export const documentSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+    builder.addCase(exportDocuments.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(exportDocuments.fulfilled, (state) => {
+      state.loading = false;
+      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'document.exportSuccess' });
+    });
+    builder.addCase(exportDocuments.rejected, (state) => {
+      state.loading = false;
+      eventEmitter.dispatch('alert', { type: 'error', message: 'document.deleteError' });
+    });
   }
 });
 
@@ -196,6 +209,17 @@ export const updateDocument = createAsyncThunk(
   }
 );
 
+export const exportDocuments = createAsyncThunk(
+  "document/exportDocuments",
+  async (params: {databaseName: string; collectionName: string; fileName: string; extension: string}, { rejectWithValue }: { rejectWithValue: any }) => {
+    try {
+      const response = await Api.document.exportDocuments(params.databaseName, params.collectionName, params.fileName, params.extension);
+      return response;  
+    } catch (error) {
+        console.error('Erreur lors de l\'export :', error);
+      }
+  }
+)
 export const selectDocument = (state: { document: DocumentState }) => state.document;
 
 export const selectLoadingDocument = createSelector(

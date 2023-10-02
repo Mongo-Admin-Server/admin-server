@@ -78,6 +78,20 @@ export const collectionSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+    builder.addCase(exportCollections.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(exportCollections.fulfilled, (state) => {
+      state.loading = false;
+      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'collection.exportSuccess' });
+    })
+    builder.addCase(exportCollections.rejected, (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+
   },
 });
 
@@ -133,6 +147,18 @@ export const postCollectionByName = createAsyncThunk(
     }
   }
 );
+export const exportCollections = createAsyncThunk(
+  "collection/exportCollections",
+  async (params: {databaseName: string; fileName: string; extension: string}, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
+    try {
+     await Api.collection.exportCollections(params.databaseName, params.fileName, params.extension);
+     dispatch(fetchCollectionByDatabase(params.databaseName));  
+    }catch(error) {
+      console.error('Erreur lors de la suppression', error);
+      return rejectWithValue('Couldn\'t export collections');
+    }
+  }
+); 
 
 const selectCollection = (state: { collection: CollectionState }) => state.collection;
 

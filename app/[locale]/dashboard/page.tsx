@@ -82,12 +82,6 @@ export default function DashboardPage() {
       case 'refresh':
         dispatch(fetchAllDatabase());
         break;
-      case 'import':
-        console.log('Import');
-        break;
-      case 'export':
-        console.log('Export');
-        break;
       default:
         break;
     }
@@ -104,7 +98,7 @@ export default function DashboardPage() {
     <>
       <Title
         title={t('database.title')}
-        actions={['refresh', 'import', 'export', 'add']}
+        actions={['refresh', 'add']}
         isViewSearch
         searchValue={searchValue}
         searchPlaceholder={t('database.searchPlaceholder')}
