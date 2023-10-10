@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination renders 1`] = `
+<div>
+  <section
+    class="pagination"
+  >
+    <div
+      class="container"
+    >
+      <label />
+      <select
+        class="select "
+      >
+        <option
+          disabled=""
+          value=""
+        >
+          Choisir
+        </option>
+        <option
+          value="10"
+        >
+          10
+        </option>
+        <option
+          value="50"
+        >
+          50
+        </option>
+        <option
+          value="100"
+        >
+          100
+        </option>
+        <option
+          value="200"
+        >
+          200
+        </option>
+      </select>
+      <div
+        class="iconContainer"
+      >
+        <div
+          class="undefined "
+        />
+      </div>
+    </div>
+    <div
+      class="pagination__pages"
+    >
+      <button
+        class="button full transparent"
+        disabled=""
+        type="button"
+      >
+        <div
+          class="icon "
+        />
+      </button>
+      <ul
+        class="pagination-item"
+      >
+        <li
+          aria-current="true"
+          class="pagination-item__number active"
+        >
+          1
+        </li>
+      </ul>
+      <button
+        class="button full transparent"
+        disabled=""
+        type="button"
+      >
+        <div
+          class="icon "
+        />
+      </button>
+    </div>
+    <div
+      class="pagination__jump"
+    >
+      Aller à la page
+      <div
+        class="input-container"
+      >
+        <input
+          class="input "
+          type="number"
+          value="1"
+        />
+      </div>
+    </div>
+  </section>
+</div>
+`;
