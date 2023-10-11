@@ -1,4 +1,4 @@
-name: publish NPM Package
+name: publish Docker container
 
 on:
   push:
@@ -25,7 +25,14 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Publish
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Checkout code
+      uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t mongo-admin-server .
+
+      - name: Log in to Docker registry
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker image
+        run: docker push mongo-admin-server
