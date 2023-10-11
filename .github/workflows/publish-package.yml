@@ -3,7 +3,7 @@ name: CI/CD for publish NPM Package
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
