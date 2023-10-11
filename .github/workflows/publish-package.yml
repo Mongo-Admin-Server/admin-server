@@ -3,7 +3,7 @@ name: CI/CD for publish NPM Package
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -22,10 +22,9 @@ jobs:
         run: npm run build
 
       - name: Test
-        run: npm test 
+        run: npm test
 
       - name: Publish
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
