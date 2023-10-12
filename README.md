@@ -32,6 +32,12 @@ You can either install the Npm package
 ```sh
 npm i mongo-admin-server
 ```
+or use the docker image
+* docker
+
+```sh
+docker pull rouan1/mongo-admin-server
+```
 ## Authors
 
 * [Louis POUPAT](https://github.com/LePetitLouis)
