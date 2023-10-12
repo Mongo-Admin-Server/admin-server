@@ -21,21 +21,21 @@
 
 ## Built With
 
----
-
 * Typescript
 * NextJS
 * Docker
 * 
 ## Getting Started
+You can either install the Npm package
+* npm
 
-
+```sh
+npm i mongo-admin-server
+```
 ## Authors
 
----
-
-* [Louis POUPAT](https://github.com/awuzi)
-* [Féret JOCELIN](https://github.com/awuzi)
-* [Kankou CONTE](https://github.com/JESSYV96)
-* [Rouan LAPORAL](https://github.com/awuzi)
+* [Louis POUPAT](https://github.com/LePetitLouis)
+* [Féret JOCELIN]()
+* [Kankou CONTE]()
+* [Rouan LAPORAL](https://github.com/RouanLaporal)
 
