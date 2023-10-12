@@ -1,6 +1,15 @@
-<p align="center" width="100%"><img width="33%" src="logo.png"></p>
-Mongo Admin Server is a Service as a service that allow you to ongoing management of MongoDB databases as an NPM package or via a Docker image.
-
+<br/>
+<p align="center" width="100%">
+  <a href="https://github.com/Mongo-Admin-Server/mongo-admin-server">
+    <img width="33%" src="logo.png">
+    <h1 align="center"> Mongo Admin Server</h1>
+  </a>
+</p>
+<p align="center">
+  Mongo Admin Server is a Service as a service that allow you to ongoing management of MongoDB databases as an NPM package or via a Docker image.
+  </br>
+  </br>
+</p>
 ## Getting Started
 
 First, run the development server:
