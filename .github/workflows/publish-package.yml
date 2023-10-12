@@ -25,10 +25,7 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Go to Standalone
-        run: cd ./.next/standalone
-
       - name: Publish
-        run: npm publish --access public
+        run: npm publish ./.next/standalone --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
