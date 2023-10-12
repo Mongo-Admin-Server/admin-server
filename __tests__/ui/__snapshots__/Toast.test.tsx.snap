@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormCreateDB renders 1`] = `
+<div>
+  <div
+    class="toast toast--open toast--success"
+    role="alert"
+  >
+    <div
+      class="toast--message"
+    >
+      <div
+        class="toast--success--icon "
+      />
+      <h3>
+        Mock success message
+      </h3>
+    </div>
+    <div
+      class="toast--close pointer-cursor"
+    />
+  </div>
+</div>
+`;
