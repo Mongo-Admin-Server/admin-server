@@ -1,4 +1,4 @@
-![logo](logo.png)
+<p align="center" width="100%">![logo](logo.png)</p>
 Mongo Admin Server is a Service as a service that allow you to ongoing management of MongoDB databases as an NPM package or via a Docker image.
 
 ## Getting Started
