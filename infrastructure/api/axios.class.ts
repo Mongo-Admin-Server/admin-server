@@ -7,7 +7,7 @@ class Axios {
   constructor() {
     this.instance = axiosLibrary.create({
       baseURL: '/api',
-      timeout: 1000,
+      timeout: 10000,
       headers: {
         "X-Timezone-Offset": String( new Date().getTimezoneOffset() )
       }
