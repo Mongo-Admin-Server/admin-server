@@ -91,7 +91,7 @@ export class Database{
     }
 
 
-    public async exportDatabaseToJson(databaseName:string, fileName:string, extension: string, connection_url: string): Promise<true>{
+    public async exportDatabaseToJson(databaseName:string, fileName:string, extension: string): Promise<true>{
         try{
             const instance = await Instance.connection();
             const db = instance.db(databaseName);
