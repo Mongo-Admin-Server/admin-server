@@ -4,8 +4,8 @@ import { GrantRole, RevokeRole, UserType } from '@/domain/entities/user-types';
 import { ApiError } from "./Errors/ApiError";
 
 export default class User{
-    public async getUsers(databaseName: string | string[] | undefined, connection_url: string) {
-        const client = await Instance.connection(connection_url);
+    public async getUsers(databaseName: string | string[] | undefined) {
+        const client = await Instance.connection();
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else {
@@ -18,8 +18,8 @@ export default class User{
         }
     }
 
-    public async createUser(databaseName: string | string[] | undefined, user: UserType, connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async createUser(databaseName: string | string[] | undefined, user: UserType) {
+        const client = await Instance.connection();
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else if(user === undefined) {
@@ -34,8 +34,8 @@ export default class User{
         }
     }
 
-    public async grantRoles(databaseName: string | string[] | undefined, role: GrantRole, connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async grantRoles(databaseName: string | string[] | undefined, role: GrantRole) {
+        const client = await Instance.connection();
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else if(role === undefined) {
@@ -50,8 +50,8 @@ export default class User{
         }
     }
 
-    public async deleteUser(databaseName: string | string[] | undefined, user: string | string[] | undefined, connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async deleteUser(databaseName: string | string[] | undefined, user: string | string[] | undefined) {
+        const client = await Instance.connection();
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else if(Array.isArray(user) || user === undefined) {
@@ -68,8 +68,8 @@ export default class User{
         }        
     }
 
-    public async deleteRole(databaseName: string | string[] | undefined, role: RevokeRole, connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async deleteRole(databaseName: string | string[] | undefined, role: RevokeRole) {
+        const client = await Instance.connection();
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else {

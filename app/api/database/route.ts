@@ -3,17 +3,17 @@ import { DatabaseController } from '@/api/src/Controller/DatabaseController';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  const connection_url = req.headers.get('connection_url');
-  if (!connection_url) {
-    return new NextResponse(
-      'You are not logged in, please provide token to gain access',
-      {
-        status: 401,
-      }
-    );
-  }
+  // const connection_url = req.headers.get('connection_url');
+  // if (!connection_url) {
+  //   return new NextResponse(
+  //     'You are not logged in, please provide token to gain access',
+  //     {
+  //       status: 401,
+  //     }
+  //   );
+  // }
 
-  const databases = await new DatabaseController().getDatabases(connection_url);
+  const databases = await new DatabaseController().getDatabases();
   return new NextResponse(JSON.stringify(databases), {
     status: 200,
     headers: {

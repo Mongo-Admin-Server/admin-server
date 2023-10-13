@@ -6,9 +6,9 @@ import { ApiError } from "next/dist/server/api-utils";
 
 export class CollectionController {
     
-    public async getOneCollection(connection_url: string, databaseName: string) {
+    public async getOneCollection(databaseName: string) {
         try {
-            const collectionNames = await new Collection().getOneCollectionDocumentsCount(databaseName, connection_url);
+            const collectionNames = await new Collection().getOneCollectionDocumentsCount(databaseName);
             if (!collectionNames)
                 throw new ApiError(404, 'Collection not found');
             
@@ -19,9 +19,9 @@ export class CollectionController {
         
     }
 
-    public async addOneCollection(connection_url: string, databaseName: string, collectionName: string) {
+    public async addOneCollection(databaseName: string, collectionName: string) {
         try{
-            const added = await new Collection().addNewCollection(databaseName, collectionName, connection_url);
+            const added = await new Collection().addNewCollection(databaseName, collectionName);
 
             if(added === true)
                 return true;
@@ -33,9 +33,9 @@ export class CollectionController {
 
     }
 
-    public async deleteOneCollection(connection_url: string, databaseName: string, collectionName: string) {
+    public async deleteOneCollection(databaseName: string, collectionName: string) {
         try {
-            const deleted = await new Collection().deleteCollection(databaseName, collectionName, connection_url);
+            const deleted = await new Collection().deleteCollection(databaseName, collectionName);
             if(deleted === true) return true;
             else return deleted;
         } catch (error) {
@@ -47,7 +47,7 @@ export class CollectionController {
         try {
             const { databaseName, fileName, extension, collectionName } = request.body;
             const { connection_url } = request.headers;
-            const exported = await new Collection().exportCollectionDataToJson(databaseName, fileName, extension, collectionName, connection_url);
+            const exported = await new Collection().exportCollectionDataToJson(databaseName, fileName, extension, collectionName);
             response.status(200).json(exported);
         } catch (error) {
             response.status(500).json(error);
@@ -58,7 +58,7 @@ export class CollectionController {
         try {
             const { databaseName, fileName, collectionName } = request.body;
             const { connection_url } = request.headers;
-            const imported = await new Collection().importDataToCollection(databaseName, fileName, collectionName, connection_url);
+            const imported = await new Collection().importDataToCollection(databaseName, fileName, collectionName);
             response.status(200).json(imported);
         } catch (error) {
             response.status(500).json(error);

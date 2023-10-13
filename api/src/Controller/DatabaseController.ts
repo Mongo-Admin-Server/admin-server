@@ -4,9 +4,9 @@ import { NextApiResponse, NextApiRequest } from "next";
 
 
 export class DatabaseController{
-    public async getDatabases(connection_url: string){
+    public async getDatabases(){
         try{
-            const { rows } = await new Database().listDatabase(connection_url);
+            const { rows } = await new Database().listDatabase();
             return rows;
         }catch(error){
             throw error;
