@@ -22,7 +22,7 @@ export async function POST(request: NextRequest, { params }: { params: { databas
         });
 }
 
-export async function GET({ params }: { params: { databaseName: string } }){
+export async function GET(request: NextRequest, { params }: { params: { databaseName: string } }){
     const user = await new User().getUsers(params.databaseName);
     if(!user)
         return new NextResponse(JSON.stringify('error'), {
