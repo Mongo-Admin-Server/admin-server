@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "private": false,
   "description": "Mongo database manager",
+  "main": ".next/standalone/server.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
