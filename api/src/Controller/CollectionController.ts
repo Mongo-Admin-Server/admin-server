@@ -57,7 +57,6 @@ export class CollectionController {
     public async importCollectionData(request:RequestCustomHeaders, response: NextApiResponse){
         try {
             const { databaseName, fileName, collectionName } = request.body;
-            const { connection_url } = request.headers;
             const imported = await new Collection().importDataToCollection(databaseName, fileName, collectionName);
             response.status(200).json(imported);
         } catch (error) {

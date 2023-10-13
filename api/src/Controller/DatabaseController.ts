@@ -43,7 +43,7 @@ export class DatabaseController{
             const { databaseName, fileName, extension } = request.body;
             const { connection_url } = request.headers;
     
-            const exported = await new Database().exportDatabaseToJson(databaseName, fileName, extension, connection_url);
+            const exported = await new Database().exportDatabaseToJson(databaseName, fileName, extension);
             response.status(200).json(exported);
         } catch (error) {
             response.status(500).json('error');
