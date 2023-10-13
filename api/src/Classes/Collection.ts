@@ -10,7 +10,7 @@ import json2csv from 'json2csv';
 export class Collection {
 
     public async getOneCollectionDocumentsCount(databaseName: string): Promise<CollectionType[]> {
-        const instance = await Instance.connection();
+        const instance = Instance.Connection;
         const db = instance.db(databaseName);
         const collectionsList = await db.listCollections().toArray();
         let collectionInfo: CollectionType[] = [];
@@ -47,7 +47,7 @@ export class Collection {
 
     public async addNewCollection(databaseName: string, collectionName: string): Promise<true | ApiError> {
         try{   
-            const instance = await Instance.connection();
+            const instance = Instance.Connection;
             const db = instance.db(databaseName);
 
             if(!collectionName)
@@ -73,7 +73,7 @@ export class Collection {
 
     public async deleteCollection(databaseName: string, collectionName: string): Promise<true | ApiError>{
         try{
-            const instance = await Instance.connection();
+            const instance = Instance.Connection;
             const db = instance.db(databaseName);
 
             if(!collectionName)
@@ -88,7 +88,7 @@ export class Collection {
 
     public async exportCollectionDataToJson(databaseName:string, fileName:string, extension: string,collectionName: string): Promise<true>{
         try{
-            const instance = await Instance.connection();
+            const instance = Instance.Connection;
             const db = instance.db(databaseName);
             const collection = db.collection(collectionName);
             const data = await collection.find({}).toArray();
@@ -113,7 +113,7 @@ export class Collection {
 
     public async importDataToCollection(databaseName:string, fileName:string, collectionName: string): Promise<true>{
         try{
-            const instance = await Instance.connection();
+            const instance = Instance.Connection;
             const db = instance.db(databaseName);
             const collection = db.collection(collectionName);
             let data;
