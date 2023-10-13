@@ -4,7 +4,7 @@ import { Instance } from "./Instance";
 export default class Auth {
   public async login(connection_url: string) {
     try {
-      Instance.connection();
+      
       // const secret = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
       // const expired = process.env.JWT_EXPIRES_IN || '2h';
       // const alg = 'HS256';
