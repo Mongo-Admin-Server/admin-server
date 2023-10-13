@@ -6,8 +6,7 @@ import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 
 export class UserController{
     public async getUsers(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined){
-        const { connection_url } = request.headers
-        const users = await new User().getUsers(databaseName, connection_url);
+        const users = await new User().getUsers(databaseName);
         if(!users && !databaseName)
             response.status(404).json('error');
         else
@@ -15,8 +14,7 @@ export class UserController{
     }
 
     public async createUser(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, newUser: UserType){
-        const { connection_url } = request.headers
-        const user = await new User().createUser(databaseName, newUser, connection_url);
+        const user = await new User().createUser(databaseName, newUser);
         if(!user)
             response.status(404).json('error');
         else
@@ -24,8 +22,7 @@ export class UserController{
     }
 
     public async grantRoles(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, role: GrantRole){
-        const { connection_url } = request.headers
-        const rolesToGrant = await new User().grantRoles(databaseName, role, connection_url);
+        const rolesToGrant = await new User().grantRoles(databaseName, role);
         if(!rolesToGrant)
             response.status(404).json('error');
         else
@@ -33,8 +30,7 @@ export class UserController{
     }
 
     public async deleteUser(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, user: string| string[] | undefined) {
-        const { connection_url } = request.headers
-        const userToDelete = await new User().deleteUser(databaseName, user, connection_url);
+        const userToDelete = await new User().deleteUser(databaseName, user);
         if(!userToDelete)
             response.status(404).json('error');
         else
@@ -42,8 +38,7 @@ export class UserController{
     }
 
     public async deleteRole(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, role: RevokeRole) {
-        const { connection_url } = request.headers
-        const rolesToDelete = await new User().deleteRole(databaseName, role, connection_url);
+        const rolesToDelete = await new User().deleteRole(databaseName, role);
         if(!rolesToDelete)
             response.status(404).json('error');
         else

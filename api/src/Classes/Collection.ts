@@ -9,8 +9,8 @@ import json2csv from 'json2csv';
 
 export class Collection {
 
-    public async getOneCollectionDocumentsCount(databaseName: string, connection_url: string): Promise<CollectionType[]> {
-        const instance = await Instance.connection(connection_url);
+    public async getOneCollectionDocumentsCount(databaseName: string): Promise<CollectionType[]> {
+        const instance = await Instance.connection();
         const db = instance.db(databaseName);
         const collectionsList = await db.listCollections().toArray();
         let collectionInfo: CollectionType[] = [];
@@ -45,9 +45,9 @@ export class Collection {
         return collectionInfo;
     }
 
-    public async addNewCollection(databaseName: string, collectionName: string, connection_url: string): Promise<true | ApiError> {
+    public async addNewCollection(databaseName: string, collectionName: string): Promise<true | ApiError> {
         try{   
-            const instance = await Instance.connection(connection_url);
+            const instance = await Instance.connection();
             const db = instance.db(databaseName);
 
             if(!collectionName)
@@ -71,9 +71,9 @@ export class Collection {
     }
 
 
-    public async deleteCollection(databaseName: string, collectionName: string, connection_url:string): Promise<true | ApiError>{
+    public async deleteCollection(databaseName: string, collectionName: string): Promise<true | ApiError>{
         try{
-            const instance = await Instance.connection(connection_url);
+            const instance = await Instance.connection();
             const db = instance.db(databaseName);
 
             if(!collectionName)
@@ -86,9 +86,9 @@ export class Collection {
         }
     }
 
-    public async exportCollectionDataToJson(databaseName:string, fileName:string, extension: string,collectionName: string, connection_url: string): Promise<true>{
+    public async exportCollectionDataToJson(databaseName:string, fileName:string, extension: string,collectionName: string): Promise<true>{
         try{
-            const instance = await Instance.connection(connection_url);
+            const instance = await Instance.connection();
             const db = instance.db(databaseName);
             const collection = db.collection(collectionName);
             const data = await collection.find({}).toArray();
@@ -111,9 +111,9 @@ export class Collection {
         }
     }
 
-    public async importDataToCollection(databaseName:string, fileName:string, collectionName: string, connection_url: string): Promise<true>{
+    public async importDataToCollection(databaseName:string, fileName:string, collectionName: string): Promise<true>{
         try{
-            const instance = await Instance.connection(connection_url);
+            const instance = await Instance.connection();
             const db = instance.db(databaseName);
             const collection = db.collection(collectionName);
             let data;

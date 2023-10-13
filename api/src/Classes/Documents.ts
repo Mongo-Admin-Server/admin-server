@@ -5,11 +5,11 @@ import { type WithId, type Document, ObjectId, InsertOneResult, DeleteResult, Up
 
 export class Documents {
 
-    public async getAllDocumentsByCollection(connection_url: string, databaseName: string, collectionName: string, perPage: string, page: string, filter: any): Promise<{ documents: WithId<Document>[], total: number }>{
+    public async getAllDocumentsByCollection(databaseName: string, collectionName: string, perPage: string, page: string, filter: any): Promise<{ documents: WithId<Document>[], total: number }>{
         const _perPage = parseInt(perPage) || 10;
         const _currentPage = parseInt(page) || 0;
 
-        const client = await Instance.connection(connection_url);
+        const client = await Instance.connection();
 
         try {
             const documents = await client.db(databaseName).collection(collectionName).find(filter).skip(_currentPage * _perPage).limit(_perPage).toArray();
@@ -23,8 +23,8 @@ export class Documents {
         }
     }
 
-   public async countDocumentsByCollection(databaseName: string | string[], collectionName: string | string[], connection_url:string): Promise<number> {
-        const client = await Instance.connection(connection_url);
+   public async countDocumentsByCollection(databaseName: string | string[], collectionName: string | string[]): Promise<number> {
+        const client = await Instance.connection();
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else{
@@ -46,8 +46,8 @@ export class Documents {
         }
     }
 
-    public async averageSizeDocumentsByCollection(databaseName: string | string[], collectionName: string | string[],  connection_url:string): Promise<number> {
-        const client = await Instance.connection(connection_url);
+    public async averageSizeDocumentsByCollection(databaseName: string | string[], collectionName: string | string[],): Promise<number> {
+        const client = await Instance.connection();
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else{
@@ -77,8 +77,8 @@ export class Documents {
         }        
     }
     
-    public async totalSizeDocumentsByCollection(databaseName: string | string[], collectionName: string | string[],  connection_url:string): Promise<number> {
-        const client = await Instance.connection(connection_url);
+    public async totalSizeDocumentsByCollection(databaseName: string | string[], collectionName: string | string[],): Promise<number> {
+        const client = await Instance.connection();
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else{
@@ -108,8 +108,8 @@ export class Documents {
         
     }
 
-    public async getOneDocument(databaseName: string | string[], collectionName: string | string[], id: string | string[], connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async getOneDocument(databaseName: string | string[], collectionName: string | string[], id: string | string[]) {
+        const client = await Instance.connection();
 
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
@@ -131,8 +131,8 @@ export class Documents {
         }                   
     }
 
-    public async addOneDocument(databaseName: string, collectionName: string, query: JSON,  connection_url:string): Promise<InsertOneResult<Document>> {
-        const client = await Instance.connection(connection_url);
+    public async addOneDocument(databaseName: string, collectionName: string, query: JSON,): Promise<InsertOneResult<Document>> {
+        const client = await Instance.connection();
         try {
             const collection = client.db(databaseName).collection(collectionName);
             const newDocument = await collection.insertOne(query);
@@ -144,8 +144,8 @@ export class Documents {
         }
     }
 
-    public async DeleteOneDocument(databaseName: string | string[], collectionName: string | string[], id: string | string[],  connection_url:string): Promise<DeleteResult> {
-        const client = await Instance.connection(connection_url);
+    public async DeleteOneDocument(databaseName: string | string[], collectionName: string | string[], id: string | string[],): Promise<DeleteResult> {
+        const client = await Instance.connection();
 
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
@@ -167,8 +167,8 @@ export class Documents {
         }        
     }
 
-    public async updateOneDocument(databaseName: string, collectionName: string, id: string, newBody: UpdateFilter<JSON>, connection_url: string): Promise<UpdateResult> {
-        const client = await Instance.connection(connection_url);
+    public async updateOneDocument(databaseName: string, collectionName: string, id: string, newBody: UpdateFilter<JSON>, ): Promise<UpdateResult> {
+        const client = await Instance.connection();
 
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
