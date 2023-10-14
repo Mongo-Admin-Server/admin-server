@@ -101,9 +101,6 @@ export default function CollectionsPage({
       case 'refresh':
         dispatch(fetchCollectionByDatabase(params.database_name));
         break;
-      case 'import':
-        console.log('Import');
-        break;
       case 'export':
         setOpenExportModal(true);
         break;
@@ -139,7 +136,7 @@ export default function CollectionsPage({
     <>
       <Title
         title={t('collection.title')}
-        actions={['refresh', 'import', 'export', 'add']}
+        actions={['refresh', 'export', 'add']}
         isViewSearch
         searchValue={searchValue}
         searchPlaceholder={t('collection.searchPlaceholder')}

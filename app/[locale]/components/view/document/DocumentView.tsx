@@ -10,6 +10,7 @@ import DocumentModal from '@components/modal/document/DocumentModal';
 import Pagination from '@components/ui/pagination/Pagination';
 import JsonView from '@components/json/JsonView';
 import ExportModal from '@components/modal/export/ExportModal';
+import ImportModal from '@components/modal/import/ImportModal';
 
 import eventEmitter from '@/shared/emitter/events';
 
@@ -25,13 +26,23 @@ import {
 } from '@/domain/usecases/document-slice';
 
 interface DocumentViewProps {
-  params: { collection_name: string, database_name: string, filename: string, extension: string};
+  params: {
+    collection_name: string;
+    database_name: string;
+    filename: string;
+    extension: string;
+  };
   currentPageTitle: string;
   listPage: string[];
   changePage: (page: string) => void;
 }
 
-const DocumentView = ({ params, currentPageTitle, listPage, changePage }: DocumentViewProps) => {
+const DocumentView = ({
+  params,
+  currentPageTitle,
+  listPage,
+  changePage,
+}: DocumentViewProps) => {
   const t = useTranslations();
   const dispatch = useDispatch();
 
@@ -46,6 +57,7 @@ const DocumentView = ({ params, currentPageTitle, listPage, changePage }: Docume
   const [searchValue, setSearchValue] = useState('');
   const [isFetching, setIsFetching] = useState(true);
   const [pageSize, setPageSize] = useState(10);
+  const [openImportModal, setOpenImportModal] = useState(false);
 
   const loading = useSelector(selectLoadingDocument);
 
@@ -61,7 +73,10 @@ const DocumentView = ({ params, currentPageTitle, listPage, changePage }: Docume
         })
       );
       if (payload?.response?.data === 'Invalid filter') {
-        eventEmitter.dispatch('alert', { type: 'error', message: t('document.searchError') });
+        eventEmitter.dispatch('alert', {
+          type: 'error',
+          message: t('document.searchError'),
+        });
         setIsFetching(false);
         return;
       }
@@ -69,7 +84,7 @@ const DocumentView = ({ params, currentPageTitle, listPage, changePage }: Docume
       setTotalDocuments(payload?.total || 0);
       setIsFetching(false);
     },
-    [dispatch, pageSize, searchValue ,isFetching, t]
+    [dispatch, pageSize, searchValue, isFetching, t]
   );
 
   useEffect(() => {
@@ -93,12 +108,12 @@ const DocumentView = ({ params, currentPageTitle, listPage, changePage }: Docume
         setCurrentDocument((documents[index!] as any)._id);
         setOpenDocumentModal(true);
         break;
-        case 'import':
-          console.log('Import');
-          break;
-        case 'export':
-          setOpenExportModal(true);
-          break;
+      case 'import':
+        setOpenImportModal(true);
+        break;
+      case 'export':
+        setOpenExportModal(true);
+        break;
       default:
         break;
     }
@@ -117,11 +132,11 @@ const DocumentView = ({ params, currentPageTitle, listPage, changePage }: Docume
         databaseName: database_name,
         fileName: filename,
         extension: format,
-        collectionName: collection_name
+        collectionName: collection_name,
       })
     );
     setOpenExportModal(false);
-  }
+  };
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
@@ -196,28 +211,44 @@ const DocumentView = ({ params, currentPageTitle, listPage, changePage }: Docume
 
       {renderTable()}
 
-      <ConfirmModal
-        open={openDeleteModal}
-        description={t('document.deleteConfirm')}
-        onConfirm={handleDelete}
-        onClose={() => setOpenDeleteModal(false)}
-      />
+      {openDeleteModal && (
+        <ConfirmModal
+          open={openDeleteModal}
+          description={t('document.deleteConfirm')}
+          onConfirm={handleDelete}
+          onClose={() => setOpenDeleteModal(false)}
+        />
+      )}
 
-      <ExportModal
-        open={openExportModal}
-        description={t('modal.export.description')}
-        onClose={() => setOpenExportModal(false)}
-        onValidate={handleExport}
-      />
+      {openExportModal && (
+        <ExportModal
+          open={openExportModal}
+          description={t('modal.export.description')}
+          onClose={() => setOpenExportModal(false)}
+          onValidate={handleExport}
+        />
+      )}
 
-      <DocumentModal
-        open={openDocumentModal}
-        idDocument={currentDocument}
-        onClose={() => setOpenDocumentModal(false)}
-        onValidate={() => handleValidate()}
-      />
+      {openDocumentModal && (
+        <DocumentModal
+          open={openDocumentModal}
+          idDocument={currentDocument}
+          onClose={() => setOpenDocumentModal(false)}
+          onValidate={() => handleValidate()}
+        />
+      )}
+
+      {openImportModal && (
+        <ImportModal
+          open={openImportModal}
+          databaseName={params.database_name}
+          collectionName={params.collection_name}
+          onClose={() => setOpenImportModal(false)}
+          onValidate={() => handleValidate()}
+        />
+      )}
     </>
   );
-}
+};
 
 export default DocumentView;

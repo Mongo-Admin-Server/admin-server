@@ -22,6 +22,11 @@ class Collection {
     const response = await axios.post(`/export`,{ databaseName, fileName, extension });
     return response.data;
   }
+
+  public async importCollection(databaseName: string, fileName: string, collectionName: string) {
+    const response = await axios.post(`/import`, { databaseName, fileName, collectionName });
+    return response.data;
+  }
 }
 
 export const collection = new Collection()
