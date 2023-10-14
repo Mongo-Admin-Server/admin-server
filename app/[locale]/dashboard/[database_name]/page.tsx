@@ -65,7 +65,8 @@ export default function CollectionsPage({
 
       mappedData[t('collection.collectionName')] = (
         <Link
-          href={`dashboard/${params.database_name}/${collection.collectionName}`}
+          href={`${params.database_name}/${collection.collectionName}`}
+          replace
           onClick={() =>
             dispatch(setCollectionSelected(collection.collectionName))
           }

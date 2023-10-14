@@ -56,7 +56,7 @@ export default function DashboardPage() {
       const mappedData: Record<string, React.ReactNode> = {};
 
       mappedData[t('database.name')] = (
-        <Link href={`dashboard/${database.name}`} onClick={() => dispatch(setDatabaseSelected(database.name))}>
+        <Link href={`dashboard/${database.name}`} replace onClick={() => dispatch(setDatabaseSelected(database.name))}>
           {database.name}
         </Link>
       );
