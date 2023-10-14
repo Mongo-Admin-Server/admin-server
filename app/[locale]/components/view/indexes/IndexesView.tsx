@@ -63,6 +63,7 @@ const IndexesView = ({ params, currentPage, listPage, changePage }: IndexesViewP
         fetchAllIndexes();
         break;
       case 'add':
+        setOpenIndexModal(true);
         break;
       default:
         break;
