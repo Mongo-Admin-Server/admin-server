@@ -32,6 +32,7 @@ const Checkbox = ({
           checked={value}
           onChange={onChange}
         />
+        {label}
       </label>
       {error && <p className={styles.error}>{error}</p>}
     </div>

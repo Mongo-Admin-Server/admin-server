@@ -23,6 +23,7 @@ const IndexModal = ({ open, collectionName, databaseName, onClose, onValidate }:
   const dispatch = useDispatch();
 
   const [field, setField] = useState('');
+  const [listField, setListField] = useState([]);
   const [unique, setUnique] = useState(false);
 
   const isDisabled = !field;
@@ -48,10 +49,7 @@ const IndexModal = ({ open, collectionName, databaseName, onClose, onValidate }:
       <SelectInput
         label={t('modal.index.field')}
         value={field}
-        options={[
-          { label: 'name', value: 'name' },
-          { label: 'unique', value: 'unique' },
-        ]}
+        options={listField}
         onChange={(e) => setField(e.target.value)}
       />
       <Checkbox
