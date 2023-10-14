@@ -46,7 +46,6 @@ export default function DashboardPage() {
     t('database.name'),
     t('database.storage'),
     t('database.collection'),
-    t('database.indexes'),
   ];
 
   const databasesFiltered = useMemo(() => {
@@ -73,7 +72,6 @@ export default function DashboardPage() {
       );
       mappedData[t('database.storage')] = database.sizeOnDisk;
       mappedData[t('database.collection')] = database.collections;
-      mappedData[t('database.indexes')] = database.empty;
 
       return mappedData;
     });

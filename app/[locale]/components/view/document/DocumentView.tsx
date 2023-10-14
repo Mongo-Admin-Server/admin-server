@@ -172,6 +172,7 @@ const DocumentView = ({
           <Table
             data_header={Object.keys(documents[0])}
             data_body={documents}
+            check_data
             actions={['trash', 'edit']}
             onClick={(action, index) => handleClick(action, index)}
           />

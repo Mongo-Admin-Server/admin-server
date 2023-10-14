@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google';
 import { notFound } from 'next/navigation';
-import { createTranslator, NextIntlClientProvider } from 'next-intl';
+import { NextIntlClientProvider } from 'next-intl';
 import { ReactNode } from 'react';
 
 import '@/shared/styles/main.scss';
@@ -38,7 +38,7 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body className={inter.className} cz-shortcut-listen="true">
         <StoreProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
