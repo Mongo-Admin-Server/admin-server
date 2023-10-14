@@ -9,7 +9,6 @@ interface CheckboxProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   color?: string;
-  switchCheckbox?: boolean;
 }
 
 const Checkbox = ({
@@ -20,12 +19,11 @@ const Checkbox = ({
   onChange,
   error,
   color,
-  switchCheckbox
 }: CheckboxProps) => {
   
   return (
     <div className={styles.container}>
-      <label htmlFor={id} className={`${styles.label} ${color && styles[color]} ${switchCheckbox && styles.switch} ${value && styles.checked}`}>
+      <label htmlFor={id} className={`${styles.label} ${color && styles[color]} ${value && styles.checked}`}>
         <input
           id={id}
           className={`${styles.input} ${error ? styles.inputError : ''} ${color && styles[color]}`}
@@ -34,11 +32,6 @@ const Checkbox = ({
           checked={value}
           onChange={onChange}
         />
-        {!switchCheckbox ?
-            label
-          :
-            <div className={`${styles.slider} ${styles.round}`}><label>JSON</label></div>
-        }
       </label>
       {error && <p className={styles.error}>{error}</p>}
     </div>

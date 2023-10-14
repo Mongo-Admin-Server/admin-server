@@ -39,6 +39,11 @@
       "description": "¡Elija el formato en el que desea exportar!",
       "json": "JSON",
       "csv": "CSV"
+    },
+    "index": {
+      "title": "Crear índice",
+      "field": "Campo",
+      "unique": "Único"
     }
   },
   "database": {
@@ -101,5 +106,9 @@
     "en": "🇬🇧 Inglés",
     "fr": "🇫🇷 Francés",
     "es": "🇪🇸 Español"
+  },
+  "indexes": {
+    "name": "Nombre",
+    "unique": "Único"
   }
 }
