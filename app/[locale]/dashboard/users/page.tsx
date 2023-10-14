@@ -36,7 +36,6 @@ export default function UserPage() {
   const loading = useSelector(selectLoading);
 
   useEffect(() => {
-    console.log('fetching users');
     dispatch(fetchUsers());
   }, [dispatch]);
 
@@ -60,6 +59,20 @@ export default function UserPage() {
       return mappedData;
     });
   }, [usersFiltered, t]);
+
+  const renderTable = () => {
+    if (loading) return <TableSkeleton />;
+    if (!users.length) return <Table no_data />;
+
+    return (
+      <Table
+        data_header={dataHeader}
+        data_body={dataBody}
+        actions={['edit', 'trash']}
+        onClick={(action, index) => handleClick(action, index)}
+      />
+    );
+  };
 
   const handleClick = (action: string, index?: number) => {
     switch (action) {
@@ -100,16 +113,8 @@ export default function UserPage() {
         onClick={(action) => handleClick(action)}
         changeSearchValue={(value: string) => setSearchValue(value)}
       />
-      {loading ? (
-        <TableSkeleton />
-      ) : (
-        <Table
-          data_header={dataHeader}
-          data_body={dataBody}
-          actions={['edit', 'trash']}
-          onClick={(action, index) => handleClick(action, index)}
-        />
-      )}
+
+      {renderTable()}
 
       {openDeleteModal && (
         <ConfirmModal
