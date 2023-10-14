@@ -1,5 +1,8 @@
-import { Documents } from "../Classes/Documents";
-import { UpdateFilter } from "mongodb";
+import { Documents } from "../Classes/Documents"; 
+import { DeleteResult, UpdateFilter } from "mongodb";
+import { ApiError } from "../Classes/Errors/ApiError";
+import { NextResponse } from "next/server";
+
 
 export class DocumentController {
     
@@ -30,12 +33,21 @@ export class DocumentController {
         }
     }
 
-    public async deleteOneDocument(databaseName: string, collectionName: string, id: string): Promise<any> {
+    public async deleteOneDocument(databaseName: string, collectionName: string, id: string): Promise<NextResponse> {
         try {
-            const deleteDocument = await new Documents().DeleteOneDocument(databaseName, collectionName, id, );
-            return deleteDocument;
+            const deleteDocument = await new Documents().DeleteOneDocument(databaseName, collectionName, id);
+            if (deleteDocument.acknowledged === true && deleteDocument.deletedCount === 1)
+                return new NextResponse(JSON.stringify(true), {
+                    status: 200,
+                });
+            const error = new ApiError(400, 'query/not-found', 'document not found');
+            return new NextResponse(JSON.stringify(error.json), {
+                status: error.code,
+            });
         } catch (error) {
-            throw error;
+            return new NextResponse(JSON.stringify({ error: 'Internal server error', details: error }), {
+                status: 500,
+            });
         }
     }
 
