@@ -22,7 +22,7 @@ import {
 } from '@/domain/usecases/document-slice';
 
 import { useTranslations } from 'next-intl';
-import ExportModal from '@/app/[locale]/components/modal/export/ExportModal';
+import ExportModal from '@components/modal/export/ExportModal';
 
 export default function DocumentsPage({
   params,
