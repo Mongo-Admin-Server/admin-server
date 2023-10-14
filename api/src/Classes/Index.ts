@@ -18,12 +18,4 @@ export class Index {
         const listIndexes = await collection.listIndexes().toArray();
         return listIndexes;
     }
-
-    public async test(){
-        const database = this.client.db("marketplace");
-        const collection = database.collection("products");
-        const documentStream = collection.find();
-        const schema = await mongoSchema.parseSchema(documentStream);
-        console.log(schema)
-    }
 }
