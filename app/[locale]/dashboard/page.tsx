@@ -10,15 +10,18 @@ import Title from '@components/title/Title';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
 
 import { useSelector, useDispatch } from '@/store/store';
-import { 
+import {
   selectDatabases,
-  fetchAllDatabase, 
-  selectLoading, 
+  fetchAllDatabase,
+  selectLoading,
   setDatabaseSelected,
-  deleteDatabase
- } from '@/domain/usecases/database-slice';
+  deleteDatabase,
+} from '@/domain/usecases/database-slice';
 
-import { setCollectionSelected, setCollections } from '@/domain/usecases/collection-slice';
+import {
+  setCollectionSelected,
+  setCollections,
+} from '@/domain/usecases/collection-slice';
 import FormCreateDB from '@components/form/from-create-db/FormCreateDB';
 
 export default function DashboardPage() {
@@ -48,7 +51,11 @@ export default function DashboardPage() {
 
   const databasesFiltered = useMemo(() => {
     if (!searchValue) return databases;
-    return databases.filter((database) => database.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
+    return databases.filter((database) =>
+      database.name
+        .toLocaleLowerCase()
+        .includes(searchValue.toLocaleLowerCase())
+    );
   }, [databases, searchValue]);
 
   const dataBody = useMemo(() => {
@@ -56,14 +63,18 @@ export default function DashboardPage() {
       const mappedData: Record<string, React.ReactNode> = {};
 
       mappedData[t('database.name')] = (
-        <Link href={`dashboard/${database.name}`} replace onClick={() => dispatch(setDatabaseSelected(database.name))}>
+        <Link
+          href={`dashboard/${database.name}`}
+          replace
+          onClick={() => dispatch(setDatabaseSelected(database.name))}
+        >
           {database.name}
         </Link>
       );
       mappedData[t('database.storage')] = database.sizeOnDisk;
       mappedData[t('database.collection')] = database.collections;
       mappedData[t('database.indexes')] = database.empty;
-      
+
       return mappedData;
     });
   }, [databasesFiltered, dispatch, t]);
@@ -74,7 +85,7 @@ export default function DashboardPage() {
         setOpenCreateModal(true);
         break;
       case 'trash':
-        setDatabaseNameToDelete(databases[index!].name)
+        setDatabaseNameToDelete(databases[index!].name);
         setOpenDeleteModal(true);
         break;
       case 'refresh':
@@ -88,9 +99,9 @@ export default function DashboardPage() {
   const handleDelete = () => {
     if (!databaseNameToDelete) return;
     dispatch(deleteDatabase(databaseNameToDelete));
-    setDatabaseNameToDelete(''); 
+    setDatabaseNameToDelete('');
     setOpenDeleteModal(false);
-  };  
+  };
 
   return (
     <>
@@ -115,17 +126,21 @@ export default function DashboardPage() {
         />
       )}
 
-      <ConfirmModal
-        open={openDeleteModal}
-        description={t('database.deleteConfirm')}
-        onConfirm={handleDelete}
-        onClose={() => setOpenDeleteModal(false)}
-      />
+      {openDeleteModal && (
+        <ConfirmModal
+          open={openDeleteModal}
+          description={t('database.deleteConfirm')}
+          onConfirm={handleDelete}
+          onClose={() => setOpenDeleteModal(false)}
+        />
+      )}
 
-      <FormCreateDB
-        open={openCreateModal}
-        onClose={() => setOpenCreateModal(false)}
-      />
+      {openCreateModal && (
+        <FormCreateDB
+          open={openCreateModal}
+          onClose={() => setOpenCreateModal(false)}
+        />
+      )}
     </>
   );
 }

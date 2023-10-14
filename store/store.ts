@@ -22,6 +22,7 @@ import collectionSlice from "@/domain/usecases/collection-slice";
 import settingSlice from "@/domain/usecases/setting-slice";
 import authSlice from "@/domain/usecases/auth-slice";
 import documentSlice from "@/domain/usecases/document-slice";
+import indexesSlice from "@/domain/usecases/indexes-slice";
 
 export const reducer = combineReducers({
   database: databaseSlice,
@@ -29,6 +30,7 @@ export const reducer = combineReducers({
   setting: settingSlice,
   auth: authSlice,
   document: documentSlice,
+  indexes: indexesSlice,
 });
 
 export const persistConfig = {
