@@ -18,8 +18,6 @@ export class Documents {
             return { documents, total };
         } catch (error) {
             throw new Error("Error getting all documents by collection : " + error);
-        } finally {
-            await client.close();
         }
     }
 
@@ -40,8 +38,6 @@ export class Documents {
             return countDocuments;
             } catch (error) {
                 throw new Error("Error counting documents : "+ error);
-            }finally{
-                await client.close();
             }
         }
     }
@@ -71,8 +67,6 @@ export class Documents {
                 return avgSize;
             } catch (error) {
                 throw new Error("Error calculating average size of documents : "+ error);
-            }finally{
-                await client.close();
             }
         }        
     }
@@ -101,8 +95,6 @@ export class Documents {
                 return totalCount;
             } catch (error) {
                 throw new Error("Error calculating total size of documents : "+ error);
-            }finally{
-                await client.close();
             }
         }
         
@@ -125,8 +117,6 @@ export class Documents {
                 return document;
             } catch (error) {
                 throw new Error(`Error retrieving document in ${collectionName} : ${error}`);
-            }finally{
-                await client.close();
             }
         }                   
     }
@@ -139,8 +129,6 @@ export class Documents {
             return newDocument;
         } catch(error) {
             throw error;
-        }finally{
-            await client.close();
         }
     }
 
@@ -161,8 +149,6 @@ export class Documents {
                 return deleteDocument;
             } catch (error) {
                 throw new Error(`Error deleting document in ${collectionName} with id ${queryId}: ${error}`);
-            }finally{
-                await client.close();
             }
         }        
     }
@@ -184,8 +170,6 @@ export class Documents {
                 return updateDocument;
             } catch(error) {
                 throw new Error(`Error updating document in ${collectionName} with id ${queryId}: ${error}`);
-            }finally{
-                await client.close();
             }
         }
     }
