@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import styles from './menu.module.scss';
 import '@/shared/styles/main.scss';
@@ -66,7 +67,9 @@ const SideMenu = () => {
     <>
       <aside className={styles.aside}>
         <section className={styles.header}>
-          {/* Logo */}
+          <div className={styles.logo}>
+            <p className={styles.title}>Mongo Admin Server</p>
+          </div>
 
           <SelectInput
             label={t('menuSideBar.database')}
@@ -109,15 +112,6 @@ const SideMenu = () => {
             onClick={handleChangeTheme}
           >
             {theme === 'light' ? t('theme.dark') : t('theme.light')}
-          </GenericButton>
-
-          <GenericButton
-            icon_name="gear"
-            padding="0 20px"
-            transparent
-            onClick={() => console.log('Click settings')}
-          >
-            {t('menuSideBar.setting')}
           </GenericButton>
         </section>
       </aside>

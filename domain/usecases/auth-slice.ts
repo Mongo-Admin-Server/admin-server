@@ -7,7 +7,6 @@ import {
 } from "@reduxjs/toolkit";
 
 import { AuthState } from "../entities/auth-types";
-import eventEmitter from "@/shared/emitter/events";
 
 import * as Api from "@/infrastructure";
 

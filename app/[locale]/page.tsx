@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect } from 'react';
 
+import styles from './rootPage.module.scss';
+
 import { useDispatch, useSelector } from '@/store/store';
 import { setTheme } from '@/domain/usecases/setting-slice';
 import { testInstance, selectLoadingAuth, selectErrorAuth } from '@/domain/usecases/auth-slice';
@@ -35,9 +37,9 @@ export default function RootPage() {
   }, [dispatch]);
 
   return (
-    <div>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-    </div>
+    <main className={styles['root-page']}>
+      {loading && <p className={styles['root-page--text']}>Loading...</p>}
+      {error && <p className={styles['root-page--text-error']}>{error}</p>}
+    </main>
   );
 }

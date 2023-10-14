@@ -1,7 +1,7 @@
 <br/>
 <p align="center" width="100%">
   <a href="https://github.com/Mongo-Admin-Server/mongo-admin-server">
-    <img width="33%" src="logo.png">
+    <img width="33%" src="/public/images/logo.png">
     <h1 align="center"> Mongo Admin Server</h1>
   </a>
 <p align="center">
@@ -21,10 +21,11 @@
 
 ## Built With
 
-* Typescript
 * NextJS
+* Redux
+* Typescript
 * Docker
-* 
+
 ## Getting Started
 You can either install the Npm package
 * npm

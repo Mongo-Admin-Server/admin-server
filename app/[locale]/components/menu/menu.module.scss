@@ -13,6 +13,12 @@
     padding: 16px;
     height: 70%;
     overflow: hidden;
+
+    .title {
+      font-size: 14px;
+      font-weight: bolder;
+      margin: .5rem 0 2rem 0;
+    }
   }
 
   .contents {
