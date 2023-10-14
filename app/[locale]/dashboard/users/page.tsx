@@ -2,33 +2,29 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import Table from "@components/ui/table/Table";
-import TableSkeleton from "@components/ui/skeleton/table/TableSkeleton";
-import Title from "@components/title/Title";
+
+import Table from '@components/ui/table/Table';
+import TableSkeleton from '@components/ui/skeleton/table/TableSkeleton';
+import Title from '@components/title/Title';
 import ConfirmModal from '@components/modal/confirm/ConfirmModal';
-import FormCreateUser from '@/app/[locale]/components/form/form-create-user/FormCreateUser';
-import FormUpdateRole from '@/app/[locale]/components/form/form-update-role/FormUpdateRole';
+import FormCreateUser from '@components/form/form-create-user/FormCreateUser';
+import FormUpdateRole from '@components/form/form-update-role/FormUpdateRole';
 
 import { useSelector, useDispatch } from '@/store/store';
-import { 
+import {
   selectUsers,
-  fetchUsers, 
-  selectLoading, 
-  deleteUser
- } from '@/domain/usecases/user-slice';
+  fetchUsers,
+  selectLoading,
+  deleteUser,
+} from '@/domain/usecases/user-slice';
 import { UserType } from '@/domain/entities/user-types';
 
 export default function UserPage() {
-  /* Static Data */
   const t = useTranslations();
   const dispatch = useDispatch();
-  const dataHeader = [
-    t('user.name'),
-    t('user.database'),
-    t('user.role'),
-  ];
-  
-  /* Local Data */
+
+  const dataHeader = [t('user.name'), t('user.database'), t('user.role')];
+
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -38,43 +34,44 @@ export default function UserPage() {
 
   const users = useSelector(selectUsers);
   const loading = useSelector(selectLoading);
-  
+
   useEffect(() => {
+    console.log('fetching users');
     dispatch(fetchUsers());
   }, [dispatch]);
 
   const usersFiltered = useMemo(() => {
     if (!searchValue) return users;
-    return users.filter((user) => user.user.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
-  }, [users, searchValue])
+    return users.filter((user) =>
+      user.user.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+    );
+  }, [users, searchValue]);
 
   const dataBody = useMemo(() => {
     return usersFiltered.map((user) => {
       const mappedData: Record<string, React.ReactNode> = {};
 
-      mappedData[t('user.name')] = user.user
-      mappedData[t('user.database')] = user.db
-      mappedData[t('user.role')] = user.roles.map(role => role.role ).join(' - ');
-    
+      mappedData[t('user.name')] = user.user;
+      mappedData[t('user.database')] = user.db;
+      mappedData[t('user.role')] = user.roles
+        .map((role) => role.role)
+        .join(' - ');
+
       return mappedData;
     });
-  }, [usersFiltered, t]); 
-  
-  /* Methods */
+  }, [usersFiltered, t]);
+
   const handleClick = (action: string, index?: number) => {
-    let userData;
     switch (action) {
       case 'add':
         setOpenCreateModal(true);
         break;
       case 'trash':
-        userData = users[index!].user
-        setUserNameToDelete(userData)
+        setUserNameToDelete(users[index!].user);
         setOpenDeleteModal(true);
         break;
       case 'edit':
-        userData = users[index!]
-        setCurrentUser(userData)
+        setCurrentUser(users[index!]);
         setOpenUpdateModal(true);
         break;
       case 'refresh':
@@ -85,14 +82,12 @@ export default function UserPage() {
     }
   };
 
-  const handleDelete = ()=> {
+  const handleDelete = () => {
     if (!userNameToDelete) return;
-    dispatch(
-      deleteUser(userNameToDelete)
-    );
+    dispatch(deleteUser(userNameToDelete));
     setUserNameToDelete('');
     setOpenDeleteModal(false);
-  }
+  };
 
   return (
     <>
@@ -116,16 +111,22 @@ export default function UserPage() {
         />
       )}
 
-      <ConfirmModal
-        open={openDeleteModal}
-        description={t('user.deleteConfirm')}
-        onConfirm={handleDelete}
-        onClose={() => setOpenDeleteModal(false)}
-      />
-      <FormCreateUser
-        open={openCreateModal}
-        onClose={() => setOpenCreateModal(false)}
-      />
+      {openDeleteModal && (
+        <ConfirmModal
+          open={openDeleteModal}
+          description={t('user.deleteConfirm')}
+          onConfirm={handleDelete}
+          onClose={() => setOpenDeleteModal(false)}
+        />
+      )}
+
+      {openCreateModal && (
+        <FormCreateUser
+          open={openCreateModal}
+          onClose={() => setOpenCreateModal(false)}
+        />
+      )}
+
       {currentUser && (
         <FormUpdateRole
           userData={currentUser}
@@ -134,5 +135,5 @@ export default function UserPage() {
         />
       )}
     </>
-  )
+  );
 }

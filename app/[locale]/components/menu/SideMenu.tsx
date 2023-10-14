@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import styles from './menu.module.scss';
 import '@/shared/styles/main.scss';
@@ -31,7 +32,7 @@ const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useTranslations();
   const router = useRouter();
-  const pathname = usePathname();
+  
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
@@ -50,17 +51,19 @@ const SideMenu = () => {
   const theme = useSelector(selectTheme);
 
   const handleChangeTheme = () => {
-    theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'));
+    theme === 'light'
+      ? dispatch(setTheme('dark'))
+      : dispatch(setTheme('light'));
   };
 
   const handleDatabaseChange = (database: string) => {
-    router.replace(`/dashboard/${database}`);
+    router.replace(`/dashboard/database/${database}`);
     dispatch(setDatabaseSelected(database));
   };
 
   const handleCollectionChange = (collection: string) => {
     dispatch(setCollectionSelected(collection));
-    router.replace(`/dashboard/${databaseSelected}/${collection}`);
+    router.replace(`/dashboard/database/${databaseSelected}/${collection}`);
   };
 
   const handleShowListUsers = () => {
@@ -72,7 +75,9 @@ const SideMenu = () => {
       <aside className={styles.aside}>
         <section className={styles.header}>
           <div className={styles.logo}>
-            <p className={styles.title}>Mongo Admin Server</p>
+            <Link href="/dashboard">
+              <p className={styles.title}>Mongo Admin Server</p>
+            </Link>
           </div>
 
           <SelectInput
@@ -82,16 +87,14 @@ const SideMenu = () => {
             onChange={(e) => handleDatabaseChange(e.target.value)}
           />
 
-          {(databaseSelected && !loadingCollection) &&  (
+          {databaseSelected && !loadingCollection && (
             <section className={styles.contents}>
               <h5>{t('menuSideBar.collection')}</h5>
               <div className={`${styles.collections} scrollable`}>
                 <CollectionList
                   collections={collections}
                   collectionSelected={collectionSelected}
-                  onClick={(collection) =>
-                    handleCollectionChange(collection)
-                  }
+                  onClick={(collection) => handleCollectionChange(collection)}
                 />
               </div>
             </section>

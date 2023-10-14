@@ -3,7 +3,7 @@ import { axios } from "./axios.class";
 
 class User {
   public async getUsers() {
-    const response = await axios.get('/user/');
+    const response = await axios.get('/user');
     return response.data;
   }
 

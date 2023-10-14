@@ -63,7 +63,7 @@ export default function DashboardPage() {
 
       mappedData[t('database.name')] = (
         <Link
-          href={`dashboard/${database.name}`}
+          href={`dashboard/database/${database.name}`}
           replace
           onClick={() => dispatch(setDatabaseSelected(database.name))}
         >
