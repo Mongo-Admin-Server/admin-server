@@ -1,5 +1,6 @@
 import { ListIndexesCursor } from "mongodb";
 import { Instance } from "./Instance";
+import * as mongoSchema from "mongodb-schema";
 
 export class Index {
     private client = Instance.Connection;
@@ -16,5 +17,13 @@ export class Index {
         const collection = database.collection(collectionName);
         const listIndexes = await collection.listIndexes().toArray();
         return listIndexes;
+    }
+
+    public async test(){
+        const database = this.client.db("marketplace");
+        const collection = database.collection("products");
+        const documentStream = collection.find();
+        const schema = await mongoSchema.parseSchema(documentStream);
+        console.log(schema)
     }
 }
