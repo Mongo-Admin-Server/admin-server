@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import GenericModal from '@components/modal/generic/GenericModal';
@@ -6,6 +6,7 @@ import SelectInput from '@components/ui/inputs/select/SelectInput';
 import Checkbox from '@components/ui/inputs/checkbox/Checkbox';
 
 import { createIndex } from '@/domain/usecases/indexes-slice';
+import { getAllFieldsFromCollection } from '@/domain/usecases/collection-slice';
 import { useDispatch } from '@/store/store';
 
 import eventEmitter from '@/shared/emitter/events';
@@ -28,6 +29,15 @@ const IndexModal = ({ open, collectionName, databaseName, onClose, onValidate }:
 
   const isDisabled = !field;
 
+  const fetchAllFields = useCallback(async () => {
+    const { payload } = await dispatch(getAllFieldsFromCollection({ databaseName, collectionName }));
+    if (payload?.response?.data === 'Invalid filter') {
+      eventEmitter.dispatch('alert', { type: 'error', message: t('document.searchError') });
+      return;
+    }
+    setListField(payload);
+  }, [collectionName, databaseName, dispatch, t]);
+
   const onCreateIndex = async () => {
     const { payload } = await dispatch(createIndex({ databaseName, collectionName, field, unique }));
     if (payload?.response?.data === 'Invalid filter') {
@@ -37,6 +47,10 @@ const IndexModal = ({ open, collectionName, databaseName, onClose, onValidate }:
 
     onValidate();
   };
+
+  useEffect(() => {
+    fetchAllFields();
+  }, [fetchAllFields]);
 
   return (
     <GenericModal

@@ -32,7 +32,7 @@ const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useTranslations();
   const router = useRouter();
-  
+
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   const databaseSelected = useSelector(selectDatabaseSelected);
@@ -132,10 +132,12 @@ const SideMenu = () => {
         </section>
       </aside>
 
-      <LanguageModal
-        open={openLanguageModal}
-        onClose={() => setOpenLanguageModal(false)}
-      />
+      {openLanguageModal && (
+        <LanguageModal
+          open={openLanguageModal}
+          onClose={() => setOpenLanguageModal(false)}
+        />
+      )}
     </>
   );
 };

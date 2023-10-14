@@ -32,7 +32,6 @@ class Document {
     const response = await axios.post(`/collection/export/`,{databaseName, collectionName, fileName, extension});
     return response.data;
   }
-
 }
 
 export const document = new Document()
