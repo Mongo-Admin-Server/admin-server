@@ -34,8 +34,7 @@ const IndexesView = ({ params, currentPage, listPage, changePage }: IndexesViewP
       eventEmitter.dispatch('alert', { type: 'error', message: t('document.searchError') });
       return;
     }
-
-    setIndexes(payload?.indexes || []);
+    setIndexes(payload || []);
   }, [dispatch, params.collection_name, params.database_name, t]);
 
   useEffect(() => {
