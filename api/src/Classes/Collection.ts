@@ -41,7 +41,6 @@ export class Collection {
                 storageSize: storageSize,
             });
         }
-        await instance.close();
         return collectionInfo;
     }
 

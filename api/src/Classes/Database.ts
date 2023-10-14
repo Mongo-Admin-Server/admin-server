@@ -29,8 +29,6 @@ export class Database{
             })
         }catch(error){
             throw error;
-        }finally{
-            await client.close();
         }
         
     }

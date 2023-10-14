@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 
 export class Instance{
     
-    private static client: MongoClient | null = null;
+    protected static client: MongoClient;
     private static connection_url: string = process.env.MONGODB_URI || '';
     
     static get Connection(): MongoClient{
@@ -19,7 +19,7 @@ export class Instance{
     static async deconnection(){
         if(this.client){
             await this.client.close();
-            this.client = null;
+            // this.client = null;
             this.connection_url = '';
         }
     }
