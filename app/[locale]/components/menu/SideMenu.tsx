@@ -12,7 +12,6 @@ import CollectionList from '@components/ui/list/collection/CollectionList';
 import LanguageModal from '@components/modal/language/LanguageModal';
 
 import { DatabaseType } from '@/domain/entities/database-types';
-import { logout } from '@/domain/usecases/auth-slice';
 
 import { useSelector, useDispatch } from '@/store/store';
 import {
@@ -27,7 +26,6 @@ import {
   selectLoadingCollection,
 } from '@/domain/usecases/collection-slice';
 import { setTheme, selectTheme, selectLanguage } from '@/domain/usecases/setting-slice';
-import { setIsLogged } from '@/domain/usecases/auth-slice';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
@@ -63,12 +61,6 @@ const SideMenu = () => {
   const handleCollectionChange = (collection: string) => {
     dispatch(setCollectionSelected(collection));
     router.push(`/${language}/dashboard/${databaseSelected}/${collection}`);
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
-    dispatch(setIsLogged(false));
-    router.push(`/`);
   };
 
   return (
@@ -127,16 +119,6 @@ const SideMenu = () => {
             onClick={() => console.log('Click settings')}
           >
             {t('menuSideBar.setting')}
-          </GenericButton>
-
-          <GenericButton
-            icon_name="logout"
-            padding="0 20px"
-            transparent
-            variant='danger'
-            onClick={handleLogout}
-          >
-            {t('menuSideBar.logout')}
           </GenericButton>
         </section>
       </aside>

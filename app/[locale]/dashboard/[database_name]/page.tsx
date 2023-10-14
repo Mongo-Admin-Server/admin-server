@@ -20,8 +20,6 @@ import {
   deleteCollectionByName,
   exportCollections
 } from '@/domain/usecases/collection-slice';
-import { selectLanguage } from '@/domain/usecases/setting-slice';
-
 
 export default function CollectionsPage({
   params,
@@ -44,7 +42,6 @@ export default function CollectionsPage({
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
-  const language = useSelector(selectLanguage);
 
   const dataHeader = [
     t('collection.collectionName'),
@@ -68,7 +65,7 @@ export default function CollectionsPage({
 
       mappedData[t('collection.collectionName')] = (
         <Link
-          href={`/${language}/dashboard/${params.database_name}/${collection.collectionName}`}
+          href={`dashboard/${params.database_name}/${collection.collectionName}`}
           onClick={() =>
             dispatch(setCollectionSelected(collection.collectionName))
           }
@@ -85,7 +82,7 @@ export default function CollectionsPage({
 
       return mappedData;
     });
-  }, [collectionsFiltered, dispatch, language, params.database_name, t]);
+  }, [collectionsFiltered, dispatch, params.database_name, t]);
 
   const handleClick = (action: string, index?: number) => {
     let collectionToDelete;

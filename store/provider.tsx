@@ -1,11 +1,9 @@
-'use client';
+"use client";
 
-import '@/shared/styles/main.scss';
-
-import { store } from '@/store/store';
+import { store } from './store';
 import { Provider } from 'react-redux';
 
-export default function RootLayout({
+export default function StoreProvider({
   children,
 }: {
   children: React.ReactNode;
@@ -16,4 +14,3 @@ export default function RootLayout({
     </Provider>
   );
 }
-
