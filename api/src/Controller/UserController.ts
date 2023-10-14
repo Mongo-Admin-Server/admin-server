@@ -1,7 +1,5 @@
-import { NextApiResponse } from "next";
 import User from "../Classes/User";
 import { RevokeRole, RoleType } from "@/domain/entities/user-types";
-import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 
 export class UserController{
     public async getUsers() {

@@ -64,7 +64,7 @@ const SideMenu = () => {
   };
 
   const handleShowListUsers = () => {
-    router.replace(`/dashboard/${databaseSelected}/users`);
+    router.replace(`/dashboard/users`);
   };
 
   return (
