@@ -13,6 +13,7 @@ interface TableProps {
   actions?: string[]; // trash, edit
   display?: string; // initial, block
   no_data?: boolean;
+  check_data?: boolean;
   // eslint-disable-next-line no-unused-vars
   onClick?: (action: string, index: number) => void;
 }
@@ -23,6 +24,7 @@ const Table = ({
   actions,
   display,
   no_data = false,
+  check_data = false,
   onClick,
 }: TableProps) => {
   const t = useTranslations();
@@ -66,6 +68,13 @@ const Table = ({
     };
   }, []);
 
+  const renderData = (data: any) => {
+    if (!check_data) return data
+    
+    if (typeof data === 'object') return `{} ${Object.values(data).length} documents`;
+    if (Array.isArray(data)) return `[] ${data.length} documents`;
+    return data;
+  };
 
   return (
     <div ref={divRef} className={`${styles.tableContainer} scrollable ${scrollYActive ? styles.scroll_y_active : ''} ${scrollXActive ? styles.scroll_x_active : ''}`}>
@@ -89,7 +98,7 @@ const Table = ({
               <tr key={index_column}>
                 {data_header &&
                   data_header.map((column, index_data) => (
-                    <td key={index_data}>{row[column]}</td>
+                    <td key={index_data}>{renderData(row[column])}</td>
                   ))}
                 <td className={styles.actions}>
                   {actions &&

@@ -75,6 +75,11 @@
       "description": "Please choose the format you want to export !",
       "json": "JSON",
       "csv": "CSV"
+    },
+    "index": {
+      "title": "Create Index",
+      "field": "Index field",
+      "unique": "Create unique index"
     }
   },
   "collection": {
@@ -132,5 +137,9 @@
     "clusterAdmin": "Cluster admin",
     "backup": "Backup",
     "root": "Superuser"
+  },
+  "indexes": {
+    "name": "Name",
+    "unique": "Unique"
   }
 }

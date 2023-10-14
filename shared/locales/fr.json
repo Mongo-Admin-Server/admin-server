@@ -41,6 +41,11 @@
       "description": "Veuillez choisir le format dans lequel vous souhaitez exporter !",
       "json": "JSON",
       "csv": "CSV"
+    },
+    "index": {
+      "title": "Créer un index",
+      "field": "Champ de l'index",
+      "unique": "Créer un index unique"
     }
   },
   "database": {
@@ -131,5 +136,9 @@
     "clusterAdmin": "Administrateur de cluster",
     "backup": "Sauvegarde",
     "root": "Superutilisateur"
+  },
+  "indexes": {
+    "name": "Nom",
+    "unique": "Unique"
   }
 }

@@ -3,8 +3,8 @@ import { GrantRole, RevokeRole, RoleType } from '@/domain/entities/user-types';
 import { ApiError } from "./Errors/ApiError";
 
 export default class User{
-    public async getUsers(connection_url: string) {
-        const client = await Instance.connection(connection_url);
+    public async getUsers() {
+        const client = Instance.Connection;
         try {
             const users = await client.db('admin').collection('system.users').find({}).toArray();
             const total = users.length;
@@ -16,8 +16,8 @@ export default class User{
         }
     }
 
-    public async createUser(connection_url: string, username: string, password: string, roles: RoleType[]) {
-        const client = await Instance.connection(connection_url);
+    public async createUser(username: string, password: string, roles: RoleType[]) {
+        const client = Instance.Connection;
         try {
             await client.db('admin').addUser(username, password, { roles });
             return true;
@@ -28,8 +28,8 @@ export default class User{
         }
     }
 
-    public async grantRoles(username: string, role: RoleType[], connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async grantRoles(username: string, role: RoleType[]) {
+        const client = Instance.Connection;
         try {
             const grandRole: GrantRole = {
                 grantRolesToUser: username,
@@ -44,8 +44,8 @@ export default class User{
         }
     }
 
-    public async deleteUser(username: string, connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async deleteUser(username: string) {
+        const client = Instance.Connection;
         try {
             await client.db('admin').removeUser(username);
             return true;
@@ -56,8 +56,8 @@ export default class User{
         }     
     }
 
-    public async deleteRole(databaseName: string | string[] | undefined, role: RevokeRole, connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async deleteRole(databaseName: string | string[] | undefined, role: RevokeRole) {
+        const client = Instance.Connection;
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else {

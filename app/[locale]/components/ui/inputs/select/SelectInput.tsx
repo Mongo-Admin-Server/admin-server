@@ -1,10 +1,10 @@
 import styles from './select.module.scss';
-import SvgIcon from '@/app/[locale]/components/ui/icon/SvgIcon';
+
+import SvgIcon from '@components/ui/icon/SvgIcon';
 
 interface SelectInputProps {
   label?: string;
-  value: string | string[];
-  // eslint-disable-next-line no-unused-vars
+  value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: { value: string; label: string}[];
   error?: string;

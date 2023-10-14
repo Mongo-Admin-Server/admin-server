@@ -12,7 +12,6 @@ import CollectionList from '@components/ui/list/collection/CollectionList';
 import LanguageModal from '@components/modal/language/LanguageModal';
 
 import { DatabaseType } from '@/domain/entities/database-types';
-import { logout } from '@/domain/usecases/auth-slice';
 
 import { useSelector, useDispatch } from '@/store/store';
 import {
@@ -26,8 +25,7 @@ import {
   setCollectionSelected,
   selectLoadingCollection,
 } from '@/domain/usecases/collection-slice';
-import { setTheme, selectTheme, selectLanguage } from '@/domain/usecases/setting-slice';
-import { setIsLogged } from '@/domain/usecases/auth-slice';
+import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
@@ -36,7 +34,6 @@ const SideMenu = () => {
   const pathname = usePathname();
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
-  const language = useSelector(selectLanguage);
   const databaseSelected = useSelector(selectDatabaseSelected);
   const databases = useSelector(selectDatabases).map(
     (database: DatabaseType) => {
@@ -52,35 +49,31 @@ const SideMenu = () => {
 
   const theme = useSelector(selectTheme);
 
-  const displayUser = pathname == `/${language}/dashboard/${databaseSelected}`;
   const handleChangeTheme = () => {
     theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'));
   };
 
   const handleDatabaseChange = (database: string) => {
-    router.push(`/${language}/dashboard/${database}`);
+    router.replace(`/dashboard/${database}`);
     dispatch(setDatabaseSelected(database));
   };
 
   const handleCollectionChange = (collection: string) => {
     dispatch(setCollectionSelected(collection));
-    router.push(`/${language}/dashboard/${databaseSelected}/${collection}`);
+    router.replace(`/dashboard/${databaseSelected}/${collection}`);
   };
 
   const handleShowListUsers = () => {
-    router.push(`${pathname}/user`)
-  }
-  const handleLogout = () => {
-    dispatch(logout());
-    dispatch(setIsLogged(false));
-    router.push(`/`);
+    router.replace(`/dashboard/${databaseSelected}/users`);
   };
 
   return (
     <>
       <aside className={styles.aside}>
         <section className={styles.header}>
-          {/* Logo */}
+          <div className={styles.logo}>
+            <p className={styles.title}>Mongo Admin Server</p>
+          </div>
 
           <SelectInput
             label={t('menuSideBar.database')}
@@ -126,30 +119,12 @@ const SideMenu = () => {
           </GenericButton>
 
           <GenericButton
-            icon_name="gear"
-            padding="0 20px"
-            transparent
-            onClick={() => console.log('Click settings')}
-          >
-            {t('menuSideBar.setting')}
-          </GenericButton>
-          <GenericButton
             icon_name="user"
             padding="0 20px"
             transparent
             onClick={handleShowListUsers}
           >
             {t('menuSideBar.user')}
-          </GenericButton>
-
-          <GenericButton
-            icon_name="logout"
-            padding="0 20px"
-            transparent
-            variant='danger'
-            onClick={handleLogout}
-          >
-            {t('menuSideBar.logout')}
           </GenericButton>
         </section>
       </aside>

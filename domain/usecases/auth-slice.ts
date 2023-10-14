@@ -7,12 +7,10 @@ import {
 } from "@reduxjs/toolkit";
 
 import { AuthState } from "../entities/auth-types";
-import eventEmitter from "@/shared/emitter/events";
 
 import * as Api from "@/infrastructure";
 
 export const initialState: AuthState = {
-  isLogged: false,
   loading: false,
   error: "",
 };
@@ -20,82 +18,38 @@ export const initialState: AuthState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    setIsLogged: (state, action: PayloadAction<boolean>) => {
-      state.isLogged = action.payload;
-    },
-    setError: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
-    },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
-    }
-  },
+  reducers: {},
   extraReducers(builder) {
-    builder.addCase(login.pending, (state) => {
+    builder.addCase(testInstance.pending, (state) => {
       state.loading = true;
       state.error = "";
     });
-    builder.addCase(login.fulfilled, (state) => {
-      state.loading = false;
-      state.isLogged = true;
-    });
-    builder.addCase(login.rejected, (state) => {
+    builder.addCase(testInstance.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'error', message: 'login.error' });
     });
-    builder.addCase(logout.pending, (state) => {
-      state.loading = true;
-      state.error = "";
-    });
-    builder.addCase(logout.fulfilled, (state) => {
-      state.loading = false;
-      state.isLogged = false;
-    });
-    builder.addCase(logout.rejected, (state) => {
+    builder.addCase(testInstance.rejected, (state) => {
       state.loading = false;
       state.error = "";
     });
   }
 });
 
-/************   ACTIONS FOR AUTH  ************/
-export const setErrorAuth = createAction<string>("auth/setError");
-export const setLoadingAuth = createAction<boolean>("auth/setLoading");
-export const setIsLogged = createAction<boolean>("auth/setIsLogged");
-
 /************   USECASES FUNCTIONS FOR AUTH  ************/
-export const login = createAsyncThunk(
-  "auth/login",
-  async (uri: string, { rejectWithValue }: { rejectWithValue: any }) => {
-    try {
-      await Api.auth.login(uri);
-    } catch (error) {
-      console.error("Erreur lors du login : ", error);
-      return rejectWithValue("Couldn't login");
-    }
-  }
-);
-
-export const logout = createAsyncThunk(
-  "auth/logout",
+export const testInstance = createAsyncThunk(
+  "auth/testInstance",
   async (_, { rejectWithValue }: { rejectWithValue: any }) => {
     try {
-      await Api.auth.logout();
+      await Api.auth.testInstance();
+      return true;
     } catch (error) {
-      console.error("Erreur lors du logout : ", error);
-      return rejectWithValue("Couldn't logout");
+      console.error("Erreur lors de la connexion a l'instance : ", error);
+      return rejectWithValue("Couldn't instance");
     }
   }
 );
 
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
-
-export const selectIsLogged = createSelector(
-  selectAuth,
-  (auth) => auth.isLogged
-);
 
 export const selectLoadingAuth = createSelector(
   selectAuth,

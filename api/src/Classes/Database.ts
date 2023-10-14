@@ -8,8 +8,8 @@ import path from 'path';
 import json2csv from 'json2csv';
 
 export class Database{
-    public async listDatabase(connection_url: string) {
-        const client  = await Instance.connection(connection_url);
+    public async listDatabase() {
+        const client  = Instance.Connection;
         try{
             const listDatabase = await client.db().admin().listDatabases(); //todo add authoreddatabase to true
             const rows: IDatabaseRO[] = []
@@ -29,15 +29,13 @@ export class Database{
             })
         }catch(error){
             throw error;
-        }finally{
-            await client.close();
         }
         
     }
 
     public async createDatabase(databaseName: string, collectionName: string, connection_url: string): Promise<true | ApiError>{
         try{
-            const client = await Instance.connection(connection_url);
+            const client = Instance.Connection;
             
             if(!databaseName || databaseName == 'admin')
                 return new ApiError(400, 'query/invalid', 'invalid_database_name')
@@ -63,7 +61,7 @@ export class Database{
         if(!databaseName)
             return new ApiError(400, 'query/not-found', 'database_name_not_found');
         try{            
-            const client = await Instance.connection(connection_url);
+            const client = Instance.Connection;
            
             if(Array.isArray(databaseName)){
                 for(let index=0; index < databaseName.length; index++){
@@ -91,9 +89,9 @@ export class Database{
     }
 
 
-    public async exportDatabaseToJson(databaseName:string, fileName:string, extension: string, connection_url: string): Promise<true>{
+    public async exportDatabaseToJson(databaseName:string, fileName:string, extension: string): Promise<true>{
         try{
-            const instance = await Instance.connection(connection_url);
+            const instance = Instance.Connection;
             const db = instance.db(databaseName);
             const collectionNames = await db.listCollections().toArray();
             const databaseData: {[key: string]: any[]} = {};

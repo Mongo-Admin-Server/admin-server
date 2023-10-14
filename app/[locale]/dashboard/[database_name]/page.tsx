@@ -18,15 +18,13 @@ import {
   selectLoadingCollection,
   setCollectionSelected,
   deleteCollectionByName,
-  exportCollections
+  exportCollections,
 } from '@/domain/usecases/collection-slice';
-import { selectLanguage } from '@/domain/usecases/setting-slice';
-
 
 export default function CollectionsPage({
   params,
 }: {
-  params: { database_name: string, fileName: string, extension: string };
+  params: { database_name: string; fileName: string; extension: string };
 }) {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -44,7 +42,6 @@ export default function CollectionsPage({
 
   const collections = useSelector(selectCollectionByDatabase);
   const loading = useSelector(selectLoadingCollection);
-  const language = useSelector(selectLanguage);
 
   const dataHeader = [
     t('collection.collectionName'),
@@ -58,7 +55,9 @@ export default function CollectionsPage({
   const collectionsFiltered = useMemo(() => {
     if (!searchValue) return collections;
     return collections.filter((collection) =>
-      collection.collectionName.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+      collection.collectionName
+        .toLocaleLowerCase()
+        .includes(searchValue.toLocaleLowerCase())
     );
   }, [collections, searchValue]);
 
@@ -68,7 +67,8 @@ export default function CollectionsPage({
 
       mappedData[t('collection.collectionName')] = (
         <Link
-          href={`/${language}/dashboard/${params.database_name}/${collection.collectionName}`}
+          href={`${params.database_name}/${collection.collectionName}`}
+          replace
           onClick={() =>
             dispatch(setCollectionSelected(collection.collectionName))
           }
@@ -85,34 +85,31 @@ export default function CollectionsPage({
 
       return mappedData;
     });
-  }, [collectionsFiltered, dispatch, language, params.database_name, t]);
+  }, [collectionsFiltered, dispatch, params.database_name, t]);
 
   const handleClick = (action: string, index?: number) => {
     let collectionToDelete;
-      switch (action) {
-        case 'add':
-          setOpenCreateModal(true);
-          break;
-        case 'trash':
-          collectionToDelete = collections[index!];
-          setCollectionNameToDelete(collectionToDelete.collectionName)
-          setOpenDeleteModal(true);
-          break;
-        case 'refresh':
-          dispatch(fetchCollectionByDatabase(params.database_name));
-          break;
-          case 'import':
-          console.log('Import');
-          break;
-          case 'export':
-          setOpenExportModal(true);
-          break;
-        default:
-          break;
-      }
+    switch (action) {
+      case 'add':
+        setOpenCreateModal(true);
+        break;
+      case 'trash':
+        collectionToDelete = collections[index!];
+        setCollectionNameToDelete(collectionToDelete.collectionName);
+        setOpenDeleteModal(true);
+        break;
+      case 'refresh':
+        dispatch(fetchCollectionByDatabase(params.database_name));
+        break;
+      case 'export':
+        setOpenExportModal(true);
+        break;
+      default:
+        break;
+    }
   };
-  
-  const handleDelete = ()=> {
+
+  const handleDelete = () => {
     if (!collectionNameToDelete) return;
     dispatch(
       deleteCollectionByName({
@@ -122,7 +119,7 @@ export default function CollectionsPage({
     );
     setCollectionNameToDelete('');
     setOpenDeleteModal(false);
-  }
+  };
 
   const handleExport = async (format: 'csv' | 'json') => {
     dispatch(
@@ -139,7 +136,7 @@ export default function CollectionsPage({
     <>
       <Title
         title={t('collection.title')}
-        actions={['refresh','import','export','add']}
+        actions={['refresh', 'export', 'add']}
         isViewSearch
         searchValue={searchValue}
         searchPlaceholder={t('collection.searchPlaceholder')}
@@ -157,25 +154,31 @@ export default function CollectionsPage({
           onClick={(action, index) => handleClick(action, index)}
         />
       )}
-    
-      <ConfirmModal
-        open={openDeleteModal}
-        description={t('collection.deleteConfirm')}
-        onConfirm={handleDelete}
-        onClose={() => setOpenDeleteModal(false)}
-      />
-      
-      <ExportModal
-        open={openExportModal}
-        description={t('modal.export.description')}
-        onClose={() => setOpenExportModal(false)}
-        onValidate={handleExport}
-      />
-    
-      <FormCreateCollection
-        open={openCreateModal}
-        onClose={() => setOpenCreateModal(false)} 
-      />
+
+      {openDeleteModal && (
+        <ConfirmModal
+          open={openDeleteModal}
+          description={t('collection.deleteConfirm')}
+          onConfirm={handleDelete}
+          onClose={() => setOpenDeleteModal(false)}
+        />
+      )}
+
+      {openExportModal && (
+        <ExportModal
+          open={openExportModal}
+          description={t('modal.export.description')}
+          onClose={() => setOpenExportModal(false)}
+          onValidate={handleExport}
+        />
+      )}
+
+      {openCreateModal && (
+        <FormCreateCollection
+          open={openCreateModal}
+          onClose={() => setOpenCreateModal(false)}
+        />
+      )}
     </>
   );
 }

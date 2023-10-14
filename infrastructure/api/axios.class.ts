@@ -5,19 +5,13 @@ class Axios {
   private accessToken: string|null = null;
 
   constructor() {
-    const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "http://localhost:3000";
-
     this.instance = axiosLibrary.create({
-      baseURL: `${SERVER_ENDPOINT}/api`,
-      //timeout: 10000,
+      baseURL: '/api',
+      timeout: 10000,
       headers: {
         "X-Timezone-Offset": String( new Date().getTimezoneOffset() )
       }
     });
-  }
-
-  setBaseUrl(baseURL: string) {
-    this.instance.defaults.baseURL = baseURL;
   }
 
   setAuthorization = (accessToken: string|null) => {

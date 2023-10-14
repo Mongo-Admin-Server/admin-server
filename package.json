@@ -1,8 +1,9 @@
 {
   "name": "mongo-admin-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "Mongo database manager",
+  "main": ".next/standalone/server.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -65,11 +66,5 @@
   "bugs": {
     "url": "git+https://github.com/Mongo-Admin-Server/admin-server/issues"
   },
-  "homepage": "git+https://github.com/Mongo-Admin-Server/admin-server#readme",
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run prettier && npm run lint",
-      "pre-push": "npm run test:jest:ci"
-    }
-  }
+  "homepage": "git+https://github.com/Mongo-Admin-Server/admin-server#readme"
 }
