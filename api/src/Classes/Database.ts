@@ -33,7 +33,7 @@ export class Database{
         
     }
 
-    public async createDatabase(databaseName: string, collectionName: string, connection_url: string): Promise<true | ApiError>{
+    public async createDatabase(databaseName: string, collectionName: string): Promise<true | ApiError>{
         try{
             const client = Instance.Connection;
             
@@ -57,7 +57,7 @@ export class Database{
         }
     }
 
-    public async dropDatabase(databaseName: string | string[] | undefined, connection_url:string): Promise<boolean | ApiError>{
+    public async dropDatabase(databaseName: string | string[] | undefined): Promise<boolean | ApiError>{
         if(!databaseName)
             return new ApiError(400, 'query/not-found', 'database_name_not_found');
         try{            

@@ -1,6 +1,7 @@
+import { Documents } from "@/api/src/Classes/Documents";
 import { DocumentController } from "@/api/src/Controller/DocumentController";
 
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: { databaseName: string, collectionName: string, id: string } }) {
 
@@ -10,18 +11,10 @@ export async function GET(req: NextRequest, { params }: { params: { databaseName
   });
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { databaseName: string, collectionName: string, id: string } }) {
-
-  const deleteDocument = await new DocumentController().deleteOneDocument(params.databaseName, params.collectionName, params.id);
-  if (deleteDocument.acknowledged === true && deleteDocument.deletedCount === 1) {
-    return new Response(JSON.stringify(true), {
-      status: 200,
-    });
-  }
-  return new Response(JSON.stringify(false), {
-    status: 500,
-  });
+export async function DELETE(req: NextRequest, { params }: { params: { databaseName: string, collectionName: string, id: string } }): Promise<NextResponse> {
+  return await new DocumentController().deleteOneDocument(params.databaseName, params.collectionName, params.id);
 }
+
 
 export async function PUT(req: NextRequest, { params }: { params: { databaseName: string, collectionName: string, id: string } }) {
 
