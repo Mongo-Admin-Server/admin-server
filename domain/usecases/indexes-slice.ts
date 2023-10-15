@@ -10,6 +10,8 @@ import { IndexesState } from "../entities/indexes-types";
 
 import * as Api from "@/infrastructure";
 
+import eventEmitter from "@/shared/emitter/events";
+
 export const initialState: IndexesState = {
   loading: false,
   error: "",
@@ -39,10 +41,11 @@ export const indexesSlice = createSlice({
     builder.addCase(createIndex.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'indexes.createSucces' });
     });
     builder.addCase(createIndex.rejected, (state) => {
       state.loading = false;
-      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'error', message: 'indexes.createError' });
     });
   }
 });
