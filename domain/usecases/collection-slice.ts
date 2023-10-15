@@ -185,6 +185,19 @@ export const importCollection = createAsyncThunk(
   }
 );
 
+export const getAllFieldsFromCollection = createAsyncThunk(
+  "collection/getAllFieldsFromCollection",
+  async (params: {databaseName: string; collectionName: string}, { rejectWithValue }: { rejectWithValue: any }) =>{
+    try {
+      const response = await Api.collection.getAllFieldsFromCollection(params.databaseName, params.collectionName);
+      return response;
+    }catch(error) {
+      console.error('Erreur lors de la suppression', error);
+      return rejectWithValue('Couldn\'t get fields from collection');
+    }
+  }
+);
+
 const selectCollection = (state: { collection: CollectionState }) => state.collection;
 
 export const selectCollectionSelected = createSelector(

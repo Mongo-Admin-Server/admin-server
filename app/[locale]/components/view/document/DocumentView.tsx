@@ -239,7 +239,7 @@ const DocumentView = ({
         />
       )}
 
-      {openImportModal && (
+      {/* {openImportModal && (
         <ImportModal
           open={openImportModal}
           databaseName={params.database_name}
@@ -247,7 +247,7 @@ const DocumentView = ({
           onClose={() => setOpenImportModal(false)}
           onValidate={() => handleValidate()}
         />
-      )}
+      )} */}
     </>
   );
 };

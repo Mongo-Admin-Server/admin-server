@@ -24,6 +24,7 @@ import ChevronsRight from '@/public/icons/chevronsRight.svg';
 import Elipsis from '@/public/icons/elipsis.svg';
 import Import from '@/public/icons/import.svg';
 import Export from '@/public/icons/export.svg';
+import User from '@/public/icons/user.svg';
 
 export interface IconTypes {
   [key: string]: React.ComponentType<{
@@ -65,7 +66,8 @@ const iconTypes: IconTypes = {
   chevronsRight: ChevronsRight,
   elipsis: Elipsis,
   import: Import,
-  export: Export
+  export: Export,
+  user: User,
 };
 
 const SvgIcon = ({ icon_name, className, onClick }: SvgIconProps) => {

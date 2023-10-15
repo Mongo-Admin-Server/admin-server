@@ -30,7 +30,7 @@ export const authSlice = createSlice({
     });
     builder.addCase(testInstance.rejected, (state) => {
       state.loading = false;
-      state.error = "";
+      state.error = "Error connexion to your mongoDB";
     });
   }
 });
@@ -44,7 +44,7 @@ export const testInstance = createAsyncThunk(
       return true;
     } catch (error) {
       console.error("Erreur lors de la connexion a l'instance : ", error);
-      return rejectWithValue("Couldn't instance");
+      return rejectWithValue(error);
     }
   }
 );

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- CRUD Method for User
+
 ## [1.0.0] 2023-10-11
 
 - CI/CD pipeline

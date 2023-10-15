@@ -20,6 +20,7 @@
     "collection": "Colecciones",
     "language": "Idioma",
     "setting": "Configuración",
+    "user": "Usuarios",
     "logout": "Cerrar sesión"
   },
   "modal": {
@@ -32,13 +33,17 @@
     "button": {
       "cancel": "Cancelar",
       "confirm": "Confirmar",
-      "create": "Crear"
+      "create": "Crear",
+      "update": "Actualizar"
     },
     "export":{
       "title": "Exportar",
       "description": "¡Elija el formato en el que desea exportar!",
       "json": "JSON",
       "csv": "CSV"
+    },
+    "import": {
+      "title": "Import"
     },
     "index": {
       "title": "Crear índice",
@@ -60,6 +65,24 @@
     "collection": "Colecciones",
     "indexes": "Índice",
     "searchPlaceholder": "Buscar base de datos"
+  },
+  "user": {
+    "title": "Usuarios",
+    "create": "Crear usuario",
+    "update": "Actualizar un rol",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar esta usuario?",
+    "deleteSuccess": "Usuario eliminada con éxito",
+    "deleteError": "Error al eliminar la usuario",
+    "createSuccess": "Usuario creada con éxito",
+    "createError": "Error al crear Usuario",
+    "updateSuccess": "Rol actualizado exitosamente",
+    "updateError": "Error al actualizar el rol",
+    "createTitle": "Crear usuario",
+    "name": "Nombre Usuarios",
+    "database": "Base de datos",
+    "role": "Roles",
+    "password": "Contraseña",
+    "searchPlaceholder": "Buscar usuario"
   },
   "collection": {
     "title": "Colecciones",
@@ -106,6 +129,16 @@
     "en": "🇬🇧 Inglés",
     "fr": "🇫🇷 Francés",
     "es": "🇪🇸 Español"
+  },
+  "role": {
+    "read": "Sólo lectura",
+    "readWrite": "Leer y escribir",
+    "dbAdmin": "Administrador de base de datos",
+    "dbOwner": "Dueño de la base de datos",
+    "userAdmin": "Administrador de usuario",
+    "clusterAdmin": "Administrador de clúster",
+    "backup": "Respaldo",
+    "root": "Superusuario"
   },
   "indexes": {
     "name": "Nombre",

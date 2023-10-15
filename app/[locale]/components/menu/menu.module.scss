@@ -14,6 +14,12 @@
     height: 70%;
     overflow: hidden;
 
+    .logo {
+      a {
+        text-decoration: none;
+      }
+    }
+
     .title {
       font-size: 14px;
       font-weight: bolder;

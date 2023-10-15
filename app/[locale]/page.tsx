@@ -19,7 +19,8 @@ export default function RootPage() {
 
   const testConnexionInstance = useCallback(async () => {
     const { payload } = await dispatch(testInstance());
-    if (payload) router.push('dashboard');
+    if (payload?.response?.status === 500) return
+    router.push('dashboard');
   }, [dispatch, router]);
 
   useEffect(() => {
