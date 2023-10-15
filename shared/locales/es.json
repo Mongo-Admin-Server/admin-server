@@ -142,6 +142,8 @@
   },
   "indexes": {
     "name": "Nombre",
-    "unique": "Único"
+    "unique": "Único",
+    "createSuccess": "Índice creado con éxito",
+    "createError": "Error al crear el índice"
   }
 }
