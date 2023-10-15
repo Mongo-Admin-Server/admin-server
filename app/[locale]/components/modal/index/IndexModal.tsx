@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+import styles from "./indexModal.module.scss";
+
 import GenericModal from '@components/modal/generic/GenericModal';
 import SelectInput from '@components/ui/inputs/select/SelectInput';
 import Checkbox from '@components/ui/inputs/checkbox/Checkbox';
@@ -19,7 +21,13 @@ interface IndexModalProps {
   onValidate: () => void;
 }
 
-const IndexModal = ({ open, collectionName, databaseName, onClose, onValidate }: IndexModalProps) => {
+const IndexModal = ({
+  open,
+  collectionName,
+  databaseName,
+  onClose,
+  onValidate,
+}: IndexModalProps) => {
   const t = useTranslations();
   const dispatch = useDispatch();
 
@@ -30,18 +38,35 @@ const IndexModal = ({ open, collectionName, databaseName, onClose, onValidate }:
   const isDisabled = !field;
 
   const fetchAllFields = useCallback(async () => {
-    const { payload } = await dispatch(getAllFieldsFromCollection({ databaseName, collectionName }));
-    if (payload?.response?.data === 'Invalid filter') {
-      eventEmitter.dispatch('alert', { type: 'error', message: t('document.searchError') });
+    const { payload } = await dispatch(
+      getAllFieldsFromCollection({ databaseName, collectionName })
+    );
+    if (payload?.response?.data.status === 500) {
+      eventEmitter.dispatch('alert', {
+        type: 'error',
+        message: t('document.searchError'),
+      });
       return;
     }
-    setListField(payload);
+
+    const formattedList = payload.map((value: string) => {
+      return {
+        value: value,
+        label: value,
+      };
+    });
+    setListField(formattedList);
   }, [collectionName, databaseName, dispatch, t]);
 
   const onCreateIndex = async () => {
-    const { payload } = await dispatch(createIndex({ databaseName, collectionName, field, unique }));
+    const { payload } = await dispatch(
+      createIndex({ databaseName, collectionName, field, unique })
+    );
     if (payload?.response?.data === 'Invalid filter') {
-      eventEmitter.dispatch('alert', { type: 'error', message: t('document.searchError') });
+      eventEmitter.dispatch('alert', {
+        type: 'error',
+        message: t('document.searchError'),
+      });
       return;
     }
 
@@ -60,18 +85,20 @@ const IndexModal = ({ open, collectionName, databaseName, onClose, onValidate }:
       onClose={onClose}
       onValidate={onCreateIndex}
     >
-      <SelectInput
-        label={t('modal.index.field')}
-        value={field}
-        options={listField}
-        onChange={(e) => setField(e.target.value)}
-      />
-      <Checkbox
-        id='unique'
-        label={t('modal.index.unique')}
-        value={unique}
-        onChange={(e) => setUnique(e.target.checked)}
-      />
+      <section className={styles['index-modal']}>
+        <SelectInput
+          label={t('modal.index.field')}
+          value={field}
+          options={listField}
+          onChange={(e) => setField(e.target.value)}
+        />
+        <Checkbox
+          id="unique"
+          label={t('modal.index.unique')}
+          value={unique}
+          onChange={(e) => setUnique(e.target.checked)}
+        />
+      </section>
     </GenericModal>
   );
 };
