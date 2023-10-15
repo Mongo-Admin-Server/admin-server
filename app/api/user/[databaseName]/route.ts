@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/api/src/Classes/User";
 import { GrantRole, RevokeRole, UserType } from "@/domain/entities/user-types";
+import { UserController } from "@/api/src/Controller/UserController";
 
 export async function POST(request: NextRequest, { params }: { params: { databaseName: string } }){
     const body = await request.json();
-    const { newUser }= body;
-    const user = await new User().createUser(params.databaseName, newUser);
-    if(!user)
+    const newUser = await new UserController().createUser(params.databaseName, body);
+    if(!newUser)
         return new NextResponse(JSON.stringify('error'), {
             status: 500,
             headers: {
@@ -14,7 +13,7 @@ export async function POST(request: NextRequest, { params }: { params: { databas
             },
         });
     else
-        return new NextResponse(JSON.stringify(user), {
+        return new NextResponse(JSON.stringify(newUser), {
             status: 200,
             headers: {
             'Content-Type': 'application/json',
@@ -23,7 +22,7 @@ export async function POST(request: NextRequest, { params }: { params: { databas
 }
 
 export async function GET(request: NextRequest, { params }: { params: { databaseName: string } }){
-    const user = await new User().getUsers(params.databaseName);
+    const user = await new UserController().getUsers(params.databaseName);
     if(!user)
         return new NextResponse(JSON.stringify('error'), {
             status: 500,
@@ -40,8 +39,9 @@ export async function GET(request: NextRequest, { params }: { params: { database
         });
 }
 
-export async function DELETE(request: NextRequest,{ params }: { params: { databaseName: string , userToDelete: string } }){
-    const deleted = await new User().deleteUser(params.databaseName, params.userToDelete);
+export async function DELETE(request: NextRequest,{ params }: { params: { databaseName: string } }){
+    const { userToDelete } = Object.fromEntries(request.nextUrl.searchParams)
+    const deleted = await new UserController().deleteUser(params.databaseName, userToDelete);
     if(!deleted)
         return new NextResponse(JSON.stringify('error'), {
             status: 500,
@@ -65,10 +65,10 @@ export async function PUT(request: NextRequest,{ params }: { params: { databaseN
         
         if(body.grantRolesToUser){
             const  role : GrantRole = body
-            updated = await new User().grantRoles(params.databaseName, role);
+            updated = await new UserController().grantRoles(params.databaseName, role);
         }else{
             const  role : RevokeRole = body
-            updated = await new User().deleteRole(params.databaseName, role);
+            updated = await new UserController().deleteRole(params.databaseName, role);
         }
         return new NextResponse(JSON.stringify(updated), {
             status: 200,

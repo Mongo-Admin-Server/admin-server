@@ -32,6 +32,11 @@ export type StructuredErrors =
   'internal/unknown' |
   
   //User
-  'user/exists'
+  'user/exists' |
+  'user/fetch-failed'|
+  'user/creation-failed' |
+  'user/grantRole-failed'|
+  'user/revokeRole-failed'|
+  'user/deleting-failed'
   ;
 
