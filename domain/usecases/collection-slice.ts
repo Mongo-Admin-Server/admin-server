@@ -72,7 +72,7 @@ export const collectionSlice = createSlice({
     builder.addCase(postCollectionByName.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'error', message: 'collection.createError' });
+      eventEmitter.dispatch('alert', { type: 'success', message: 'collection.createError' });
     })
     builder.addCase(postCollectionByName.rejected, (state, action: any) => {
       state.loading = false;
