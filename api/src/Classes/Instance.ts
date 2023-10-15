@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 export class Instance{
     
     protected static client: MongoClient;
-    private static connection_url: string = process.env.MONGODB_URI || '';
+    private static connection_url: string = process.env.MONGODB_URI || 'mongodb://0.0.0.0:27017';
     
     static get Connection(): MongoClient{
         if(!this.client){
