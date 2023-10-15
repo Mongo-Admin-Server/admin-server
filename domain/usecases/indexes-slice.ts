@@ -41,7 +41,7 @@ export const indexesSlice = createSlice({
     builder.addCase(createIndex.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'success', message: 'indexes.createSucces' });
+      eventEmitter.dispatch('alert', { type: 'success', message: 'indexes.createSuccess' });
     });
     builder.addCase(createIndex.rejected, (state) => {
       state.loading = false;
