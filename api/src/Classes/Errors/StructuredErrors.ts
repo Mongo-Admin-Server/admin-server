@@ -33,6 +33,10 @@ export type StructuredErrors =
   
   //User
   'user/exists' |
-  'user/creation-failed'
+  'user/fetch-failed'|
+  'user/creation-failed' |
+  'user/grantRole-failed'|
+  'user/revokeRole-failed'|
+  'user/deleting-failed'
   ;
 

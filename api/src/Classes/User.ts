@@ -72,6 +72,8 @@ export default class User{
         const client = Instance.Connection;
         if(Array.isArray(databaseName) || databaseName === undefined){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
+        } else if(role === undefined) {
+            throw new ApiError(400, 'query/invalid', 'the role is incorrect');
         } else {
             try {
                 const roles = client.db(databaseName).command(role)

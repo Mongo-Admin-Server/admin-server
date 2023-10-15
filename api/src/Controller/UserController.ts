@@ -5,43 +5,63 @@ import { ApiError } from "../Classes/Errors/ApiError";
 import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 
 export class UserController{
-    public async getUsers(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined){
-        const users = await new User().getUsers(databaseName);
-        if(!users && !databaseName)
-            response.status(404).json('error');
-        else
-            response.status(200).json(users);
+    public async getUsers(databaseName: string){
+        try {
+            const users = await new User().getUsers(databaseName);
+            if(!users)
+                throw new ApiError(400, 'user/fetch-failed', 'Could not fetch the users');
+
+            return users;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    public async createUser(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, newUser: UserType){
-        const user = await new User().createUser(databaseName, newUser);
-        if(!user)
-            response.status(404).json('error');
-        else
-            response.status(200).json(user);
+    public async createUser(databaseName: string, newUser: UserType){
+        try {
+            const user = await new User().createUser(databaseName, newUser);
+            if(!user)
+                throw new ApiError(400, 'user/creation-failed', 'Could not create the user');
+
+            return user;
+        } catch (error) {
+            throw error;
+        }        
     }
 
-    public async grantRoles(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, role: GrantRole){
-        const rolesToGrant = await new User().grantRoles(databaseName, role);
-        if(!rolesToGrant)
-            response.status(404).json('error');
-        else
-            response.status(200).json(rolesToGrant);
+    public async grantRoles(databaseName: string, role: GrantRole){
+        try {
+            const rolesToGrant = await new User().grantRoles(databaseName, role);
+            if(!rolesToGrant)
+                throw new ApiError(400, 'user/grantRole-failed', 'Could not grant role to the user');
+
+            return rolesToGrant;
+        } catch (error) {
+            throw error;
+        }  
     }
 
-    public async deleteUser(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, user: string| string[] | undefined) {
-        const userToDelete = await new User().deleteUser(databaseName, user);
-        if(!userToDelete)
-            response.status(404).json('error');
-        else
-            response.status(200).json(userToDelete);
+    public async deleteUser(databaseName: string, user: string) {
+        try {
+            const userToDelete = await new User().deleteUser(databaseName, user);
+            if(!userToDelete)
+                throw new ApiError(400, 'user/deleting-failed', 'Could not delete the user');
+
+            return userToDelete;
+        } catch (error) {
+            throw error;
+        }  
     }
 
-    public async deleteRole(request: RequestCustomHeaders, response: NextApiResponse, databaseName: string | string[] | undefined, role: RevokeRole) {
-        const rolesToDelete = await new User().deleteRole(databaseName, role);
-        if(!rolesToDelete)
-            response.status(404).json('error');
-        else
-            response.status(200).json(rolesToDelete);
+    public async deleteRole(databaseName: string, role: RevokeRole) {
+        try {
+            const rolesToDelete = await new User().deleteRole(databaseName, role);
+            if(!rolesToDelete)
+                throw new ApiError(400, 'user/revokeRole-failed', 'Could not revoke role to the user');
+
+            return rolesToDelete;
+        } catch (error) {
+            throw error;
+        }  
     }
 }
