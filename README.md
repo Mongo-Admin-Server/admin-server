@@ -47,7 +47,7 @@ docker pull rouan1/mongo-admin-server
 then you need to add the MONGODB_URI variable to your .env or in your container environnements
 
 ```sh
-MONGODB_URI="mongodb+srv://marketplace:HtQNb0a6OqP9APiK@cluster-marketplace.shyjtqn.mongodb.net/?retryWrites=true&w=majority"
+MONGODB_URI="mongodb+srv://<username>:<password>@cluster-marketplace.shyjtqn.mongodb.net/?retryWrites=true&w=majority"
 ```
 
 ## Authors
