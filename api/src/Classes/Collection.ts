@@ -92,8 +92,6 @@ export class Collection {
             const collection = db.collection(collectionName);
             const data = await collection.find({}).toArray();
 
-            await instance.close();
-
             if (fileName == ""){
                 fileName = collectionName
             }
@@ -126,8 +124,6 @@ export class Collection {
                 throw new Error('unsupported file');
             }
             const result = await collection.insertMany(data);
-            await instance.close();
-
             return true;
         }catch(error){
             throw(error);

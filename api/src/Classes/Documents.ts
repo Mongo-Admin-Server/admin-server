@@ -1,7 +1,7 @@
 import { RequestIndexDocument } from "@/domain/entities/document-types";
 import { ApiError } from "./Errors/ApiError";
 import { Instance } from "./Instance";
-import { type WithId, type Document, ObjectId, InsertOneResult, DeleteResult, UpdateResult, UpdateFilter } from 'mongodb';
+import { type WithId, type Document, ObjectId, InsertOneResult, DeleteResult, UpdateResult, UpdateFilter, Filter } from 'mongodb';
 
 export class Documents {
 
@@ -132,25 +132,18 @@ export class Documents {
         }
     }
 
-    public async DeleteOneDocument(databaseName: string | string[], collectionName: string | string[], id: string | string[],): Promise<DeleteResult> {
-        const client = Instance.Connection;
-
-        if(Array.isArray(databaseName)){
-            throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
-        } else if(Array.isArray(collectionName)){
-            throw new ApiError(400, 'query/invalid', 'the collection name is incorrect');
-        } else if(Array.isArray(id)){
-            throw new ApiError(400, 'query/invalid', 'the id is incorrect');
-        } else {
-            const queryId = {_id: new ObjectId(id)};
+    public async DeleteOneDocument(databaseName: string, collectionName: string, id: string): Promise<DeleteResult> {
+        try{
+            const client = Instance.Connection;
             const collection = client.db(databaseName).collection(collectionName);
-            try {
-                const deleteDocument = await collection.deleteOne(queryId);
-                return deleteDocument;
-            } catch (error) {
-                throw new Error(`Error deleting document in ${collectionName} with id ${queryId}: ${error}`);
-            }
-        }        
+            const query = { _id: new ObjectId(id) }
+            const deletedDocument = await collection.deleteOne(query)
+            return deletedDocument;            
+        }catch(error){
+            console.error(error);
+            throw error;
+        }
+      
     }
 
     public async updateOneDocument(databaseName: string, collectionName: string, id: string, newBody: UpdateFilter<JSON>, ): Promise<UpdateResult> {

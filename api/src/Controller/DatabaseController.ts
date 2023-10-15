@@ -13,9 +13,9 @@ export class DatabaseController{
         }
     }
 
-    public async createDatabase(connection_url: string, databaseName: string, collectionName: string){
+    public async createDatabase(databaseName: string, collectionName: string){
         try{
-            const created = await new Database().createDatabase(databaseName, collectionName, connection_url);
+            const created = await new Database().createDatabase(databaseName, collectionName);
             if(created === true)
                 return true;
             else
@@ -25,9 +25,9 @@ export class DatabaseController{
         }
     }
 
-    public async deleteDatabase(connection_url: string, databaseName: string){
+    public async deleteDatabase(databaseName: string){
         try {
-            const deleted = await new Database().dropDatabase(databaseName, connection_url);
+            const deleted = await new Database().dropDatabase(databaseName);
             if(deleted === true)
                 return true;
             else
@@ -41,8 +41,6 @@ export class DatabaseController{
     
         try {
             const { databaseName, fileName, extension } = request.body;
-            const { connection_url } = request.headers;
-    
             const exported = await new Database().exportDatabaseToJson(databaseName, fileName, extension);
             response.status(200).json(exported);
         } catch (error) {
