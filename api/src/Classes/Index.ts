@@ -1,5 +1,6 @@
 import { ListIndexesCursor } from "mongodb";
 import { Instance } from "./Instance";
+import * as mongoSchema from "mongodb-schema";
 
 export class Index {
     private client = Instance.Connection;
