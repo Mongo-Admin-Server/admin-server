@@ -20,6 +20,7 @@
     "collection": "Collections",
     "language": "Langue",
     "setting": "Paramètres",
+    "user": "Utilisateurs",
     "logout": "Déconnexion"
   },
   "modal": {
@@ -32,13 +33,22 @@
     "button": {
       "cancel": "Annuler",
       "confirm": "Confirmer",
-      "create": "Créer"
+      "create": "Créer",
+      "update": "Modifier"
     },
     "export":{
       "title": "Export",
       "description": "Veuillez choisir le format dans lequel vous souhaitez exporter !",
       "json": "JSON",
       "csv": "CSV"
+    },
+    "import": {
+      "title": "Import"
+    },
+    "index": {
+      "title": "Créer un index",
+      "field": "Champ de l'index",
+      "unique": "Créer un index unique"
     }
   },
   "database": {
@@ -55,6 +65,24 @@
     "collection": "Collections",
     "indexes": "Index",
     "searchPlaceholder": "Rechercher une base de données"
+  },
+  "user": {
+    "title": "Utilisateurs",
+    "create": "Créer un utilisateur",
+    "update": "Modifier un rôle",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+    "deleteSuccess": "Utilisateur supprimée avec succès",
+    "deleteError": "Erreur lors de la suppression de l'utilisateur",
+    "createSuccess": "Utilisateur créée avec succès",
+    "createError": "Erreur lors de la création de l'utilisateurs",
+    "updateSuccess": "Rôle mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du rôle",
+    "createTitle": "Créer un utilisateur",
+    "name": "Nom d'utilisateurs",
+    "dababase": "Base de données",
+    "role": "Rôles",
+    "password": "Mot de passe",
+    "searchPlaceholder": "Rechercher un utilisateur"
   },
   "collection": {
     "title": "Collections",
@@ -101,5 +129,21 @@
     "en": "🇬🇧 Anglais",
     "fr": "🇫🇷 Français",
     "es": "🇪🇸 Espagnol"
+  },
+  "role": {
+    "read": "Lecture seule",
+    "readWrite": "Lecture et écriture",
+    "dbAdmin": "Administrateur de base de données",
+    "dbOwner": "Propriétaire de la base de données",
+    "userAdmin": "Administrateur d'utilisateur",
+    "clusterAdmin": "Administrateur de cluster",
+    "backup": "Sauvegarde",
+    "root": "Superutilisateur"
+  },
+  "indexes": {
+    "name": "Nom",
+    "unique": "Unique",
+    "createSuccess": "Index créé avec succès",
+    "createError": "Erreur lors de la création de l'index"
   }
 }

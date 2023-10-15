@@ -1,47 +1,59 @@
-import { Documents } from "../Classes/Documents";
-import { UpdateFilter } from "mongodb";
+import { Documents } from "../Classes/Documents"; 
+import { DeleteResult, UpdateFilter } from "mongodb";
+import { ApiError } from "../Classes/Errors/ApiError";
+import { NextResponse } from "next/server";
+
 
 export class DocumentController {
     
-    public async getAllDocumentsByCollection(connection_url: string, databaseName: string, collectionName: string, perPage: string, page: string, filter: any) {
+    public async getAllDocumentsByCollection(databaseName: string, collectionName: string, perPage: string, page: string, filter: any) {
         try {
-            const { documents, total } = await new Documents().getAllDocumentsByCollection(connection_url, databaseName, collectionName, perPage, page, filter);
+            const { documents, total } = await new Documents().getAllDocumentsByCollection(databaseName, collectionName, perPage, page, filter);
             return { documents, total }
         } catch (error) {
             throw error;
         }
     }
 
-    public async getOneDocument(connection_url: string, databaseName: string, collectionName: string, id: string): Promise<any> {
+    public async getOneDocument(databaseName: string, collectionName: string, id: string): Promise<any> {
         try {
-            const document = await new Documents().getOneDocument(databaseName, collectionName, id, connection_url);
+            const document = await new Documents().getOneDocument(databaseName, collectionName, id, );
             return document;
         } catch (error) {
             throw error;
         }
     }
 
-    public async addOneDocument(connection_url: string, databaseName: string, collectionName: string, documentToAdd: any): Promise<any> {
+    public async addOneDocument(databaseName: string, collectionName: string, documentToAdd: any): Promise<any> {
         try {
-            const newDocument = await new Documents().addOneDocument(databaseName, collectionName, documentToAdd, connection_url);
+            const newDocument = await new Documents().addOneDocument(databaseName, collectionName, documentToAdd, );
             return newDocument;
         } catch (error) {
             throw error;
         }
     }
 
-    public async deleteOneDocument(connection_url: string, databaseName: string, collectionName: string, id: string): Promise<any> {
+    public async deleteOneDocument(databaseName: string, collectionName: string, id: string): Promise<NextResponse> {
         try {
-            const deleteDocument = await new Documents().DeleteOneDocument(databaseName, collectionName, id, connection_url);
-            return deleteDocument;
+            const deleteDocument = await new Documents().DeleteOneDocument(databaseName, collectionName, id);
+            if (deleteDocument.acknowledged === true && deleteDocument.deletedCount === 1)
+                return new NextResponse(JSON.stringify(true), {
+                    status: 200,
+                });
+            const error = new ApiError(400, 'query/not-found', 'document not found');
+            return new NextResponse(JSON.stringify(error.json), {
+                status: error.code,
+            });
         } catch (error) {
-            throw error;
+            return new NextResponse(JSON.stringify({ error: 'Internal server error', details: error }), {
+                status: 500,
+            });
         }
     }
 
-    public async updateOneDocument(connection_url: string, databaseName: string, collectionName: string, id: string, updatedDocument: UpdateFilter<JSON>): Promise<any> {
+    public async updateOneDocument(databaseName: string, collectionName: string, id: string, updatedDocument: UpdateFilter<JSON>): Promise<any> {
         try {
-            const updateDocument = await new Documents().updateOneDocument(databaseName, collectionName, id, updatedDocument, connection_url);
+            const updateDocument = await new Documents().updateOneDocument(databaseName, collectionName, id, updatedDocument, );
             return updateDocument;
         } catch (error) {
             throw error;

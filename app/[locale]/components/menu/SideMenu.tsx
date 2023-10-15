@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import styles from './menu.module.scss';
 import '@/shared/styles/main.scss';
@@ -12,7 +13,6 @@ import CollectionList from '@components/ui/list/collection/CollectionList';
 import LanguageModal from '@components/modal/language/LanguageModal';
 
 import { DatabaseType } from '@/domain/entities/database-types';
-import { logout } from '@/domain/usecases/auth-slice';
 
 import { useSelector, useDispatch } from '@/store/store';
 import {
@@ -26,16 +26,15 @@ import {
   setCollectionSelected,
   selectLoadingCollection,
 } from '@/domain/usecases/collection-slice';
-import { setTheme, selectTheme, selectLanguage } from '@/domain/usecases/setting-slice';
-import { setIsLogged } from '@/domain/usecases/auth-slice';
+import { setTheme, selectTheme } from '@/domain/usecases/setting-slice';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
   const t = useTranslations();
   const router = useRouter();
+
   const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
-  const language = useSelector(selectLanguage);
   const databaseSelected = useSelector(selectDatabaseSelected);
   const databases = useSelector(selectDatabases).map(
     (database: DatabaseType) => {
@@ -52,30 +51,34 @@ const SideMenu = () => {
   const theme = useSelector(selectTheme);
 
   const handleChangeTheme = () => {
-    theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'));
+    theme === 'light'
+      ? dispatch(setTheme('dark'))
+      : dispatch(setTheme('light'));
   };
 
   const handleDatabaseChange = (database: string) => {
-    router.push(`/${language}/dashboard/${database}`);
+    router.replace(`/dashboard/database/${database}`);
     dispatch(setDatabaseSelected(database));
   };
 
   const handleCollectionChange = (collection: string) => {
     dispatch(setCollectionSelected(collection));
-    router.push(`/${language}/dashboard/${databaseSelected}/${collection}`);
+    router.replace(`/dashboard/database/${databaseSelected}/${collection}`);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    dispatch(setIsLogged(false));
-    router.push(`/`);
+  const handleShowListUsers = () => {
+    router.replace(`/dashboard/users`);
   };
 
   return (
     <>
       <aside className={styles.aside}>
         <section className={styles.header}>
-          {/* Logo */}
+          <div className={styles.logo}>
+            <Link href="/dashboard">
+              <p className={styles.title}>Mongo Admin Server</p>
+            </Link>
+          </div>
 
           <SelectInput
             label={t('menuSideBar.database')}
@@ -84,16 +87,14 @@ const SideMenu = () => {
             onChange={(e) => handleDatabaseChange(e.target.value)}
           />
 
-          {(databaseSelected && !loadingCollection) &&  (
+          {databaseSelected && !loadingCollection && (
             <section className={styles.contents}>
               <h5>{t('menuSideBar.collection')}</h5>
               <div className={`${styles.collections} scrollable`}>
                 <CollectionList
                   collections={collections}
                   collectionSelected={collectionSelected}
-                  onClick={(collection) =>
-                    handleCollectionChange(collection)
-                  }
+                  onClick={(collection) => handleCollectionChange(collection)}
                 />
               </div>
             </section>
@@ -121,30 +122,22 @@ const SideMenu = () => {
           </GenericButton>
 
           <GenericButton
-            icon_name="gear"
+            icon_name="user"
             padding="0 20px"
             transparent
-            onClick={() => console.log('Click settings')}
+            onClick={handleShowListUsers}
           >
-            {t('menuSideBar.setting')}
-          </GenericButton>
-
-          <GenericButton
-            icon_name="logout"
-            padding="0 20px"
-            transparent
-            variant='danger'
-            onClick={handleLogout}
-          >
-            {t('menuSideBar.logout')}
+            {t('menuSideBar.user')}
           </GenericButton>
         </section>
       </aside>
 
-      <LanguageModal
-        open={openLanguageModal}
-        onClose={() => setOpenLanguageModal(false)}
-      />
+      {openLanguageModal && (
+        <LanguageModal
+          open={openLanguageModal}
+          onClose={() => setOpenLanguageModal(false)}
+        />
+      )}
     </>
   );
 };

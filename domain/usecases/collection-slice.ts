@@ -72,7 +72,7 @@ export const collectionSlice = createSlice({
     builder.addCase(postCollectionByName.fulfilled, (state) => {
       state.loading = false;
       state.error = "";
-      eventEmitter.dispatch('alert', { type: 'error', message: 'collection.createError' });
+      eventEmitter.dispatch('alert', { type: 'success', message: 'collection.createSuccess' });
     })
     builder.addCase(postCollectionByName.rejected, (state, action: any) => {
       state.loading = false;
@@ -91,7 +91,19 @@ export const collectionSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
-
+    builder.addCase(importCollection.pending, (state) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(importCollection.fulfilled, (state) => {
+      state.loading = false;
+      state.error = "";
+      eventEmitter.dispatch('alert', { type: 'success', message: 'collection.importSuccess' });
+    });
+    builder.addCase(importCollection.rejected, (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 
@@ -158,7 +170,33 @@ export const exportCollections = createAsyncThunk(
       return rejectWithValue('Couldn\'t export collections');
     }
   }
-); 
+);
+
+export const importCollection = createAsyncThunk(
+  "collection/importCollection",
+  async (params: {databaseName: string; collectionName: string, fileName: string}, { rejectWithValue, dispatch }: { rejectWithValue: any, dispatch: Dispatch<any> }) =>{
+    try {
+      await Api.collection.importCollection(params.databaseName, params.fileName, params.collectionName);
+      dispatch(fetchCollectionByDatabase(params.databaseName));
+    }catch(error) {
+      console.error('Erreur lors de la suppression', error);
+      return rejectWithValue('Couldn\'t import collections');
+    }
+  }
+);
+
+export const getAllFieldsFromCollection = createAsyncThunk(
+  "collection/getAllFieldsFromCollection",
+  async (params: {databaseName: string; collectionName: string}, { rejectWithValue }: { rejectWithValue: any }) =>{
+    try {
+      const response = await Api.collection.getAllFieldsFromCollection(params.databaseName, params.collectionName);
+      return response;
+    }catch(error) {
+      console.error('Erreur lors de la suppression', error);
+      return rejectWithValue('Couldn\'t get fields from collection');
+    }
+  }
+);
 
 const selectCollection = (state: { collection: CollectionState }) => state.collection;
 

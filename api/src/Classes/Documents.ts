@@ -1,15 +1,15 @@
 import { RequestIndexDocument } from "@/domain/entities/document-types";
 import { ApiError } from "./Errors/ApiError";
 import { Instance } from "./Instance";
-import { type WithId, type Document, ObjectId, InsertOneResult, DeleteResult, UpdateResult, UpdateFilter } from 'mongodb';
+import { type WithId, type Document, ObjectId, InsertOneResult, DeleteResult, UpdateResult, UpdateFilter, Filter } from 'mongodb';
 
 export class Documents {
 
-    public async getAllDocumentsByCollection(connection_url: string, databaseName: string, collectionName: string, perPage: string, page: string, filter: any): Promise<{ documents: WithId<Document>[], total: number }>{
+    public async getAllDocumentsByCollection(databaseName: string, collectionName: string, perPage: string, page: string, filter: any): Promise<{ documents: WithId<Document>[], total: number }>{
         const _perPage = parseInt(perPage) || 10;
         const _currentPage = parseInt(page) || 0;
 
-        const client = await Instance.connection(connection_url);
+        const client = Instance.Connection;
 
         try {
             const documents = await client.db(databaseName).collection(collectionName).find(filter).skip(_currentPage * _perPage).limit(_perPage).toArray();
@@ -18,13 +18,11 @@ export class Documents {
             return { documents, total };
         } catch (error) {
             throw new Error("Error getting all documents by collection : " + error);
-        } finally {
-            await client.close();
         }
     }
 
-   public async countDocumentsByCollection(databaseName: string | string[], collectionName: string | string[], connection_url:string): Promise<number> {
-        const client = await Instance.connection(connection_url);
+   public async countDocumentsByCollection(databaseName: string | string[], collectionName: string | string[]): Promise<number> {
+        const client = Instance.Connection;
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else{
@@ -40,14 +38,12 @@ export class Documents {
             return countDocuments;
             } catch (error) {
                 throw new Error("Error counting documents : "+ error);
-            }finally{
-                await client.close();
             }
         }
     }
 
-    public async averageSizeDocumentsByCollection(databaseName: string | string[], collectionName: string | string[],  connection_url:string): Promise<number> {
-        const client = await Instance.connection(connection_url);
+    public async averageSizeDocumentsByCollection(databaseName: string | string[], collectionName: string | string[],): Promise<number> {
+        const client = Instance.Connection;
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else{
@@ -71,14 +67,12 @@ export class Documents {
                 return avgSize;
             } catch (error) {
                 throw new Error("Error calculating average size of documents : "+ error);
-            }finally{
-                await client.close();
             }
         }        
     }
     
-    public async totalSizeDocumentsByCollection(databaseName: string | string[], collectionName: string | string[],  connection_url:string): Promise<number> {
-        const client = await Instance.connection(connection_url);
+    public async totalSizeDocumentsByCollection(databaseName: string | string[], collectionName: string | string[],): Promise<number> {
+        const client = Instance.Connection;
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
         } else{
@@ -101,15 +95,13 @@ export class Documents {
                 return totalCount;
             } catch (error) {
                 throw new Error("Error calculating total size of documents : "+ error);
-            }finally{
-                await client.close();
             }
         }
         
     }
 
-    public async getOneDocument(databaseName: string | string[], collectionName: string | string[], id: string | string[], connection_url:string) {
-        const client = await Instance.connection(connection_url);
+    public async getOneDocument(databaseName: string | string[], collectionName: string | string[], id: string | string[]) {
+        const client = Instance.Connection;
 
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
@@ -125,50 +117,37 @@ export class Documents {
                 return document;
             } catch (error) {
                 throw new Error(`Error retrieving document in ${collectionName} : ${error}`);
-            }finally{
-                await client.close();
             }
         }                   
     }
 
-    public async addOneDocument(databaseName: string, collectionName: string, query: JSON,  connection_url:string): Promise<InsertOneResult<Document>> {
-        const client = await Instance.connection(connection_url);
+    public async addOneDocument(databaseName: string, collectionName: string, query: JSON,): Promise<InsertOneResult<Document>> {
+        const client = Instance.Connection;
         try {
             const collection = client.db(databaseName).collection(collectionName);
             const newDocument = await collection.insertOne(query);
             return newDocument;
         } catch(error) {
             throw error;
-        }finally{
-            await client.close();
         }
     }
 
-    public async DeleteOneDocument(databaseName: string | string[], collectionName: string | string[], id: string | string[],  connection_url:string): Promise<DeleteResult> {
-        const client = await Instance.connection(connection_url);
-
-        if(Array.isArray(databaseName)){
-            throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
-        } else if(Array.isArray(collectionName)){
-            throw new ApiError(400, 'query/invalid', 'the collection name is incorrect');
-        } else if(Array.isArray(id)){
-            throw new ApiError(400, 'query/invalid', 'the id is incorrect');
-        } else {
-            const queryId = {_id: new ObjectId(id)};
+    public async DeleteOneDocument(databaseName: string, collectionName: string, id: string): Promise<DeleteResult> {
+        try{
+            const client = Instance.Connection;
             const collection = client.db(databaseName).collection(collectionName);
-            try {
-                const deleteDocument = await collection.deleteOne(queryId);
-                return deleteDocument;
-            } catch (error) {
-                throw new Error(`Error deleting document in ${collectionName} with id ${queryId}: ${error}`);
-            }finally{
-                await client.close();
-            }
-        }        
+            const query = { _id: new ObjectId(id) }
+            const deletedDocument = await collection.deleteOne(query)
+            return deletedDocument;            
+        }catch(error){
+            console.error(error);
+            throw error;
+        }
+      
     }
 
-    public async updateOneDocument(databaseName: string, collectionName: string, id: string, newBody: UpdateFilter<JSON>, connection_url: string): Promise<UpdateResult> {
-        const client = await Instance.connection(connection_url);
+    public async updateOneDocument(databaseName: string, collectionName: string, id: string, newBody: UpdateFilter<JSON>, ): Promise<UpdateResult> {
+        const client = Instance.Connection;
 
         if(Array.isArray(databaseName)){
             throw new ApiError(400, 'query/invalid', 'the database name is incorrect');
@@ -184,8 +163,6 @@ export class Documents {
                 return updateDocument;
             } catch(error) {
                 throw new Error(`Error updating document in ${collectionName} with id ${queryId}: ${error}`);
-            }finally{
-                await client.close();
             }
         }
     }
