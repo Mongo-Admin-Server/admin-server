@@ -42,6 +42,9 @@
       "json": "JSON",
       "csv": "CSV"
     },
+    "import": {
+      "title": "Import"
+    },
     "index": {
       "title": "Créer un index",
       "field": "Champ de l'index",

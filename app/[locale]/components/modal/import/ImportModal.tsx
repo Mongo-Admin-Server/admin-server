@@ -32,7 +32,7 @@ const ImportModal = ({ open, databaseName, collectionName, onClose, onValidate }
 
   const onImportCollection = async () => {
     const { payload } = await dispatch(importCollection({ databaseName, collectionName, fileName }));
-    if (payload?.response?.data === 'Invalid filter') {
+    if (payload?.response?.status !== 200) {
       eventEmitter.dispatch('alert', { type: 'error', message: t('document.searchError') });
       return;
     }

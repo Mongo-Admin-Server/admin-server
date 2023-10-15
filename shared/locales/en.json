@@ -76,6 +76,9 @@
       "json": "JSON",
       "csv": "CSV"
     },
+    "import": {
+      "title": "Import"
+    },
     "index": {
       "title": "Create Index",
       "field": "Index field",
