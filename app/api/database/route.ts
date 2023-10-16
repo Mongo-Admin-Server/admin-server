@@ -31,12 +31,7 @@ export async function POST(req: NextRequest) {
       databaseName,
       collectionName
     );
-      return new NextResponse(JSON.stringify(created), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      
   }catch(error){
     return new NextResponse(JSON.stringify({error: 'Internal server error'}), {
       status: 500,

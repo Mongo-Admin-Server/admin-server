@@ -1,7 +1,7 @@
 import { RequestCustomHeaders } from "@/domain/entities/headers-types";
 import { Database } from "../Classes/Database";
 import { NextApiResponse, NextApiRequest } from "next";
-
+import { NextResponse } from "next/server";
 
 export class DatabaseController{
     public async getDatabases(){
@@ -17,11 +17,26 @@ export class DatabaseController{
         try{
             const created = await new Database().createDatabase(databaseName, collectionName);
             if(created === true)
-                return true;
+                return new NextResponse(JSON.stringify(created), {
+                    status: 200,
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                });
             else
-                return created;
+                return new NextResponse(JSON.stringify(created.json), {
+                    status: created.code,
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                });
         }catch(error){
-            throw error;
+            return new NextResponse(JSON.stringify({error: 'Internal server error'}), {
+                status: 500,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
         }
     }
 
