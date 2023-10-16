@@ -23,23 +23,14 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  try{
+  
     const body = await req.json();
     const { databaseName, collectionName } = body;
 
-    const created = await new DatabaseController().createDatabase(
+   await new DatabaseController().createDatabase(
       databaseName,
       collectionName
     );
-      
-  }catch(error){
-    return new NextResponse(JSON.stringify({error: 'Internal server error'}), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }   
 }
 
 export async function DELETE(req: NextRequest) {
