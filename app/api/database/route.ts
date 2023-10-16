@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { databaseName, collectionName } = body;
 
-   await new DatabaseController().createDatabase(
+   return await new DatabaseController().createDatabase(
       databaseName,
       collectionName
     );
